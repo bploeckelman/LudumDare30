@@ -1,6 +1,7 @@
 package lando.systems.ld30;
 
 import com.badlogic.gdx.Game;
+
 import lando.systems.ld30.Screens.TitleScreen;
 import lando.systems.ld30.utils.Assets;
 
@@ -10,10 +11,8 @@ public class LudumDare30 extends Game {
     public void create () {
         Assets.load();
 
-        TitleScreen titleScreen = new TitleScreen(this);
-        setScreen(titleScreen);
+        setScreen(new TitleScreen(this));
     }
-
 
     @Override
     public void dispose() {
