@@ -39,14 +39,14 @@ public class GameScreen implements Screen {
 
     Player player;
 
-    final int num_rays = 128;
+    final int num_rays = 1028;
 
 
     public GameScreen(LudumDare30 game) {
         this.game = game;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Config.window_width / 100, Config.window_height / 100);
+        camera.setToOrtho(false, Config.window_width / 10, Config.window_height / 10);
         camera.update();
 
         box2DDebugRenderer = new Box2DDebugRenderer();
@@ -59,13 +59,13 @@ public class GameScreen implements Screen {
 
         light = new PointLight(rayHandler, num_rays);
         light.setColor(1, 0, 0, 1);
-        light.setDistance(20);
+        light.setDistance(200);
 //        light.setActive(false);
 
         light1 = new PointLight(rayHandler, num_rays);
-        light1.setPosition(10, 10);
+        light1.setPosition(100, 100);
         light1.setColor(0,1,0,1);
-        light1.setDistance(10);
+        light1.setDistance(100);
 
         player = new Player(new Vector2(), this);
         camera.position.set(new Vector3(player.position, 0));
@@ -76,8 +76,8 @@ public class GameScreen implements Screen {
 
         BodyDef bodyDef = new BodyDef();
         float a = 0f;
-        final float scale = 3;
-        final float radius = 0.5f;
+        final float scale = 30;
+        final float radius = 5f;
         for (int i = 0; i < 10; ++i, a += (2f * Math.PI) / 10f) {
             bodyDef.type = BodyDef.BodyType.StaticBody;
             bodyDef.position.set(
@@ -119,7 +119,7 @@ public class GameScreen implements Screen {
 //        Assets.batch.draw(Assets.badlogic, 0, 0);
 
         for (Body body : balls) {
-            Assets.batch.draw(Assets.badlogic, body.getPosition().x - .5f, body.getPosition().y - .5f, 1, 1);
+            Assets.batch.draw(Assets.badlogic, body.getPosition().x - 5f, body.getPosition().y - 5f, 10, 10);
         }
 
         player.render(Assets.batch);
@@ -154,8 +154,8 @@ public class GameScreen implements Screen {
 
             accum += TIME_STEP / 2f;
             light1.setPosition(
-                    10 * (float) Math.sin(accum),
-                    10 * (float) Math.cos(accum));
+                    100 * (float) Math.sin(accum),
+                    100 * (float) Math.cos(accum));
             light.setPosition(0,0);
         }
         return stepped;

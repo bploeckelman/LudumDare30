@@ -40,7 +40,7 @@ public class LaserShot {
         } else {
             angle = (float) (180 * Math.atan2(yDif, xDif) / Math.PI);
         }
-        sprite.setSize(player.body.getPosition().dst(target) , .1f);
+        sprite.setSize(100 , .1f);
         sprite.setOrigin(0, sprite.getHeight()/2);
 
         sprite.setPosition(player.body.getPosition().x, player.body.getPosition().y);

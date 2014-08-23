@@ -29,15 +29,15 @@ public class Player implements InputProcessor{
 
     public Player (Vector2 position, GameScreen screen){
         this.screen = screen;
-        this.speed = .1f;
+        this.speed = 10f;
         this.position = position;
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(.2f);
+        circleShape.setRadius(2f);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position);
         this.body = Globals.world.createBody(bodyDef);
-        this.body.createFixture(circleShape, 1f);
+        this.body.createFixture(circleShape, .1f);
         body.setLinearDamping(1f);
         body.setAngularDamping(2f);
         circleShape.dispose();
@@ -45,10 +45,10 @@ public class Player implements InputProcessor{
         sprite = new Sprite(Assets.badlogic);
 
         sprite.setOriginCenter();
-        sprite.setSize(.4f,.4f);
+        sprite.setSize(4f,4f);
     }
 
-    private final float MAX_VELOCITY = 2f;
+    private final float MAX_VELOCITY = 20f;
     public void update(float dt) {
         if (shot != null) {
             shot.update(dt);
