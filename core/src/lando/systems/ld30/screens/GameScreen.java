@@ -86,6 +86,7 @@ public class GameScreen implements Screen {
         world.step(dt, 8, 3);
     }
 
+
     float accum = 0;
     @Override
     public void render(float delta) {
