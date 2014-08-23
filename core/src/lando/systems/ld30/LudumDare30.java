@@ -10,25 +10,25 @@ import lando.systems.ld30.utils.Config;
 
 public class LudumDare30 extends ApplicationAdapter {
 
-	@Override
-	public void create () {
-		Assets.load();
-	}
+    @Override
+    public void create () {
+        Assets.load();
+    }
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    @Override
+    public void render () {
+        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		Assets.batch.begin();
-		Assets.batch.draw(Assets.badlogic,
-				Config.window_width / 2 - Assets.badlogic.getWidth() / 2,
-				Config.window_height / 2 - Assets.badlogic.getHeight() / 2);
-		Assets.batch.end();
-	}
+        Assets.batch.begin();
+        Assets.batch.draw(Assets.badlogic,
+                Config.window_width / 2 - Assets.badlogic.getWidth() / 2,
+                Config.window_height / 2 - Assets.badlogic.getHeight() / 2);
+        Assets.batch.end();
+    }
 
-	@Override
-	public void dispose() {
-		Assets.dispose();
-	}
+    @Override
+    public void dispose() {
+        Assets.dispose();
+    }
 }

@@ -12,31 +12,31 @@ import java.util.Random;
  */
 public class Assets {
 
-	public static SpriteBatch batch;
-	public static ShapeRenderer shapes;
+    public static SpriteBatch batch;
+    public static ShapeRenderer shapes;
 
-	public static Texture badlogic;
+    public static Texture badlogic;
 
-	public static TextureAtlas atlas;
+    public static TextureAtlas atlas;
 
     public static Random random;
 
-	public static void load() {
-		batch = new SpriteBatch();
-		shapes = new ShapeRenderer();
+    public static void load() {
+        batch = new SpriteBatch();
+        shapes = new ShapeRenderer();
 
-		badlogic = new Texture("badlogic.jpg");
+        badlogic = new Texture("badlogic.jpg");
 
         random = new Random();
 
-//		atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
-	}
+//        atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
+    }
 
-	public static void dispose() {
-//		atlas.dispose();
-		badlogic.dispose();
-		shapes.dispose();
-		batch.dispose();
-	}
+    public static void dispose() {
+//        atlas.dispose();
+        badlogic.dispose();
+        shapes.dispose();
+        batch.dispose();
+    }
 
 }
