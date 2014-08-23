@@ -1,4 +1,4 @@
-package lando.systems.ld30.Screens;
+package lando.systems.ld30.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

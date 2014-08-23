@@ -1,4 +1,4 @@
-package lando.systems.ld30.Screens;
+package lando.systems.ld30.screens;
 
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
