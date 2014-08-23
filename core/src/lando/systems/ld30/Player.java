@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Globals;
 
@@ -23,45 +24,60 @@ public class Player implements InputProcessor{
     public Vector2 position;
     public float speed;
     public Sprite sprite;
+    private GameScreen screen;
+    private LaserShot shot;
 
-    public Player (Vector2 position){
-        this.speed = .5f;
+    public Player (Vector2 position, GameScreen screen){
+        this.screen = screen;
+        this.speed = .1f;
         this.position = position;
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(.1f);
+        circleShape.setRadius(.2f);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position);
         this.body = Globals.world.createBody(bodyDef);
         this.body.createFixture(circleShape, 1f);
-//        body.setLinearDamping(.1f);
+        body.setLinearDamping(1f);
+        body.setAngularDamping(2f);
         circleShape.dispose();
 
         sprite = new Sprite(Assets.badlogic);
-        sprite.setSize(.2f,.2f);
+
         sprite.setOriginCenter();
+        sprite.setSize(.4f,.4f);
     }
 
+    private final float MAX_VELOCITY = 2f;
     public void update(float dt) {
-        if (Gdx.input.isKeyPressed(Input.Keys.W)){
+        if (shot != null) {
+            shot.update(dt);
+            if (!shot.alive) shot = null;
+        }
+
+        Vector2 vel = body.getLinearVelocity();
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && vel.y < MAX_VELOCITY){
             body.applyForceToCenter(0, speed, true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)){
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && vel.y > -MAX_VELOCITY){
             body.applyForceToCenter(0, -speed, true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)){
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && vel.x > -MAX_VELOCITY){
             body.applyForceToCenter(-speed, 0, true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)){
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && vel.x < MAX_VELOCITY){
             body.applyForceToCenter(speed, 0, true);
         }
 
-        sprite.setPosition(body.getPosition().x, body.getPosition().y);
+        sprite.setCenter(body.getPosition().x, body.getPosition().y);
+        sprite.setOriginCenter();
+        sprite.setRotation((float)Math.toDegrees(body.getAngle()));
         //body.setTransform(position, 0);
     }
 
     public void render(SpriteBatch batch){
         sprite.draw(batch);
+        if (shot != null) shot.render(batch);
         //batch.draw(Assets.badlogic, body.getPosition().x , body.getPosition().y - 10, 20, 20);
     }
 
@@ -82,6 +98,9 @@ public class Player implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (shot == null){
+           shot = new LaserShot(screen.getPosFromScreen(screenX, screenY));
+        }
         return false;
     }
 

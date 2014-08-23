@@ -56,6 +56,7 @@ public class GameScreen implements Screen {
         rayHandler.setShadows(true);
         rayHandler.setCulling(true);
 
+
         light = new PointLight(rayHandler, num_rays);
         light.setColor(1, 0, 0, 1);
         light.setDistance(20);
@@ -66,7 +67,7 @@ public class GameScreen implements Screen {
         light1.setColor(0,1,0,1);
         light1.setDistance(10);
 
-        player = new Player(new Vector2());
+        player = new Player(new Vector2(), this);
         camera.position.set(new Vector3(player.position, 0));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -160,6 +161,11 @@ public class GameScreen implements Screen {
         return stepped;
     }
 
+
+    public Vector2 getPosFromScreen(float x, float y) {
+        Vector3 temp = camera.unproject(new Vector3(x, y, 0));
+        return new Vector2(temp.x, temp.y);
+    }
 
     @Override
     public void resize(int width, int height) {
