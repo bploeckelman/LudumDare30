@@ -101,7 +101,7 @@ public class GameScreen implements Screen {
         }
 
         player.update(dt);
-        camera.position.lerp(new Vector3(player.position, 0f), .03f);
+        camera.position.lerp(new Vector3(player.sprite.getX(), player.sprite.getY(), 0f), .03f);
         camera.update();
     }
 

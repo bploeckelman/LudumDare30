@@ -39,7 +39,7 @@ public class TitleScreen implements Screen {
 
     public void update(float dt){
         if (Gdx.input.justTouched()){
-            Tween.to(prismScale, 0, 3f)
+            Tween.to(prismScale, 0, .5f)
                     .target(.5f)
                     .delay(0)
                     .ease(Linear.INOUT)

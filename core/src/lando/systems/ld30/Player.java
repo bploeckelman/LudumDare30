@@ -3,6 +3,7 @@ package lando.systems.ld30;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -21,39 +22,47 @@ public class Player implements InputProcessor{
     public Body body;
     public Vector2 position;
     public float speed;
+    public Sprite sprite;
 
     public Player (Vector2 position){
-        this.speed = 2;
+        this.speed = .5f;
         this.position = position;
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(1);
+        circleShape.setRadius(.1f);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position);
         this.body = Globals.world.createBody(bodyDef);
-        this.body.createFixture(circleShape, 1);
+        this.body.createFixture(circleShape, 1f);
+//        body.setLinearDamping(.1f);
         circleShape.dispose();
+
+        sprite = new Sprite(Assets.badlogic);
+        sprite.setSize(.2f,.2f);
+        sprite.setOriginCenter();
     }
 
     public void update(float dt) {
         if (Gdx.input.isKeyPressed(Input.Keys.W)){
-            position.y += speed * dt;
+            body.applyForceToCenter(0, speed, true);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)){
-            position.y -= speed * dt;
+            body.applyForceToCenter(0, -speed, true);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)){
-            position.x -= speed * dt;
+            body.applyForceToCenter(-speed, 0, true);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)){
-            position.x += speed* dt;
+            body.applyForceToCenter(speed, 0, true);
         }
 
-        body.setTransform(position, 0);
+        sprite.setPosition(body.getPosition().x, body.getPosition().y);
+        //body.setTransform(position, 0);
     }
 
     public void render(SpriteBatch batch){
-        batch.draw(Assets.badlogic, position.x - .5f, position.y - .5f, 1, 1);
+        sprite.draw(batch);
+        //batch.draw(Assets.badlogic, body.getPosition().x , body.getPosition().y - 10, 20, 20);
     }
 
     @Override
