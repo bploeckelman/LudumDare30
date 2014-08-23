@@ -26,7 +26,7 @@ public class Assets {
         shapes = new ShapeRenderer();
 
         badlogic = new Texture("badlogic.jpg");
-
+        badlogic.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         random = new Random();
 
 //        atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
