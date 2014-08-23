@@ -1,7 +1,7 @@
 package lando.systems.ld30.screens;
 
 import box2dLight.PointLight;
-import box2dLight.RayHandler;                                                          `
+import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
