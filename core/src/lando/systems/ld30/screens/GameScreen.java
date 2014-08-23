@@ -91,19 +91,12 @@ public class GameScreen implements Screen {
         player.update(dt);
         camera.position.lerp(new Vector3(player.position, 0f), .03f);
         camera.update();
-
-        accum += 2*Gdx.graphics.getDeltaTime();
-        light1.setPosition(
-                200 * (float) Math.sin(accum),
-                200 * (float) Math.cos(accum));
-        light.setPosition(0,0);
-
-        Globals.world.step(dt, 8, 3);
     }
 
     @Override
     public void render(float delta) {
         update(delta);
+        boolean didStep = fixedStep(delta);
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -123,8 +116,38 @@ public class GameScreen implements Screen {
         Assets.batch.end();
 
         rayHandler.setCombinedMatrix(camera.combined);
-        rayHandler.updateAndRender();
+        if (didStep) rayHandler.update();
+        rayHandler.render();
     }
+
+    private final static int MAX_FPS = 30;
+    private final static int MIN_FPS = 15;
+    private final static float TIME_STEP = 1f / MAX_FPS;
+    private final static float MAX_STEPS = 1f + MAX_FPS / MIN_FPS;
+    private final static float MAX_TIME_PER_FRAME = TIME_STEP * MAX_STEPS;
+    private final static int VELOCITY_ITERS = 6;
+    private final static int POSITION_ITERS = 2;
+    private float physicsTimeLeft;
+    private boolean fixedStep(float delta) {
+        physicsTimeLeft += delta;
+        if (physicsTimeLeft > MAX_TIME_PER_FRAME)
+            physicsTimeLeft = MAX_TIME_PER_FRAME;
+
+        boolean stepped = false;
+        while (physicsTimeLeft >= TIME_STEP) {
+            Globals.world.step(TIME_STEP, VELOCITY_ITERS, POSITION_ITERS);
+            physicsTimeLeft -= TIME_STEP;
+            stepped = true;
+
+            accum += TIME_STEP;
+            light1.setPosition(
+                    200 * (float) Math.sin(accum),
+                    200 * (float) Math.cos(accum));
+            light.setPosition(0,0);
+        }
+        return stepped;
+    }
+
 
     @Override
     public void resize(int width, int height) {
