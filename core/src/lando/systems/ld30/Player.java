@@ -27,7 +27,7 @@ public class Player implements InputProcessor{
         this.position = position;
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(16f);
+        circleShape.setRadius(20f);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position);
         this.body = Globals.world.createBody(bodyDef);
