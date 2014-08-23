@@ -15,6 +15,7 @@ import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Config;
+import lando.systems.ld30.utils.Globals;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,6 @@ public class GameScreen implements Screen {
     private final OrthographicCamera camera;
 
     RayHandler rayHandler;
-    World world;
 
     PointLight light, light1;
 
@@ -43,9 +43,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, Config.window_width, Config.window_height);
         camera.update();
 
-        world = new World(new Vector2(0, 0), true);
-
-        rayHandler = new RayHandler(world);
+        rayHandler = new RayHandler(Globals.world);
         rayHandler.setAmbientLight(0.05f, 0.05f, 0.05f, 0.1f);
         rayHandler.setShadows(true);
 
@@ -58,7 +56,7 @@ public class GameScreen implements Screen {
         light1.setColor(0,1,0,1);
         light1.setDistance(800);
 
-        player = new Player(Vector2.Zero);
+        player = new Player(new Vector2());
         camera.position.set(new Vector3(player.position, 0));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -77,7 +75,7 @@ public class GameScreen implements Screen {
                     scale * (float) Math.cos(a),
                     scale * (float) Math.sin(a));
 
-            Body ball = world.createBody(bodyDef);
+            Body ball = Globals.world.createBody(bodyDef);
 
             CircleShape circleShape = new CircleShape();
             circleShape.setRadius(radius);
@@ -100,7 +98,7 @@ public class GameScreen implements Screen {
                 200 * (float) Math.cos(accum));
         light.setPosition(0,0);
 
-        world.step(dt, 8, 3);
+        Globals.world.step(dt, 8, 3);
     }
 
     @Override
@@ -112,7 +110,9 @@ public class GameScreen implements Screen {
         Assets.batch.setProjectionMatrix(camera.combined);
         Assets.batch.begin();
 
+        Assets.batch.disableBlending();
         Assets.batch.draw(Assets.badlogic, 0, 0);
+        Assets.batch.enableBlending();
 
         for (Body body : balls) {
             Assets.batch.draw(Assets.badlogic, body.getPosition().x - 10, body.getPosition().y - 10, 10, 10);
@@ -154,6 +154,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         rayHandler.dispose();
-        world.dispose();
+        Globals.world.dispose();
     }
 }
