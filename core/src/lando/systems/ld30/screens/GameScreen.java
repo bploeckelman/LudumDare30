@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.*;
+import lando.systems.ld30.Enemy;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
 import lando.systems.ld30.utils.Assets;
@@ -38,6 +39,7 @@ public class GameScreen implements Screen {
     ArrayList<Body> balls = new ArrayList<Body>();
 
     Player player;
+    Enemy enemy;
 
     final int num_rays = 128;
 
@@ -69,6 +71,8 @@ public class GameScreen implements Screen {
 
         player = new Player(new Vector2(), this);
         camera.position.set(new Vector3(player.position, 0));
+
+        enemy = new Enemy(new Vector2(0, 3), this);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -102,6 +106,7 @@ public class GameScreen implements Screen {
         }
 
         player.update(dt);
+        enemy.update(dt);
         camera.position.lerp(new Vector3(player.sprite.getX(), player.sprite.getY(), 0f), .03f);
         camera.update();
     }
@@ -122,6 +127,7 @@ public class GameScreen implements Screen {
             Assets.batch.draw(Assets.badlogic, body.getPosition().x - .5f, body.getPosition().y - .5f, 1, 1);
         }
 
+        enemy.render(Assets.batch);
         player.render(Assets.batch);
 
         Assets.batch.end();
