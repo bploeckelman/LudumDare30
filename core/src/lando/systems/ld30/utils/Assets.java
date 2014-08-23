@@ -25,13 +25,12 @@ public class Assets {
     public static ShaderProgram prismProgram;
 
     public static void load() {
+        random = new Random();
         batch = new SpriteBatch();
         shapes = new ShapeRenderer();
 
         badlogic = new Texture("badlogic.jpg");
         badlogic.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        random = new Random();
-
 
         final String VERTEX = Gdx.files.internal("prism.vert").readString();
         final String FRAG = Gdx.files.internal("prism.frag").readString();
@@ -40,11 +39,11 @@ public class Assets {
         if (prismProgram.getLog().length()!=0)
             System.out.println(prismProgram.getLog());
 
-//        atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
     }
 
     public static void dispose() {
-//        atlas.dispose();
+        atlas.dispose();
         badlogic.dispose();
         shapes.dispose();
         batch.dispose();
