@@ -45,11 +45,11 @@ public class Assets {
         if (prismProgram.getLog().length()!=0)
             System.out.println(prismProgram.getLog());
 
-//        atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
     }
 
     public static void dispose() {
-//        atlas.dispose();
+        atlas.dispose();
         badlogic.dispose();
         shapes.dispose();
         batch.dispose();
