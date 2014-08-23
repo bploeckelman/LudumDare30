@@ -6,4 +6,5 @@ package lando.systems.ld30.utils;
 public class Config {
     public static final int window_width = 1280;
     public static final int window_height = 720;
+    public static final String title = "Prismatic Worlds";
 }
