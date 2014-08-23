@@ -1,31 +1,19 @@
 package lando.systems.ld30;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Game;
+import lando.systems.ld30.Screens.TitleScreen;
 import lando.systems.ld30.utils.Assets;
-import lando.systems.ld30.utils.Config;
 
-public class LudumDare30 extends ApplicationAdapter {
+public class LudumDare30 extends Game {
 
     @Override
     public void create () {
         Assets.load();
+
+        TitleScreen titleScreen = new TitleScreen(this);
+        setScreen(titleScreen);
     }
 
-    @Override
-    public void render () {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        Assets.batch.begin();
-        Assets.batch.draw(Assets.badlogic,
-                Config.window_width / 2 - Assets.badlogic.getWidth() / 2,
-                Config.window_height / 2 - Assets.badlogic.getHeight() / 2);
-        Assets.batch.end();
-    }
 
     @Override
     public void dispose() {
