@@ -23,11 +23,11 @@ public class Player implements InputProcessor{
     public float speed;
 
     public Player (Vector2 position){
-        this.speed = 100;
+        this.speed = 2;
         this.position = position;
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(20f);
+        circleShape.setRadius(1);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position);
         this.body = Globals.world.createBody(bodyDef);
@@ -53,7 +53,7 @@ public class Player implements InputProcessor{
     }
 
     public void render(SpriteBatch batch){
-        batch.draw(Assets.badlogic, position.x - 10, position.y - 10, 20, 20);
+        batch.draw(Assets.badlogic, position.x - .5f, position.y - .5f, 1, 1);
     }
 
     @Override

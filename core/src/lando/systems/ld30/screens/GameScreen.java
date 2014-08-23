@@ -3,10 +3,12 @@ package lando.systems.ld30.screens;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
@@ -27,6 +29,8 @@ public class GameScreen implements Screen {
     private final LudumDare30 game;
     private final OrthographicCamera camera;
 
+    Box2DDebugRenderer box2DDebugRenderer;
+
     RayHandler rayHandler;
 
     PointLight light, light1;
@@ -35,26 +39,32 @@ public class GameScreen implements Screen {
 
     Player player;
 
+    final int num_rays = 128;
+
 
     public GameScreen(LudumDare30 game) {
         this.game = game;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Config.window_width, Config.window_height);
+        camera.setToOrtho(false, Config.window_width / 100, Config.window_height / 100);
         camera.update();
 
+        box2DDebugRenderer = new Box2DDebugRenderer();
+
         rayHandler = new RayHandler(Globals.world);
-        rayHandler.setAmbientLight(0.05f, 0.05f, 0.05f, 0.1f);
+        rayHandler.setAmbientLight(0.2f, 0.2f, 0.2f, 0.1f);
         rayHandler.setShadows(true);
+        rayHandler.setCulling(true);
 
-        light = new PointLight(rayHandler, 32);
+        light = new PointLight(rayHandler, num_rays);
         light.setColor(1, 0, 0, 1);
-        light.setDistance(1000);
+        light.setDistance(20);
+//        light.setActive(false);
 
-        light1 = new PointLight(rayHandler, 32);
-        light1.setPosition(30, 30);
+        light1 = new PointLight(rayHandler, num_rays);
+        light1.setPosition(10, 10);
         light1.setColor(0,1,0,1);
-        light1.setDistance(800);
+        light1.setDistance(10);
 
         player = new Player(new Vector2());
         camera.position.set(new Vector3(player.position, 0));
@@ -63,12 +73,10 @@ public class GameScreen implements Screen {
         multiplexer.addProcessor(player);
         Gdx.input.setInputProcessor(multiplexer);
 
-        final float win_center_x = Config.window_width / 2;
-        final float win_center_y = Config.window_height / 2;
         BodyDef bodyDef = new BodyDef();
         float a = 0f;
-        final float scale = 100;
-        final float radius = 20;
+        final float scale = 3;
+        final float radius = 0.5f;
         for (int i = 0; i < 10; ++i, a += (2f * Math.PI) / 10f) {
             bodyDef.type = BodyDef.BodyType.StaticBody;
             bodyDef.position.set(
@@ -88,6 +96,10 @@ public class GameScreen implements Screen {
 
     float accum = 0;
     public void update(float dt){
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
+
         player.update(dt);
         camera.position.lerp(new Vector3(player.position, 0f), .03f);
         camera.update();
@@ -103,17 +115,17 @@ public class GameScreen implements Screen {
         Assets.batch.setProjectionMatrix(camera.combined);
         Assets.batch.begin();
 
-        Assets.batch.disableBlending();
-        Assets.batch.draw(Assets.badlogic, 0, 0);
-        Assets.batch.enableBlending();
+//        Assets.batch.draw(Assets.badlogic, 0, 0);
 
         for (Body body : balls) {
-            Assets.batch.draw(Assets.badlogic, body.getPosition().x - 10, body.getPosition().y - 10, 10, 10);
+            Assets.batch.draw(Assets.badlogic, body.getPosition().x - .5f, body.getPosition().y - .5f, 1, 1);
         }
 
         player.render(Assets.batch);
 
         Assets.batch.end();
+
+        box2DDebugRenderer.render(Globals.world, camera.combined);
 
         rayHandler.setCombinedMatrix(camera.combined);
         if (didStep) rayHandler.update();
@@ -139,10 +151,10 @@ public class GameScreen implements Screen {
             physicsTimeLeft -= TIME_STEP;
             stepped = true;
 
-            accum += TIME_STEP;
+            accum += TIME_STEP / 2f;
             light1.setPosition(
-                    200 * (float) Math.sin(accum),
-                    200 * (float) Math.cos(accum));
+                    10 * (float) Math.sin(accum),
+                    10 * (float) Math.cos(accum));
             light.setPosition(0,0);
         }
         return stepped;
