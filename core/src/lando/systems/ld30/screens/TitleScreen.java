@@ -10,8 +10,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.utils.Assets;
@@ -39,6 +37,7 @@ public class TitleScreen implements Screen {
 
     public void update(float dt){
         if (Gdx.input.justTouched()){
+            accum = 0;
             Tween.to(prismScale, 0, .5f)
                     .target(.5f)
                     .delay(0)
@@ -60,6 +59,7 @@ public class TitleScreen implements Screen {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        Assets.batch.setProjectionMatrix(camera.combined);
         Assets.batch.begin();  // THINGS THAT NEED TO get prismed go here
         Assets.batch.draw(Assets.badlogic, 500, 100);
         Assets.batch.end();

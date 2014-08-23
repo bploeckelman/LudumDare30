@@ -31,8 +31,7 @@ public class LaserShot {
     }
 
     public void render(SpriteBatch batch){
-
-        float angle = player.body.getPosition().angle(target);
+        float angle;
         float xDif = target.x - player.body.getPosition().x;
         float yDif = target.y - player.body.getPosition().y;
         float dir = yDif < 0 ? 180 : 0;
@@ -48,6 +47,6 @@ public class LaserShot {
         sprite.setRotation(angle);
 
         sprite.draw(batch);
-        System.out.println(angle);
+
     }
 }
