@@ -8,15 +8,15 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-
-import com.badlogic.gdx.physics.box2d.World;
-
 import com.badlogic.gdx.math.Vector3;
-
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Config;
+
+import java.util.ArrayList;
 
 /**
  * Created by dsgraham on 8/23/14.
@@ -26,88 +26,104 @@ public class GameScreen implements Screen {
     private final LudumDare30 game;
     private final OrthographicCamera camera;
 
-
     RayHandler rayHandler;
     World world;
 
     PointLight light, light1;
 
+    ArrayList<Body> balls = new ArrayList<Body>();
 
     Player player;
 
 
-    public GameScreen (LudumDare30 game){
+    public GameScreen(LudumDare30 game) {
         this.game = game;
-
-
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Config.window_width, Config.window_height);
-
         camera.update();
 
         world = new World(new Vector2(0, 0), true);
 
         rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(0.05f, 0.05f, 0.05f, 0.1f);
+        rayHandler.setShadows(true);
 
         light = new PointLight(rayHandler, 32);
         light.setColor(1, 0, 0, 1);
-        light.setDistance(100);
+        light.setDistance(1000);
 
         light1 = new PointLight(rayHandler, 32);
         light1.setPosition(30, 30);
         light1.setColor(0,1,0,1);
-        light1.setDistance(50);
+        light1.setDistance(800);
 
         player = new Player(Vector2.Zero);
         camera.position.set(new Vector3(player.position, 0));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
-
         multiplexer.addProcessor(player);
         Gdx.input.setInputProcessor(multiplexer);
 
+        final float win_center_x = Config.window_width / 2;
+        final float win_center_y = Config.window_height / 2;
+        BodyDef bodyDef = new BodyDef();
+        float a = 0f;
+        final float scale = 100;
+        final float radius = 20;
+        for (int i = 0; i < 10; ++i, a += (2f * Math.PI) / 10f) {
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+            bodyDef.position.set(
+                    scale * (float) Math.cos(a),
+                    scale * (float) Math.sin(a));
+
+            Body ball = world.createBody(bodyDef);
+
+            CircleShape circleShape = new CircleShape();
+            circleShape.setRadius(radius);
+            ball.createFixture(circleShape, 0);
+            circleShape.dispose();
+
+            balls.add(ball);
+        }
     }
 
+    float accum = 0;
     public void update(float dt){
         player.update(dt);
         camera.position.lerp(new Vector3(player.position, 0f), .03f);
         camera.update();
 
-        final float win_center_x = Config.window_width / 2;
-        final float win_center_y = Config.window_height / 2;
-
         accum += 2*Gdx.graphics.getDeltaTime();
         light1.setPosition(
-                50 * (float) Math.sin(accum) + win_center_x,
-                50 * (float) Math.cos(accum) + win_center_y);
-        light.setPosition(win_center_x, win_center_y);
+                200 * (float) Math.sin(accum),
+                200 * (float) Math.cos(accum));
+        light.setPosition(0,0);
 
         world.step(dt, 8, 3);
     }
 
-    float accum = 0;
     @Override
     public void render(float delta) {
         update(delta);
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-
 
         Assets.batch.setProjectionMatrix(camera.combined);
         Assets.batch.begin();
+
+        Assets.batch.draw(Assets.badlogic, 0, 0);
+
+        for (Body body : balls) {
+            Assets.batch.draw(Assets.badlogic, body.getPosition().x - 10, body.getPosition().y - 10, 10, 10);
+        }
 
         player.render(Assets.batch);
 
         Assets.batch.end();
 
         rayHandler.setCombinedMatrix(camera.combined);
-        rayHandler.setAmbientLight(1f, 1f, 1f, .2f);
         rayHandler.updateAndRender();
-
-
     }
 
     @Override
