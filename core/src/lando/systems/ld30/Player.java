@@ -99,7 +99,7 @@ public class Player implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (shot == null){
-           shot = new LaserShot(screen.getPosFromScreen(screenX, screenY));
+           shot = new LaserShot(this, screen.getPosFromScreen(screenX, screenY));
         }
         return false;
     }

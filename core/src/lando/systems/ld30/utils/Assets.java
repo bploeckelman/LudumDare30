@@ -18,6 +18,7 @@ public class Assets {
     public static ShapeRenderer shapes;
 
     public static Texture badlogic;
+    public static Texture beam;
 
     public static TextureAtlas atlas;
 
@@ -30,6 +31,10 @@ public class Assets {
 
         badlogic = new Texture("badlogic.jpg");
         badlogic.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        beam = new Texture("beam.png");
+        beam.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
         random = new Random();
 
 
