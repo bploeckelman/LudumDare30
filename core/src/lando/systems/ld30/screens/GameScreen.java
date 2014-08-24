@@ -29,8 +29,7 @@ public class GameScreen implements Screen {
     public final LudumDare30 game;
     public final OrthographicCamera camera;
     public enum LEVEL_STATE {PRE_RED, RED, OVER_MAP, YELLOW, GREEN, CYAN, BLUE, PURPLE};
-    public Color[] colorsBeat = new Color[] {new Color(1,0,0,1), new Color(0,1,0,1), new Color(0,0,1,1),
-                                             new Color(1,1,0,1), new Color(0,1,1,1), new Color(1,0,1,1)};
+    public boolean[] colorsBeat = new boolean[6];
 
     public LEVEL_STATE currentGameState = LEVEL_STATE.PRE_RED;
     Box2DDebugRenderer box2DDebugRenderer;
@@ -193,16 +192,17 @@ public class GameScreen implements Screen {
                 color = new Color(1,1,1,1);
                 break;
             case RED:
-                color = new Color(1,0,0,1);
+                color = new Color(1, .5f, .5f,1);
                 break;
         }
         borderColor = color;
         Color ambient = color.cpy();
-        ambient.a = .3f;
+        ambient.a = .4f;
         rayHandler.setAmbientLight(ambient);
     }
 
     public void enterLevel(LEVEL_STATE newState){
+        LEVEL_STATE prevState = currentGameState;
         currentGameState = newState;
         setWorldColor();
         for (int i = 0; i < portals.length; i++)
@@ -213,10 +213,52 @@ public class GameScreen implements Screen {
             case RED:
                 enterRedLevel();
                 break;
+            case GREEN:
+                enterGreenLevel();
+                break;
+            case YELLOW:
+                enterYellowLevel();
+                break;
+            case CYAN:
+                enterCyanLevel();
+                break;
+            case BLUE:
+                enterBlueLevel();
+                break;
+            case PURPLE:
+                enterPurpleLevel();
+                break;
+            case OVER_MAP:
+                returnToOverMap(prevState);
+                break;
         }
     }
 
     public void enterRedLevel(){
+
+    }
+
+    public void enterGreenLevel(){
+
+    }
+
+    public void enterYellowLevel(){
+
+    }
+
+    public void enterCyanLevel(){
+
+    }
+
+    public void enterBlueLevel(){
+
+    }
+
+    public void enterPurpleLevel(){
+
+    }
+
+    public void returnToOverMap(LEVEL_STATE prevState){
 
     }
 
@@ -227,10 +269,11 @@ public class GameScreen implements Screen {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
         Assets.batch.setProjectionMatrix(camera.combined);
         Assets.batch.begin();
 
-        Assets.batch.setColor(borderColor.cpy().mul(((float)(Math.sin(borderIntensity)+1.0)/4.0f) + .5f));
+        Assets.batch.setColor(borderColor.cpy().mul(((float)(Math.sin(borderIntensity)+1.0)/8.0f) + .75f));
         Assets.batch.draw(Assets.background, 632, 629.9f, 736, 741);
 
         Assets.batch.setColor(Color.WHITE);

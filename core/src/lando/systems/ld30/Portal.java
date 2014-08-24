@@ -6,7 +6,6 @@ import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.org.apache.xml.internal.security.keys.content.SPKIData;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.Assets;
