@@ -11,7 +11,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
@@ -45,7 +44,9 @@ public class GameScreen implements Screen {
     Color borderColor = Color.GREEN;
     float borderIntensity = 0;
 
-    PointLight light, light1, light2;
+    PointLight light, light1;
+
+    PointLight chamberLightRed, chamberLightCyan, chamberLightYellow, chamberLightGreen, chamberLightBlue, chamberLightPurple;
 
     ArrayList<Body> balls = new ArrayList<Body>();
 
@@ -81,6 +82,36 @@ public class GameScreen implements Screen {
         light1.setPosition(100, 100);
         light1.setColor(0, 1, 0, 1);
         light1.setDistance(100);
+
+        chamberLightRed = new PointLight(rayHandler, num_rays);
+        chamberLightRed.setPosition(Globals.red_center.x, Globals.red_center.y);
+        chamberLightRed.setColor(Color.RED);
+        chamberLightRed.setDistance(0);
+        Timeline.createSequence()
+                .push(Tween.to(chamberLightRed, PointLightAccessor.DIST, 2.5f).target(400))
+                .push(Tween.to(chamberLightRed, PointLightAccessor.DIST, 2.5f).target(40))
+                .repeatYoyo(-1, 0)
+                .start(game.tweenManager);
+
+        chamberLightCyan = new PointLight(rayHandler, num_rays);
+        chamberLightCyan.setPosition(Globals.cyan_center.x, Globals.cyan_center.y);
+        chamberLightCyan.setColor(Color.CYAN);
+        chamberLightCyan.setDistance(0);
+        Timeline.createSequence()
+                .push(Tween.to(chamberLightCyan, PointLightAccessor.DIST, 2.5f).target(400))
+                .push(Tween.to(chamberLightCyan, PointLightAccessor.DIST, 2.5f).target(40))
+                .repeatYoyo(-1, 0)
+                .start(game.tweenManager);
+
+        chamberLightYellow = new PointLight(rayHandler, num_rays);
+        chamberLightYellow.setPosition(Globals.yellow_center.x, Globals.yellow_center.y);
+        chamberLightYellow.setColor(Color.YELLOW);
+        chamberLightYellow.setDistance(0);
+        Timeline.createSequence()
+                .push(Tween.to(chamberLightYellow, PointLightAccessor.DIST, 2.5f).target(400))
+                .push(Tween.to(chamberLightYellow, PointLightAccessor.DIST, 2.5f).target(40))
+                .repeatYoyo(-1, 0)
+                .start(game.tweenManager);
 
         player = new Player(new Vector2(Globals.world_center_x, Globals.world_center_y), this);
         camera.position.set(new Vector3(player.body.getPosition(), 0));
