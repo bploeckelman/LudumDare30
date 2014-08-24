@@ -20,11 +20,13 @@ public class Assets {
 
     public static Texture badlogic;
     public static Texture beam;
+    public static Texture rainbow;
 
     public static TextureAtlas atlas;
 
     public static Random random;
     public static ShaderProgram prismProgram;
+    public static ShaderProgram shimmerProgram;
 
     public static ParticleEffect explodeParticleEffect;
 
@@ -38,6 +40,9 @@ public class Assets {
         beam = new Texture("beam.png");
         beam.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
+        rainbow = new Texture("rainbow.png");
+        rainbow.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
         random = new Random();
 
         explodeParticleEffect = new ParticleEffect();
@@ -49,6 +54,12 @@ public class Assets {
         //Good idea to log any warnings if they exist
         if (prismProgram.getLog().length()!=0)
             System.out.println(prismProgram.getLog());
+
+        final String RAINFRAG = Gdx.files.internal("rainbow.frag").readString();
+        shimmerProgram = new ShaderProgram(VERTEX, RAINFRAG);
+        //Good idea to log any warnings if they exist
+        if (shimmerProgram.getLog().length()!=0)
+            System.out.println(shimmerProgram.getLog());
 
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
     }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.utils.Assets;
@@ -25,6 +26,8 @@ public class TitleScreen implements Screen {
     private final LudumDare30 game;
     private final FrameBuffer fbo;
     private MutableFloat prismScale = new MutableFloat(0);
+    Sprite rainbowSprite;
+    private float shimmerAccum =0;
 
     public TitleScreen(LudumDare30 game){
         super();
@@ -32,7 +35,8 @@ public class TitleScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Config.window_width, Config.window_height);
         fbo = new FrameBuffer(Pixmap.Format.RGB888, Config.window_width, Config.window_height, false);
-
+        rainbowSprite = new Sprite(Assets.rainbow);
+        rainbowSprite.setCenter(Config.window_width/2, Config.window_height/2);
     }
 
     public void update(float dt){
@@ -46,6 +50,7 @@ public class TitleScreen implements Screen {
                     .setCallback(callbackEnd)
                     .start(game.tweenManager);
         }
+        shimmerAccum += dt/1;
     }
 
 
@@ -56,6 +61,7 @@ public class TitleScreen implements Screen {
 
         update(delta);
         fbo.begin();
+        camera.update();
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -65,10 +71,14 @@ public class TitleScreen implements Screen {
         Assets.batch.end();
         fbo.end();
 
-        Gdx.gl20.glClearColor(.1f, .1f, .1f, 1);
+        Gdx.gl20.glClearColor(1f, 1f, 1f, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         Assets.batch.begin();
+        Assets.batch.setShader(Assets.shimmerProgram);
+        Assets.shimmerProgram.setUniformf("u_time", shimmerAccum);
+        rainbowSprite.draw(Assets.batch);
+
         Assets.batch.setShader(Assets.prismProgram);
         Assets.prismProgram.setUniformf("u_scale", prismScale.floatValue());
         accum+=delta;
