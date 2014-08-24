@@ -134,12 +134,12 @@ public class GameScreen implements Screen {
         light1.setColor(0, 1, 0, 1);
         light1.setDistance(100);
 
-        portals[0] = new Portal(new Color(1,0,0,1), Globals.red_center,    LEVEL_STATE.RED);
-        portals[1] = new Portal(new Color(1,1,0,1), Globals.yellow_center, LEVEL_STATE.YELLOW);
-        portals[2] = new Portal(new Color(0,1,0,1), Globals.green_center,  LEVEL_STATE.GREEN);
-        portals[3] = new Portal(new Color(0,1,1,1), Globals.cyan_center,   LEVEL_STATE.CYAN);
-        portals[4] = new Portal(new Color(0,0,1,1), Globals.blue_center,   LEVEL_STATE.BLUE);
-        portals[5] = new Portal(new Color(1,0,1,1), Globals.purple_center, LEVEL_STATE.PURPLE);
+        portals[0] = new Portal(new Color(1,0,0,1), Globals.red_center,    LEVEL_STATE.RED,    this);
+        portals[1] = new Portal(new Color(1,1,0,1), Globals.yellow_center, LEVEL_STATE.YELLOW, this);
+        portals[2] = new Portal(new Color(0,1,0,1), Globals.green_center,  LEVEL_STATE.GREEN,  this);
+        portals[3] = new Portal(new Color(0,1,1,1), Globals.cyan_center,   LEVEL_STATE.CYAN,   this);
+        portals[4] = new Portal(new Color(0,0,1,1), Globals.blue_center,   LEVEL_STATE.BLUE,   this);
+        portals[5] = new Portal(new Color(1,0,1,1), Globals.purple_center, LEVEL_STATE.PURPLE, this);
     }
 
     float accum = 0;
