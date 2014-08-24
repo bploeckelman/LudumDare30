@@ -36,16 +36,14 @@ import java.util.ArrayList;
  */
 public class GameScreen implements Screen {
 
-    private final LudumDare30 game;
+    public final LudumDare30 game;
     public final OrthographicCamera camera;
     public Color[] colorsBeat = new Color[] {new Color(1,0,0,1), new Color(0,1,0,1), new Color(0,0,1,1),
                                              new Color(1,1,0,1), new Color(0,1,1,1), new Color(1,0,1,1)};
 
-
-
     Box2DDebugRenderer box2DDebugRenderer;
 
-    RayHandler rayHandler;
+    public RayHandler rayHandler;
 
     PointLight light, light1, light2;
 
@@ -57,7 +55,7 @@ public class GameScreen implements Screen {
 
     public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
-    final int num_rays = 512;
+    public final int num_rays = 512;
 
 
     public GameScreen(LudumDare30 game) {
@@ -86,22 +84,6 @@ public class GameScreen implements Screen {
 
         player = new Player(new Vector2(Globals.world_center_x, Globals.world_center_y), this);
         camera.position.set(new Vector3(player.body.getPosition(), 0));
-
-        light2 = new PointLight(rayHandler, num_rays);
-        light2.setColor(0,0,0,1);
-        light2.setDistance(1);
-        light2.attachToBody(player.body, 0, 0);
-
-        Tween.to(light2, PointLightAccessor.DIST, 2)
-                .target(30)
-                .repeatYoyo(-1, 0.5f)
-                .start(game.tweenManager);
-        Timeline.createParallel()
-                .push(Tween.to(light2, PointLightAccessor.R, 4).target(1))
-                .push(Tween.to(light2, PointLightAccessor.G, 6).target(1))
-                .push(Tween.to(light2, PointLightAccessor.B, 8).target(1))
-                .repeatYoyo(-1, 0)
-                .start(game.tweenManager);
 
         enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
         enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  5, Globals.world_center_y + 0), this));
@@ -250,9 +232,10 @@ public class GameScreen implements Screen {
     }
 
 
+    Vector3 projectTemp = new Vector3();
     public Vector2 getPosFromScreen(float x, float y) {
-        Vector3 temp = camera.unproject(new Vector3(x, y, 0));
-        return new Vector2(temp.x, temp.y);
+        camera.unproject(projectTemp.set(x, y, 0));
+        return new Vector2(projectTemp.x, projectTemp.y);
     }
 
     @Override

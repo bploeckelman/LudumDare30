@@ -1,5 +1,11 @@
 package lando.systems.ld30;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.*;
+import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -7,10 +13,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import lando.systems.ld30.screens.GameScreen;
+import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.*;
 
 import javax.swing.*;
@@ -35,6 +41,7 @@ public class Player implements InputProcessor, Collidable {
     public float respawnTimer;
     public float animTimer;
     Fixture fixture;
+    public PointLight playerLight;
 
 
     public Player (Vector2 position, GameScreen screen){
@@ -76,6 +83,11 @@ public class Player implements InputProcessor, Collidable {
 
         sprite.setOriginCenter();
         sprite.setSize(4f,4f);
+
+        playerLight = new PointLight(screen.rayHandler, screen.num_rays);
+        playerLight.setColor(0,0,0,1);
+        playerLight.setDistance(0);
+        playerLight.attachToBody(body, 0, 0);
     }
 
     private final float MAX_VELOCITY = 20f;
@@ -150,7 +162,6 @@ public class Player implements InputProcessor, Collidable {
         }
 
         if (shot != null) shot.render(batch);
-        //batch.draw(Assets.badlogic, body.getPosition().x , body.getPosition().y - 10, 20, 20);
     }
 
     @Override
@@ -171,7 +182,7 @@ public class Player implements InputProcessor, Collidable {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (alive && shot == null ){  //TODO: make this not shot if you have no colors
-           shot = new LaserShot(this.body, screen.getPosFromScreen(screenX, screenY), Color.GREEN);
+            shootLaser(screen.getPosFromScreen(screenX, screenY), Color.GREEN);
         }
         return false;
     }
@@ -216,8 +227,26 @@ public class Player implements InputProcessor, Collidable {
         if (respawnTimer <= 0){
             respawnTimer = 2f;
             shot = null;
-
+            screen.game.tweenManager.killTarget(playerLight);
+            playerLight.setColor(0,0,0,1);
+            playerLight.setDistance(0);
         }
+    }
+
+    private void shootLaser(Vector2 target, Color color) {
+        shot = new LaserShot(body, target, color);
+        Timeline.createSequence()
+                .beginParallel()
+                .push(Tween.to(playerLight, PointLightAccessor.DIST, 2.0f).target(10))
+                .push(Tween.to(playerLight, PointLightAccessor.RGB, 2.0f).target(color.r, color.g, color.b).setCallback(new TweenCallback() {
+                    @Override
+                    public void onEvent(int type, BaseTween<?> source) {
+                        playerLight.setColor(0,0,0,1);
+                    }
+                }))
+                .end()
+                .push(Tween.to(playerLight, PointLightAccessor.DIST, 0.1f).target(0))
+                .start(screen.game.tweenManager);
     }
 
     @Override
