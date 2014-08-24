@@ -38,8 +38,8 @@ public class RedEnemy extends Enemy {
         final float shoot_dist2 = 300;
         if (d2 < shoot_dist2) {
             if (shot == null) {
-                target.set(screen.player.body.getPosition());
-                shot = new EnemyLaserShot(body, target, Color.BLUE);
+                //target.set(screen.player.body.getPosition());
+                shot = new EnemyLaserShot(body, screen.player.body.getPosition().cpy(), Color.BLUE);
             }
         } else {
             dir.set(screen.player.body.getPosition());

@@ -102,7 +102,7 @@ public class Player implements InputProcessor, Collidable {
         } else {
             sprite.setColor(Color.WHITE);
         }
-        if (alive || respawnTimer % .2f > .1f){
+        if (alive || respawnTimer % .4f > .2f){
             sprite.draw(batch);
         }
 
@@ -127,7 +127,7 @@ public class Player implements InputProcessor, Collidable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (shot == null ){  //TODO: make this not shot if you have no colors
+        if (alive && shot == null ){  //TODO: make this not shot if you have no colors
            shot = new LaserShot(this.body, screen.getPosFromScreen(screenX, screenY), Color.GREEN);
         }
         return false;

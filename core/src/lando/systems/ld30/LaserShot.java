@@ -69,9 +69,10 @@ public class LaserShot {
         } else {
             angle = (float) (180 * Math.atan2(yDif, xDif) / Math.PI);
         }
-        float dist = body.getPosition().dst(target);
+        Vector2 rayTarget = new Vector2(body.getPosition().x + (100*xDif), body.getPosition().y + (100*yDif));
+        float dist = body.getPosition().dst(rayTarget);
         length = 100;
-        Globals.world.rayCast(rayCallback, body.getPosition(), target);
+        Globals.world.rayCast(rayCallback, body.getPosition(), rayTarget);
         sprite.setSize(length * dist,1);
         sprite.setOrigin(0, sprite.getHeight()/2);
 
@@ -96,7 +97,7 @@ public class LaserShot {
             if (active) {
                 collidable.shotByPlayer(color);
             }
-            return 1;
+            return -1;
         }
     };
 }
