@@ -41,7 +41,7 @@ public class GameScreen implements Screen {
     ArrayList<Body> balls = new ArrayList<Body>();
 
     Player player;
-    Enemy enemy;
+    ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
     final int num_rays = 256;
 
@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
         player = new Player(new Vector2(), this);
         camera.position.set(new Vector3(player.position, 0));
 
-        enemy = new Enemy(new Vector2(0, 3), this);
+        enemies.add(new Enemy(new Vector2(0, 3), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -110,7 +110,15 @@ public class GameScreen implements Screen {
         }
 
         player.update(dt);
-        enemy.update(dt);
+        int enemySize = enemies.size();
+        for (int i = enemySize; --i >= 0;){
+            Enemy enemy = enemies.get(i);
+            enemy.update(dt);
+            if (!enemy.alive) {
+                enemies.remove(i);
+            }
+        }
+
         camera.position.lerp(new Vector3(player.sprite.getX(), player.sprite.getY(), 0f), .03f);
         camera.update();
     }
@@ -134,8 +142,10 @@ public class GameScreen implements Screen {
         for (Body body : balls) {
             Assets.batch.draw(Assets.badlogic, body.getPosition().x - 5f, body.getPosition().y - 5f, 10, 10);
         }
+        for (int i = 0; i < enemies.size(); i ++){
+            enemies.get(i).render(Assets.batch);
+        }
 
-        enemy.render(Assets.batch);
         player.render(Assets.batch);
 
         Assets.batch.end();

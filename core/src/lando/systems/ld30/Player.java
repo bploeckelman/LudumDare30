@@ -16,6 +16,8 @@ import lando.systems.ld30.utils.Collidable;
 import lando.systems.ld30.utils.CollidableType;
 import lando.systems.ld30.utils.Globals;
 
+import java.util.ArrayList;
+
 /**
  * Created by dsgraham on 8/23/14.
  */
@@ -29,8 +31,12 @@ public class Player implements InputProcessor, Collidable {
     public Sprite sprite;
     private GameScreen screen;
     private LaserShot shot;
+    public int currentColor;
+    public ArrayList<Color> availableColors;
 
     public Player (Vector2 position, GameScreen screen){
+        currentColor = 0;
+        availableColors = new ArrayList<Color>();
         this.screen = screen;
         this.speed = 10f;
         this.position = position;
@@ -80,6 +86,11 @@ public class Player implements InputProcessor, Collidable {
     }
 
     public void render(SpriteBatch batch){
+        if (availableColors.size() > 0){
+            sprite.setColor(availableColors.get(currentColor));
+        } else {
+            sprite.setColor(Color.WHITE);
+        }
         sprite.draw(batch);
         if (shot != null) shot.render(batch);
         //batch.draw(Assets.badlogic, body.getPosition().x , body.getPosition().y - 10, 20, 20);
@@ -102,7 +113,7 @@ public class Player implements InputProcessor, Collidable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (shot == null){
+        if (shot == null ){  //TODO: make this not shot if you have no colors
            shot = new LaserShot(this, screen.getPosFromScreen(screenX, screenY), Color.GREEN);
         }
         return false;
@@ -125,11 +136,30 @@ public class Player implements InputProcessor, Collidable {
 
     @Override
     public boolean scrolled(int amount) {
+        int colors = availableColors.size();
+        if (colors > 0){
+            if (amount > 0){
+                currentColor++;
+            } else {
+                currentColor--;
+            }
+            if (currentColor >= colors){
+                currentColor = 0;
+            }
+            if (currentColor < 0){
+                currentColor = colors -1;
+            }
+        }
         return false;
     }
 
     @Override
     public CollidableType getType() {
         return CollidableType.PLAYER;
+    }
+
+    @Override
+    public void ShotByPlayer(Color color) {
+
     }
 }

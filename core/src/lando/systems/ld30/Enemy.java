@@ -1,5 +1,6 @@
 package lando.systems.ld30;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -34,9 +35,11 @@ public class Enemy implements Collidable {
     public float speed;
     public float animTimer;
 
+    public boolean alive;
+
     public Enemy(Vector2 position, GameScreen screen) {
         this.screen = screen;
-
+        alive = true;
         body_radius = 1.5f;
 
         CircleShape circleShape = new CircleShape();
@@ -86,8 +89,19 @@ public class Enemy implements Collidable {
         sprite.draw(batch);
     }
 
+    public void kill(){
+        alive = false;
+        Globals.world.destroyBody(body);
+    }
+
     @Override
     public CollidableType getType() {
         return CollidableType.ENEMY;
+    }
+
+    @Override
+    public void ShotByPlayer(Color color) {
+
+         kill();
     }
 }

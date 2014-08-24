@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import lando.systems.ld30.utils.Assets;
+import lando.systems.ld30.utils.Collidable;
 import lando.systems.ld30.utils.Globals;
 
 /**
@@ -21,6 +24,8 @@ public class LaserShot {
     private Vector2 target;
     Player player;
     float scale;
+    float length;
+    Color color;
 
     public LaserShot(Player player, Vector2 target, Color color){
         timeLeft = 2f;
@@ -29,11 +34,12 @@ public class LaserShot {
         this.target = target;
         this.player = player;
         scale = .5f;
-        sprite.setSize(100,1);
+        length = 0;
         sprite.setColor(color);
-
+        this.color = color.cpy();
     }
 
+    boolean active = false;
     public void update (float dt){
         timeLeft -= dt;
 
@@ -43,10 +49,13 @@ public class LaserShot {
             scale = .1f;
         } else if (timeLeft > 0 ) {
             scale = 2f;
+            active = true;
         } else {
             alive = false;
         }
     }
+
+
 
     public void render(SpriteBatch batch){
         float angle;
@@ -58,7 +67,10 @@ public class LaserShot {
         } else {
             angle = (float) (180 * Math.atan2(yDif, xDif) / Math.PI);
         }
-
+        float dist = player.body.getPosition().dst(target);
+        length = 100;
+        Globals.world.rayCast(rayCallback, player.body.getPosition(), target);
+        sprite.setSize(length * dist,1);
         sprite.setOrigin(0, sprite.getHeight()/2);
 
         sprite.setRotation(angle);
@@ -69,4 +81,20 @@ public class LaserShot {
         sprite.draw(batch);
 
     }
+
+    private RayCastCallback rayCallback = new RayCastCallback(){
+        @Override
+        public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+
+            final Collidable collidable = (Collidable) fixture.getBody().getUserData();
+            if (collidable == null) {
+                length = fraction;
+                return 0;
+            }
+            if (active) {
+                collidable.ShotByPlayer(color);
+            }
+            return 1;
+        }
+    };
 }
