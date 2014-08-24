@@ -91,7 +91,6 @@ public class GameScreen implements Screen {
                     scale * (float) Math.sin(a));
 
             Body ball = Globals.world.createBody(bodyDef);
-            ball.setUserData("ball" + i);
 
             CircleShape circleShape = new CircleShape();
             circleShape.setRadius(radius);

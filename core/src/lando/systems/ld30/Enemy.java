@@ -11,12 +11,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Assets;
+import lando.systems.ld30.utils.Collidable;
+import lando.systems.ld30.utils.CollidableType;
 import lando.systems.ld30.utils.Globals;
 
 /**
  * Brian Ploeckelman created on 8/23/2014.
  */
-public class Enemy {
+public class Enemy implements Collidable {
 
     private static final BodyDef bodyDef = new BodyDef();
 
@@ -47,7 +49,7 @@ public class Enemy {
         body.createFixture(circleShape, 1f);
         body.setLinearDamping(1f);
         body.setAngularDamping(2f);
-        body.setUserData("enemy");
+        body.setUserData(this);
 
         circleShape.dispose();
 
@@ -82,5 +84,10 @@ public class Enemy {
 
     public void render(SpriteBatch batch) {
         sprite.draw(batch);
+    }
+
+    @Override
+    public CollidableType getType() {
+        return CollidableType.ENEMY;
     }
 }

@@ -24,15 +24,15 @@ public class Box2dContactListener implements ContactListener {
             return;
         }
 
-        final String userDataA = (String) contact.getFixtureA().getBody().getUserData();
-        final String userDataB = (String) contact.getFixtureB().getBody().getUserData();
-        if (userDataA == null || userDataB == null) {
-            return;
-        }
+        final Collidable collidableA = (Collidable) contact.getFixtureA().getBody().getUserData();
+        final Collidable collidableB = (Collidable) contact.getFixtureB().getBody().getUserData();
+
+        final CollidableType typeA = (collidableA != null) ? collidableA.getType() : CollidableType.MISC;
+        final CollidableType typeB = (collidableB != null) ? collidableB.getType() : CollidableType.MISC;
 
         // TODO : figure out which fixture is what body and respond appropriately
 
-        Gdx.app.log("CONTACT", "userDataA = " + userDataA + ", userDataB = " + userDataB);
+        Gdx.app.log("CONTACT", "typeA(" + collidableA + ") = " + typeA.toString() + ", typeB(" + collidableB + ") = " + typeB.toString());
     }
 
     @Override

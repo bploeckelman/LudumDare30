@@ -12,12 +12,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Assets;
+import lando.systems.ld30.utils.Collidable;
+import lando.systems.ld30.utils.CollidableType;
 import lando.systems.ld30.utils.Globals;
 
 /**
  * Created by dsgraham on 8/23/14.
  */
-public class Player implements InputProcessor{
+public class Player implements InputProcessor, Collidable {
 
     private static final BodyDef bodyDef = new BodyDef();
 
@@ -41,7 +43,7 @@ public class Player implements InputProcessor{
         body.createFixture(circleShape, .1f);
         body.setLinearDamping(1f);
         body.setAngularDamping(2f);
-        body.setUserData("player");
+        body.setUserData(this);
         circleShape.dispose();
 
         sprite = new Sprite(Assets.badlogic);
@@ -73,7 +75,7 @@ public class Player implements InputProcessor{
 
         sprite.setCenter(body.getPosition().x, body.getPosition().y);
         sprite.setOriginCenter();
-        sprite.setRotation((float)Math.toDegrees(body.getAngle()));
+        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         //body.setTransform(position, 0);
     }
 
@@ -124,5 +126,10 @@ public class Player implements InputProcessor{
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    @Override
+    public CollidableType getType() {
+        return CollidableType.PLAYER;
     }
 }
