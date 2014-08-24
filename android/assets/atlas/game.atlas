@@ -1,145 +1,264 @@
 
 game.png
-size: 349,29
+size: 125,123
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
+blue-enemy00
+  rotate: false
+  xy: 62, 90
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy16
+  rotate: false
+  xy: 62, 90
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy01
+  rotate: false
+  xy: 79, 90
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy15
+  rotate: false
+  xy: 79, 90
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy02
+  rotate: false
+  xy: 96, 90
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy03
+  rotate: false
+  xy: 41, 72
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy04
+  rotate: false
+  xy: 41, 72
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy09
+  rotate: false
+  xy: 41, 72
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy05
+  rotate: false
+  xy: 41, 72
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy06
+  rotate: false
+  xy: 41, 55
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy07
+  rotate: false
+  xy: 41, 38
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy08
+  rotate: false
+  xy: 58, 72
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy10
+  rotate: false
+  xy: 58, 55
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy11
+  rotate: false
+  xy: 58, 38
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy12
+  rotate: false
+  xy: 75, 73
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy13
+  rotate: false
+  xy: 75, 56
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy14
+  rotate: false
+  xy: 92, 73
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
 green-enemy0
   rotate: false
-  xy: 266, 14
+  xy: 75, 39
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 green-enemy1
   rotate: false
-  xy: 283, 14
+  xy: 92, 56
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 green-enemy2
   rotate: false
-  xy: 300, 14
+  xy: 92, 39
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 green-enemy3
   rotate: false
-  xy: 317, 14
+  xy: 23, 25
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 green-enemy4
   rotate: false
-  xy: 334, 14
+  xy: 20, 8
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 player0
   rotate: false
-  xy: 2, 2
+  xy: 2, 96
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 player1
   rotate: false
-  xy: 23, 2
+  xy: 2, 67
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 player2
   rotate: false
-  xy: 44, 2
+  xy: 23, 96
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 player3
   rotate: false
-  xy: 65, 2
+  xy: 2, 38
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 red-enemy0
   rotate: false
-  xy: 86, 13
+  xy: 23, 78
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy1
   rotate: false
-  xy: 104, 13
+  xy: 44, 107
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy2
   rotate: false
-  xy: 122, 13
+  xy: 2, 20
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy3
   rotate: false
-  xy: 140, 13
+  xy: 23, 60
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy4
   rotate: false
-  xy: 158, 13
+  xy: 62, 107
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy5
   rotate: false
-  xy: 176, 13
+  xy: 2, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 sparkle-small
   rotate: false
-  xy: 86, 2
+  xy: 116, 114
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
   index: -1
 yellow-enemy0
   rotate: false
-  xy: 194, 13
+  xy: 23, 42
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy1
   rotate: false
-  xy: 212, 13
+  xy: 80, 107
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy2
   rotate: false
-  xy: 230, 13
+  xy: 98, 107
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy3
   rotate: false
-  xy: 248, 13
+  xy: 44, 89
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

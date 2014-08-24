@@ -59,10 +59,8 @@ public abstract class Enemy implements Collidable {
     }
 
     public void render(SpriteBatch batch) {
+        if (shot != null) shot.render(batch);
         sprite.draw(batch);
-        if (shot != null) {
-            shot.render(batch);
-        }
     }
 
     public void kill(){

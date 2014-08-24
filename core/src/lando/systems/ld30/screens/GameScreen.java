@@ -17,12 +17,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import lando.systems.ld30.Bullet;
 import lando.systems.ld30.Level;
-import lando.systems.ld30.enemies.Enemy;
+import lando.systems.ld30.enemies.*;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
-import lando.systems.ld30.enemies.GreenEnemy;
-import lando.systems.ld30.enemies.RedEnemy;
-import lando.systems.ld30.enemies.YellowEnemy;
 import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Box2dContactListener;
@@ -97,6 +94,10 @@ public class GameScreen implements Screen {
         enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  9, Globals.world_center_y +  0), this));
         enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + -9), this));
         enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x + -9, Globals.world_center_y +  0), this));
+        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
+        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
+        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
+        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -196,7 +197,7 @@ public class GameScreen implements Screen {
 
         Assets.batch.end();
 
-//        box2DDebugRenderer.render(Globals.world, camera.combined);
+        box2DDebugRenderer.render(Globals.world, camera.combined);
 
         rayHandler.setCombinedMatrix(camera.combined);
         if (didStep) rayHandler.update();
