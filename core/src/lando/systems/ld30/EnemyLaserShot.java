@@ -13,22 +13,25 @@ import lando.systems.ld30.utils.Globals;
  * Brian Ploeckelman created on 8/23/2014.
  */
 public class EnemyLaserShot extends LaserShot {
+    float angle;
+    float xDif;
+    float yDif;
 
     public EnemyLaserShot(Body body, Vector2 target, Color color){
         super(body, target, color);
-    }
-
-    @Override
-    public void render(SpriteBatch batch){
-        float angle;
-        float xDif = target.x - body.getPosition().x;
-        float yDif = target.y - body.getPosition().y;
+        xDif = target.x - body.getPosition().x;
+        yDif = target.y - body.getPosition().y;
         float dir = yDif < 0 ? 180 : 0;
         if (xDif == 0){
             angle = dir;
         } else {
             angle = (float) (180 * Math.atan2(yDif, xDif) / Math.PI);
         }
+    }
+
+    @Override
+    public void render(SpriteBatch batch){
+
         Vector2 rayTarget = new Vector2(body.getPosition().x + (100*xDif), body.getPosition().y + (100*yDif));
         float dist = body.getPosition().dst(rayTarget);
         length = 100;

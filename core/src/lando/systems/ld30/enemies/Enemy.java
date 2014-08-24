@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import lando.systems.ld30.Bullet;
 import lando.systems.ld30.EnemyLaserShot;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Collidable;
@@ -33,6 +34,7 @@ public abstract class Enemy implements Collidable {
 
     public float speed;
     public float animTimer;
+    public float bulletSpeed = 100;
 
     public boolean alive;
 
@@ -59,6 +61,11 @@ public abstract class Enemy implements Collidable {
     public void kill(){
         alive = false;
         Globals.world.destroyBody(body);
+    }
+
+    public void shootBullet(Vector2 target){
+        Vector2 dir = target.cpy().sub(body.getPosition()).scl(bulletSpeed);
+        screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE));
     }
 
     @Override

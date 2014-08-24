@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import lando.systems.ld30.Bullet;
 import lando.systems.ld30.enemies.Enemy;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
@@ -45,6 +46,8 @@ public class GameScreen implements Screen {
     public Player player;
     ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
+    public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+
     final int num_rays = 512;
 
 
@@ -73,7 +76,7 @@ public class GameScreen implements Screen {
         light1.setDistance(100);
 
         player = new Player(new Vector2(), this);
-        camera.position.set(new Vector3(player.position, 0));
+        camera.position.set(new Vector3(player.body.getPosition(), 0));
 
         enemies.add(new RedEnemy(new Vector2(0, 5), this));
         enemies.add(new RedEnemy(new Vector2(5, 0), this));
@@ -127,6 +130,15 @@ public class GameScreen implements Screen {
             }
         }
 
+        int bulletSize = bullets.size();
+        for (int i = bulletSize; --i >= 0;){
+            Bullet bullet = bullets.get(i);
+            bullet.update(dt);
+            if (!bullet.alive) {
+                bullets.remove(i);
+            }
+        }
+
         camera.position.lerp(new Vector3(player.sprite.getX(), player.sprite.getY(), 0f), .03f);
         camera.update();
     }
@@ -152,6 +164,10 @@ public class GameScreen implements Screen {
         }
         for (int i = 0; i < enemies.size(); i ++){
             enemies.get(i).render(Assets.batch);
+        }
+
+        for (int i = 0; i < bullets.size(); i ++){
+            bullets.get(i).render(Assets.batch);
         }
 
         player.render(Assets.batch);

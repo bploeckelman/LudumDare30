@@ -32,10 +32,11 @@ public class YellowEnemy extends Enemy {
 
         dist.set(screen.player.body.getPosition());
         final float d2 = dist.dst2(body.getPosition());
-        final float shoot_dist2 = 500;
+        final float shoot_dist2 = 1000;
         if (d2 < shoot_dist2) {
             if (shot == null) {
                 shot = new EnemyLaserShot(body, screen.player.body.getPosition().cpy(), Color.YELLOW);
+                shootBullet(screen.player.body.getPosition());
             }
         } else {
             dir.set(screen.player.body.getPosition());
