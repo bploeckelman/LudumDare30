@@ -30,6 +30,7 @@ public class SpinnyLights {
     public SpinnyLights(Color color, Vector2 position, RayHandler rayHandler, int numRays, GameScreen screen) {
         this.screen = screen;
         this.color = color;
+        this.color.a = .6f;
         this.position = position;
 
         lights = new ConeLight[num_lights];
@@ -71,7 +72,7 @@ public class SpinnyLights {
 
     private void initializeTweens() {
         for (int i = 0; i < num_lights; ++i) {
-            Tween.to(directions[i], 0, 2.5f)
+            Tween.to(directions[i], 0, 4.5f)
                     .target(directions[i].floatValue() + 360)
                     .ease(Linear.INOUT)
                     .repeat(-1, 0)

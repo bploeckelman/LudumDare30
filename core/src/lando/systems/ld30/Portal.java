@@ -54,7 +54,7 @@ public class Portal {
         if (!active) return;
         batch.setShader(Assets.shimmerProgram);
         Assets.shimmerProgram.setUniformf("u_time", portalShimmer);
-        Assets.shimmerProgram.setUniformf("u_alpha", .1f);
+        Assets.shimmerProgram.setUniformf("u_alpha", .3f);
         batch.draw(Assets.rainbow, pos.x - portalRadius, pos.y - portalRadius, 2* portalRadius,2 * portalRadius);
         batch.setShader(null);
     }

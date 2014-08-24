@@ -56,6 +56,7 @@ public abstract class Enemy implements Collidable {
         initializeBox2dBody(position);
         intializeSprite();
 
+        sprite.setRegion(animation.getKeyFrame(animTimer));
         enemyLight = new PointLight(screen.rayHandler, screen.num_rays);
         enemyLight.setColor(0,0,0,1);
         enemyLight.setDistance(0);

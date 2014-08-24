@@ -72,22 +72,22 @@ public class GameScreen implements Screen {
         player = new Player(new Vector2(Globals.world_center_x, Globals.world_center_y), this);
         camera.position.set(new Vector3(player.body.getPosition(), 0));
 
-        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
-        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  5, Globals.world_center_y + 0), this));
-        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0,Globals.world_center_y +  -5), this));
-        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x + -5, Globals.world_center_y + 0), this));
-        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x + -7,Globals.world_center_y + -7), this));
-        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x + -7,Globals.world_center_y +  7), this));
-        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y +  7), this));
-        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y + -7), this));
-        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y +  9), this));
-        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  9, Globals.world_center_y +  0), this));
-        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + -9), this));
-        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x + -9, Globals.world_center_y +  0), this));
-        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
-        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
-        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
-        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
+//        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+//        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  5, Globals.world_center_y + 0), this));
+//        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0,Globals.world_center_y +  -5), this));
+//        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x + -5, Globals.world_center_y + 0), this));
+//        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x + -7,Globals.world_center_y + -7), this));
+//        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x + -7,Globals.world_center_y +  7), this));
+//        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y +  7), this));
+//        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y + -7), this));
+//        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y +  9), this));
+//        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  9, Globals.world_center_y +  0), this));
+//        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + -9), this));
+//        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x + -9, Globals.world_center_y +  0), this));
+//        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
+//        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
+//        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
+//        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -258,6 +258,10 @@ public class GameScreen implements Screen {
     }
 
     public void enterRedLevel(){
+        int enemiesOnSpawn = 10;
+        for (int i = 0; i < enemiesOnSpawn; i ++)    {
+            enemies.add(new RedEnemy(new Vector2(10,0).rotate(360/enemiesOnSpawn * i).add(Globals.red_center)  , this));
+        }
 
     }
 
