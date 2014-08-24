@@ -1,16 +1,22 @@
 package lando.systems.ld30.enemies;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import lando.systems.ld30.Bullet;
 import lando.systems.ld30.EnemyLaserShot;
+import lando.systems.ld30.LaserShot;
 import lando.systems.ld30.screens.GameScreen;
+import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.Collidable;
 import lando.systems.ld30.utils.CollidableType;
 import lando.systems.ld30.utils.Globals;
@@ -23,6 +29,7 @@ public abstract class Enemy implements Collidable {
     protected static final BodyDef bodyDef = new BodyDef();
 
     public EnemyLaserShot shot;
+    public PointLight enemyLight;
 
     public float body_radius;
 
@@ -48,6 +55,11 @@ public abstract class Enemy implements Collidable {
 
         initializeBox2dBody(position);
         intializeSprite();
+
+        enemyLight = new PointLight(screen.rayHandler, screen.num_rays);
+        enemyLight.setColor(0,0,0,1);
+        enemyLight.setDistance(0);
+        enemyLight.attachToBody(body, 0, 0);
     }
 
     public void update(float dt) {
@@ -66,11 +78,30 @@ public abstract class Enemy implements Collidable {
     public void kill(){
         alive = false;
         Globals.world.destroyBody(body);
+        screen.game.tweenManager.killTarget(enemyLight);
+        enemyLight.setColor(0,0,0,1);
+        enemyLight.setDistance(0);
     }
 
     public void shootBullet(Vector2 target){
         Vector2 dir = target.cpy().sub(body.getPosition()).scl(bulletSpeed);
         screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE));
+    }
+
+    protected void shootLaser(Vector2 target, Color color) {
+        shot = new EnemyLaserShot(body, target, color);
+        Timeline.createSequence()
+                .beginParallel()
+                .push(Tween.to(enemyLight, PointLightAccessor.DIST, 2.0f).target(8))
+                .push(Tween.to(enemyLight, PointLightAccessor.RGB, 2.0f).target(color.r, color.g, color.b).setCallback(new TweenCallback() {
+                    @Override
+                    public void onEvent(int type, BaseTween<?> source) {
+                        enemyLight.setColor(0,0,0,1);
+                    }
+                }))
+                .end()
+                .push(Tween.to(enemyLight, PointLightAccessor.DIST, 0.1f).target(0))
+                .start(screen.game.tweenManager);
     }
 
     @Override

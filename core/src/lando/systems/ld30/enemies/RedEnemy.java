@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import lando.systems.ld30.EnemyLaserShot;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Box2dContactListener;
@@ -34,7 +33,7 @@ public class RedEnemy extends Enemy {
         final float shoot_dist2 = 300;
         if (d2 < shoot_dist2) {
             if (shot == null) {
-                shot = new EnemyLaserShot(body, screen.player.body.getPosition().cpy(), Color.RED);
+                shootLaser(screen.player.body.getPosition().cpy(), Color.RED);
             }
         } else {
             dir.set(screen.player.body.getPosition());
