@@ -35,12 +35,15 @@ public class Level implements Collidable {
         body.setUserData(this);
 
         ChainShape chainShape = new ChainShape();
-        chainShape.createLoop(new Vector2[] {
-                new Vector2( 100,  100),
-                new Vector2( 100, -100),
-                new Vector2(-100, -100),
-                new Vector2(-100,  100)
-        });
+        Vector2[] tempVerts = createChamber(0);
+        Vector2[] fullVerts = new Vector2[tempVerts.length*6];
+        for (int i = 0; i < 6; i ++){
+            tempVerts = createChamber(360 - (i*60));
+            for (int j = 0; j < tempVerts.length; j++){
+                fullVerts[j+(i*tempVerts.length)] = tempVerts[j];
+            }
+        }
+        chainShape.createLoop(fullVerts);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = chainShape;
@@ -54,6 +57,26 @@ public class Level implements Collidable {
 
         particleEffectPool = new ParticleEffectPool(Assets.explodeParticleEffect, 0, 20);
         particleEffects = new ArrayList<ParticleEffect>();
+    }
+
+    public Vector2[] createChamber(float angle){
+        Vector2 offset = new Vector2(0,0).sub(183,0).rotate(angle+180).add(500,500);  // I know.. be cool
+        Vector2[] items = new Vector2[] {
+                new Vector2 (0,200),
+                new Vector2 (0,125),
+                new Vector2 (75,125),
+                new Vector2 (75, 200),
+                new Vector2 (175,200),
+                new Vector2 (175,0),
+                new Vector2 (75, 0),
+                new Vector2 (75,75),
+                new Vector2 (0, 75),
+                new Vector2 (0,0)
+        };
+        for (Vector2 vert : items){
+            vert.sub(0, 100).rotate(angle).add(offset);
+        }
+        return items;
     }
 
     public void update(float dt) {

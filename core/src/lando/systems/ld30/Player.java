@@ -193,6 +193,8 @@ public class Player implements InputProcessor, Collidable {
 
     @Override
     public boolean scrolled(int amount) {
+        screen.camera.zoom += amount;
+
         int colors = availableColors.size();
         if (colors > 0){
             if (amount > 0){

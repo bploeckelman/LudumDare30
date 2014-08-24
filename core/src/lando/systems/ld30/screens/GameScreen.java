@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class GameScreen implements Screen {
 
     private final LudumDare30 game;
-    private final OrthographicCamera camera;
+    public final OrthographicCamera camera;
     public Color[] colorsBeat = new Color[] {new Color(1,0,0,1), new Color(0,1,0,1), new Color(0,0,1,1),
                                              new Color(1,1,0,1), new Color(0,1,1,1), new Color(1,0,1,1)};
 
@@ -80,7 +80,7 @@ public class GameScreen implements Screen {
         light1.setColor(0, 1, 0, 1);
         light1.setDistance(100);
 
-        player = new Player(new Vector2(), this);
+        player = new Player(new Vector2(500,500), this);
         camera.position.set(new Vector3(player.body.getPosition(), 0));
 
         light2 = new PointLight(rayHandler, num_rays);
@@ -147,6 +147,7 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
+
 
         player.update(dt);
         int enemySize = enemies.size();

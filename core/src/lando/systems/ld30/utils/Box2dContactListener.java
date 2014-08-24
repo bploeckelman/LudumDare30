@@ -21,7 +21,7 @@ public class Box2dContactListener implements ContactListener {
     public final static short CATEGORY_WORLD = 0x008;
 
     public final static short MASK_PLAYER = CATEGORY_BULLET | CATEGORY_ENEMY | CATEGORY_WORLD;
-    public final static short MASK_ENEMY = CATEGORY_PLAYER | CATEGORY_WORLD;
+    public final static short MASK_ENEMY = CATEGORY_PLAYER | CATEGORY_WORLD | CATEGORY_ENEMY;
     public final static short MASK_BULLET = CATEGORY_PLAYER | CATEGORY_WORLD;
     public final static short MASK_WORLD = CATEGORY_BULLET | CATEGORY_ENEMY | CATEGORY_PLAYER;
     public final static short MASK_DEAD = CATEGORY_WORLD;
