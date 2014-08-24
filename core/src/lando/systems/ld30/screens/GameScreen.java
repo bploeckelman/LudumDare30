@@ -73,45 +73,7 @@ public class GameScreen implements Screen {
         rayHandler.setShadows(true);
         rayHandler.setCulling(true);
 
-
-        light = new PointLight(rayHandler, num_rays);
-        light.setColor(1, 0, 0, 1);
-        light.setDistance(200);
-
-        light1 = new PointLight(rayHandler, num_rays);
-        light1.setPosition(100, 100);
-        light1.setColor(0, 1, 0, 1);
-        light1.setDistance(100);
-
-        chamberLightRed = new PointLight(rayHandler, num_rays);
-        chamberLightRed.setPosition(Globals.red_center.x, Globals.red_center.y);
-        chamberLightRed.setColor(Color.RED);
-        chamberLightRed.setDistance(0);
-        Timeline.createSequence()
-                .push(Tween.to(chamberLightRed, PointLightAccessor.DIST, 2.5f).target(400))
-                .push(Tween.to(chamberLightRed, PointLightAccessor.DIST, 2.5f).target(40))
-                .repeatYoyo(-1, 0)
-                .start(game.tweenManager);
-
-        chamberLightCyan = new PointLight(rayHandler, num_rays);
-        chamberLightCyan.setPosition(Globals.cyan_center.x, Globals.cyan_center.y);
-        chamberLightCyan.setColor(Color.CYAN);
-        chamberLightCyan.setDistance(0);
-        Timeline.createSequence()
-                .push(Tween.to(chamberLightCyan, PointLightAccessor.DIST, 2.5f).target(400))
-                .push(Tween.to(chamberLightCyan, PointLightAccessor.DIST, 2.5f).target(40))
-                .repeatYoyo(-1, 0)
-                .start(game.tweenManager);
-
-        chamberLightYellow = new PointLight(rayHandler, num_rays);
-        chamberLightYellow.setPosition(Globals.yellow_center.x, Globals.yellow_center.y);
-        chamberLightYellow.setColor(Color.YELLOW);
-        chamberLightYellow.setDistance(0);
-        Timeline.createSequence()
-                .push(Tween.to(chamberLightYellow, PointLightAccessor.DIST, 2.5f).target(400))
-                .push(Tween.to(chamberLightYellow, PointLightAccessor.DIST, 2.5f).target(40))
-                .repeatYoyo(-1, 0)
-                .start(game.tweenManager);
+        initializeChamberLights();
 
         player = new Player(new Vector2(Globals.world_center_x, Globals.world_center_y), this);
         camera.position.set(new Vector3(player.body.getPosition(), 0));
@@ -165,6 +127,77 @@ public class GameScreen implements Screen {
         Globals.world.setContactListener(new Box2dContactListener(this));
 
         level = new Level(this);
+    }
+
+    private void initializeChamberLights() {
+        light = new PointLight(rayHandler, num_rays);
+        light.setColor(1, 0, 0, 1);
+        light.setDistance(200);
+
+        light1 = new PointLight(rayHandler, num_rays);
+        light1.setPosition(100, 100);
+        light1.setColor(0, 1, 0, 1);
+        light1.setDistance(100);
+
+        chamberLightRed = new PointLight(rayHandler, num_rays);
+        chamberLightRed.setPosition(Globals.red_center.x, Globals.red_center.y);
+        chamberLightRed.setColor(Color.RED);
+        chamberLightRed.setDistance(0);
+        Timeline.createSequence()
+                .push(Tween.to(chamberLightRed, PointLightAccessor.DIST, 2.5f).target(400))
+                .push(Tween.to(chamberLightRed, PointLightAccessor.DIST, 2.5f).target(40))
+                .repeatYoyo(-1, 0)
+                .start(game.tweenManager);
+
+        chamberLightCyan = new PointLight(rayHandler, num_rays);
+        chamberLightCyan.setPosition(Globals.cyan_center.x, Globals.cyan_center.y);
+        chamberLightCyan.setColor(Color.CYAN);
+        chamberLightCyan.setDistance(0);
+        Timeline.createSequence()
+                .push(Tween.to(chamberLightCyan, PointLightAccessor.DIST, 2.5f).target(400))
+                .push(Tween.to(chamberLightCyan, PointLightAccessor.DIST, 2.5f).target(40))
+                .repeatYoyo(-1, 0)
+                .start(game.tweenManager);
+
+        chamberLightYellow = new PointLight(rayHandler, num_rays);
+        chamberLightYellow.setPosition(Globals.yellow_center.x, Globals.yellow_center.y);
+        chamberLightYellow.setColor(Color.YELLOW);
+        chamberLightYellow.setDistance(0);
+        Timeline.createSequence()
+                .push(Tween.to(chamberLightYellow, PointLightAccessor.DIST, 2.5f).target(400))
+                .push(Tween.to(chamberLightYellow, PointLightAccessor.DIST, 2.5f).target(40))
+                .repeatYoyo(-1, 0)
+                .start(game.tweenManager);
+
+        chamberLightGreen = new PointLight(rayHandler, num_rays);
+        chamberLightGreen.setPosition(Globals.green_center.x, Globals.green_center.y);
+        chamberLightGreen.setColor(Color.GREEN);
+        chamberLightGreen.setDistance(0);
+        Timeline.createSequence()
+                .push(Tween.to(chamberLightGreen, PointLightAccessor.DIST, 2.5f).target(400))
+                .push(Tween.to(chamberLightGreen, PointLightAccessor.DIST, 2.5f).target(40))
+                .repeatYoyo(-1, 0)
+                .start(game.tweenManager);
+
+        chamberLightBlue = new PointLight(rayHandler, num_rays);
+        chamberLightBlue.setPosition(Globals.blue_center.x, Globals.blue_center.y);
+        chamberLightBlue.setColor(Color.BLUE);
+        chamberLightBlue.setDistance(0);
+        Timeline.createSequence()
+                .push(Tween.to(chamberLightBlue, PointLightAccessor.DIST, 2.5f).target(400))
+                .push(Tween.to(chamberLightBlue, PointLightAccessor.DIST, 2.5f).target(40))
+                .repeatYoyo(-1, 0)
+                .start(game.tweenManager);
+
+        chamberLightPurple = new PointLight(rayHandler, num_rays);
+        chamberLightPurple.setPosition(Globals.purple_center.x, Globals.purple_center.y);
+        chamberLightPurple.setColor(Color.PURPLE);
+        chamberLightPurple.setDistance(0);
+        Timeline.createSequence()
+                .push(Tween.to(chamberLightPurple, PointLightAccessor.DIST, 2.5f).target(400))
+                .push(Tween.to(chamberLightPurple, PointLightAccessor.DIST, 2.5f).target(40))
+                .repeatYoyo(-1, 0)
+                .start(game.tweenManager);
     }
 
     float accum = 0;
