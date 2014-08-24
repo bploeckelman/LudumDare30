@@ -41,7 +41,7 @@ public class GameScreen implements Screen {
 
     ArrayList<Body> balls = new ArrayList<Body>();
 
-    Player player;
+    public Player player;
     ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
     final int num_rays = 512;

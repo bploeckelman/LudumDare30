@@ -128,7 +128,7 @@ public class Player implements InputProcessor, Collidable {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (shot == null ){  //TODO: make this not shot if you have no colors
-           shot = new LaserShot(this, screen.getPosFromScreen(screenX, screenY), Color.GREEN);
+           shot = new LaserShot(this.body, screen.getPosFromScreen(screenX, screenY), Color.GREEN);
         }
         return false;
     }

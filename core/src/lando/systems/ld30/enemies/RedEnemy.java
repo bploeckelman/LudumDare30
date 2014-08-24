@@ -1,10 +1,14 @@
 package lando.systems.ld30.enemies;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import lando.systems.ld30.EnemyLaserShot;
+import lando.systems.ld30.LaserShot;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.CollidableType;
@@ -15,15 +19,45 @@ import lando.systems.ld30.utils.Globals;
  */
 public class RedEnemy extends Enemy {
 
+    EnemyLaserShot shot;
+
     public RedEnemy(Vector2 position, GameScreen screen) {
         super(position, screen);
-        speed = .1f;
+        speed = 2f;
     }
 
+    Vector2 dist = new Vector2();
+    Vector2 dir = new Vector2();
+    Vector2 target = new Vector2();
     @Override
     public void update(float dt) {
         super.update(dt);
+
+        dist.set(screen.player.body.getPosition());
+        final float d2 = dist.dst2(body.getPosition());
+        final float shoot_dist2 = 300;
+        if (d2 < shoot_dist2) {
+            if (shot == null) {
+                target.set(screen.player.body.getPosition());
+                shot = new EnemyLaserShot(body, target, Color.BLUE);
+            }
+        } else {
+            dir.set(screen.player.body.getPosition());
+            dir.sub(body.getPosition()).nor().scl(speed);
+            body.applyForceToCenter(dir.x, dir.y, true);
+        }
+
+        if (shot != null) {
+            shot.update(dt);
+            if (!shot.alive) shot = null;
+        }
         // TODO : do other update things specific to this enemy
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        super.render(batch);
+        if (shot != null) shot.render(batch);
     }
 
     @Override
