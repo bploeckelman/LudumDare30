@@ -2,10 +2,7 @@ package lando.systems.ld30;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Box2dContactListener;
 import lando.systems.ld30.utils.Collidable;
@@ -26,35 +23,27 @@ public class Level implements Collidable {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(0,0);
+
         body = Globals.world.createBody(bodyDef);
         body.setUserData(this);
 
-        Vector2 center = new Vector2();
-        PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(10, 100);
+        ChainShape chainShape = new ChainShape();
+        chainShape.createLoop(new Vector2[] {
+                new Vector2( 100,  100),
+                new Vector2( 100, -100),
+                new Vector2(-100, -100),
+                new Vector2(-100,  100)
+        });
 
         FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = chainShape;
         fixtureDef.density = 1;
         fixtureDef.filter.categoryBits = Box2dContactListener.CATEGORY_WORLD;
         fixtureDef.filter.maskBits = Box2dContactListener.MASK_WORLD;
 
-        polygonShape.setAsBox(1, 100, center.set(-100, 0), 0);
-        fixtureDef.shape = polygonShape;
         body.createFixture(fixtureDef);
 
-        polygonShape.setAsBox(1, 100, center.set( 100, 0), 0);
-        fixtureDef.shape =  polygonShape;
-        body.createFixture(fixtureDef);
-
-        polygonShape.setAsBox(100, 1, center.set(0, -100), 0);
-        fixtureDef.shape =  polygonShape;
-        body.createFixture(fixtureDef);
-
-        polygonShape.setAsBox(100, 1, center.set(0,  100), 0);
-        fixtureDef.shape =  polygonShape;
-        body.createFixture(fixtureDef);
-
-        polygonShape.dispose();
+        chainShape.dispose();
     }
 
 
