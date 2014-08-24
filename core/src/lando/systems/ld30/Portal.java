@@ -16,41 +16,38 @@ import lando.systems.ld30.utils.Globals;
  */
 public class Portal {
     public Color color;
-    public PointLight light;
+    public SpinnyLights light;
     private float portalShimmer = 0;
     public Vector2 pos;
     public boolean active;
     public GameScreen.LEVEL_STATE nextState;
     public float portalRadius = 10;
 
-    public Portal (Color color, Vector2 pos, GameScreen.LEVEL_STATE state) {
+    private final GameScreen screen;
+
+    public Portal (Color color, Vector2 pos, GameScreen.LEVEL_STATE state, GameScreen screen) {
+        this.screen = screen;
         nextState = state;
         this.pos = pos;
         active = false;
-        light = new PointLight(Globals.gameScreen.rayHandler, Globals.gameScreen.num_rays);
-        light.setPosition(pos);
-        light.setColor(new Color(color.r, color.g, color.b, .7f));
-        light.setDistance(0);
-        light.setActive(false);
-        Timeline.createSequence()
-                .push(Tween.to(light, PointLightAccessor.DIST, 2.5f).target(400))
-                .push(Tween.to(light, PointLightAccessor.DIST, 2.5f).target(40))
-                .repeatYoyo(-1, 0)
-                .start(Globals.game.tweenManager);
+
+        light = new SpinnyLights(color, pos, screen.rayHandler, screen.num_rays, screen);
+        light.disable();
     }
 
     public void update(float dt){
         portalShimmer += dt * 5;
+        light.update();
     }
 
     public void activate(){
         active = true;
-        light.setActive(true);
+        light.enable();
     }
 
     public void deactivate(){
         active = false;
-        light.setActive(false);
+        light.disable();
     }
 
     public void render(SpriteBatch batch){

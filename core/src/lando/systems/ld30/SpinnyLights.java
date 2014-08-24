@@ -54,7 +54,10 @@ public class SpinnyLights {
     }
 
     public void enable() {
+        float degrees = 0;
         for (int i = 0; i < num_lights; ++i) {
+            directions[i].setValue(degrees += 360 / num_lights);
+            lights[i].setDirection(directions[i].floatValue());
             lights[i].setActive(true);
         }
         initializeTweens();
