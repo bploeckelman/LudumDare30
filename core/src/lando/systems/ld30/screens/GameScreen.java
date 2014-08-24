@@ -1,7 +1,5 @@
 package lando.systems.ld30.screens;
 
-import aurelienribon.tweenengine.Timeline;
-import aurelienribon.tweenengine.Tween;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
@@ -16,7 +14,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import lando.systems.ld30.*;
 import lando.systems.ld30.enemies.*;
-import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Box2dContactListener;
 import lando.systems.ld30.utils.Config;
@@ -45,8 +42,6 @@ public class GameScreen implements Screen {
 
     PointLight light, light1;
     Portal[] portals = new Portal[6];
-
-    PointLight chamberLightRed, chamberLightCyan, chamberLightYellow, chamberLightGreen, chamberLightBlue, chamberLightPurple;
 
     ArrayList<Body> balls = new ArrayList<Body>();
 
@@ -140,15 +135,12 @@ public class GameScreen implements Screen {
         light1.setColor(0, 1, 0, 1);
         light1.setDistance(100);
 
-
-        portals[0] = new Portal(new Color(1,0,0,1), Globals.red_center, LEVEL_STATE.RED);
-
+        portals[0] = new Portal(new Color(1,0,0,1), Globals.red_center,    LEVEL_STATE.RED);
         portals[1] = new Portal(new Color(1,1,0,1), Globals.yellow_center, LEVEL_STATE.YELLOW);
-        portals[2] = new Portal(new Color(0,1,0,1), Globals.green_center, LEVEL_STATE.GREEN);
-        portals[3] = new Portal(new Color(0,1,1,1), Globals.cyan_center, LEVEL_STATE.CYAN);
-        portals[4] = new Portal(new Color(0,0,1,1), Globals.blue_center, LEVEL_STATE.BLUE);
+        portals[2] = new Portal(new Color(0,1,0,1), Globals.green_center,  LEVEL_STATE.GREEN);
+        portals[3] = new Portal(new Color(0,1,1,1), Globals.cyan_center,   LEVEL_STATE.CYAN);
+        portals[4] = new Portal(new Color(0,0,1,1), Globals.blue_center,   LEVEL_STATE.BLUE);
         portals[5] = new Portal(new Color(1,0,1,1), Globals.purple_center, LEVEL_STATE.PURPLE);
-
     }
 
     float accum = 0;
