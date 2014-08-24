@@ -32,10 +32,11 @@ public class EnemyLaserShot extends LaserShot {
     @Override
     public void render(SpriteBatch batch){
 
-        Vector2 rayTarget = new Vector2(body.getPosition().x + (100*xDif), body.getPosition().y + (100*yDif));
-        float dist = body.getPosition().dst(rayTarget);
+        //Vector2 rayTarget = new Vector2(body.getPosition().x + (100*xDif), body.getPosition().y + (100*yDif));
+        Vector2 vDir = new Vector2(xDif, yDif).nor().scl(100).add(body.getPosition());
+        float dist = body.getPosition().dst(vDir);
         length = 100;
-        Globals.world.rayCast(rayCallback, body.getPosition(), rayTarget);
+        Globals.world.rayCast(rayCallback, body.getPosition(), vDir);
         sprite.setSize(length * dist,1);
         sprite.setOrigin(0, sprite.getHeight()/2);
 
@@ -55,12 +56,12 @@ public class EnemyLaserShot extends LaserShot {
             final Collidable collidable = (Collidable) fixture.getBody().getUserData();
             if (collidable == null) {
                 length = fraction;
-                return 0;
+                return fraction;
             }
             if (active) {
                 collidable.shotByEnemy(color);
             }
-            return -1;
+            return 1;
         }
     };
 }

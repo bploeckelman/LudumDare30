@@ -24,6 +24,7 @@ public class Box2dContactListener implements ContactListener {
     public final static short MASK_ENEMY = CATEGORY_PLAYER | CATEGORY_WORLD;
     public final static short MASK_BULLET = CATEGORY_PLAYER | CATEGORY_WORLD;
     public final static short MASK_WORLD = CATEGORY_BULLET | CATEGORY_ENEMY | CATEGORY_PLAYER;
+    public final static short MASK_DEAD = CATEGORY_WORLD;
 
     public Box2dContactListener(GameScreen screen) {
         this.screen = screen;
@@ -51,8 +52,8 @@ public class Box2dContactListener implements ContactListener {
                     ((Bullet) collidableB).die();
                     break;
                 }
-                collidableA.collideWithBullet((Bullet)collidableB);
-                ((Bullet) collidableB).die();
+                if (collidableA.collideWithBullet((Bullet)collidableB))
+                    ((Bullet) collidableB).die();
                 break;
         }
     }

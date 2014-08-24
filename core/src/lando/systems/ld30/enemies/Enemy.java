@@ -84,8 +84,8 @@ public abstract class Enemy implements Collidable {
     }
 
     @Override
-    public void collideWithBullet(Bullet bullet) {
-
+    public boolean collideWithBullet(Bullet bullet) {
+          return false;
     }
 
     protected abstract void intializeSprite();

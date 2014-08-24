@@ -90,7 +90,7 @@ public class Bullet implements Collidable{
     }
 
     @Override
-    public void collideWithBullet(Bullet bullet) {
-
+    public boolean collideWithBullet(Bullet bullet) {
+          return false;
     }
 }

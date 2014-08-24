@@ -69,10 +69,12 @@ public class LaserShot {
         } else {
             angle = (float) (180 * Math.atan2(yDif, xDif) / Math.PI);
         }
-        Vector2 rayTarget = new Vector2(body.getPosition().x + (100*xDif), body.getPosition().y + (100*yDif));
-        float dist = body.getPosition().dst(rayTarget);
+        Vector2 vDir = new Vector2(xDif, yDif).nor().scl(100).add(body.getPosition());
+
+        //Vector2 rayTarget = new Vector2(body.getPosition().x + (1000*xDif), body.getPosition().y + (1000*yDif));
+        float dist = body.getPosition().dst(vDir);
         length = 100;
-        Globals.world.rayCast(rayCallback, body.getPosition(), rayTarget);
+        Globals.world.rayCast(rayCallback, body.getPosition(), vDir);
         sprite.setSize(length * dist,1);
         sprite.setOrigin(0, sprite.getHeight()/2);
 
@@ -91,13 +93,14 @@ public class LaserShot {
 
             final Collidable collidable = (Collidable) fixture.getBody().getUserData();
             if (collidable == null) {
+                System.out.println(fraction);
                 length = fraction;
-                return 0;
+                return fraction;
             }
             if (active) {
                 collidable.shotByPlayer(color);
             }
-            return -1;
+            return 1;
         }
     };
 }

@@ -9,10 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.*;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.*;
 
@@ -37,6 +34,8 @@ public class Player implements InputProcessor, Collidable {
     public boolean alive;
     public float respawnTimer;
     public float animTimer;
+    Fixture fixture;
+
 
     public Player (Vector2 position, GameScreen screen){
         currentColor = 0;
@@ -51,12 +50,15 @@ public class Player implements InputProcessor, Collidable {
         bodyDef.position.set(position);
         body = Globals.world.createBody(bodyDef);
         //body.createFixture(circleShape, 1f);
-        FixtureDef playerFixture = new FixtureDef();
+        FixtureDef playerFixture;
+        playerFixture = new FixtureDef();
         playerFixture.shape = circleShape;
         playerFixture.density = 1f;
         playerFixture.filter.categoryBits = Box2dContactListener.CATEGORY_PLAYER;
         playerFixture.filter.maskBits = Box2dContactListener.MASK_PLAYER;
-        body.createFixture(playerFixture);
+        fixture = body.createFixture(playerFixture);
+
+
         body.setLinearDamping(1f);
         body.setAngularDamping(2f);
         body.setUserData(this);
@@ -79,10 +81,34 @@ public class Player implements InputProcessor, Collidable {
     private final float MAX_VELOCITY = 20f;
     public void update(float dt) {
         if (respawnTimer > 0 ){
+            if (alive == true) {
+                alive = false;
+                body.destroyFixture(fixture);
+                CircleShape circleShape = new CircleShape();
+                circleShape.setRadius(2f);
+                FixtureDef deadFixtureDef = new FixtureDef();
+                deadFixtureDef.shape = circleShape;
+                deadFixtureDef.density = 1f;
+                deadFixtureDef.filter.categoryBits = Box2dContactListener.CATEGORY_PLAYER;
+                deadFixtureDef.filter.maskBits = Box2dContactListener.MASK_DEAD;
+                fixture = body.createFixture(deadFixtureDef);
+                circleShape.dispose();
+            }
             respawnTimer -= dt;
             if (respawnTimer <= 0){
                 respawnTimer = 0;
                 alive = true;
+                body.destroyFixture(fixture);
+                CircleShape circleShape = new CircleShape();
+                circleShape.setRadius(2f);
+                FixtureDef aliveFixtureDef;
+                aliveFixtureDef = new FixtureDef();
+                aliveFixtureDef.shape = circleShape;
+                aliveFixtureDef.density = 1f;
+                aliveFixtureDef.filter.categoryBits = Box2dContactListener.CATEGORY_PLAYER;
+                aliveFixtureDef.filter.maskBits = Box2dContactListener.MASK_PLAYER;
+                fixture = body.createFixture(aliveFixtureDef);
+                circleShape.dispose();
             }
         }
 
@@ -185,10 +211,10 @@ public class Player implements InputProcessor, Collidable {
     }
 
     public void kill(){
-        if (alive){
-            alive = false;
+        if (respawnTimer <= 0){
             respawnTimer = 2f;
             shot = null;
+
         }
     }
 
@@ -208,7 +234,11 @@ public class Player implements InputProcessor, Collidable {
     }
 
     @Override
-    public void collideWithBullet(Bullet bullet) {
-        kill();
+    public boolean collideWithBullet(Bullet bullet) {
+        if (alive) {
+            kill();
+            return true;
+        }
+        return false;
     }
 }

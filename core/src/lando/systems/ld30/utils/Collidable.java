@@ -10,5 +10,5 @@ public interface Collidable {
     public CollidableType getType();
     public void shotByPlayer(Color color);
     public void shotByEnemy(Color color);
-    public void collideWithBullet(Bullet bullet);
+    public boolean collideWithBullet(Bullet bullet);
 }
