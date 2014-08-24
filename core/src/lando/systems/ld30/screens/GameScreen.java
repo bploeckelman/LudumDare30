@@ -28,7 +28,7 @@ public class GameScreen implements Screen {
 
     public final LudumDare30 game;
     public final OrthographicCamera camera;
-    public enum LEVEL_STATE {PRE_RED, RED, OVER_MAP, YELLOW, GREEN, CYAN, BLUE, PURPLE};
+    public enum LEVEL_STATE {PRE_RED , RED, OVER_MAP, YELLOW, GREEN, CYAN, BLUE, PURPLE};
     public boolean[] colorsBeat = new boolean[6];
 
     public LEVEL_STATE currentGameState = LEVEL_STATE.PRE_RED;
@@ -148,6 +148,10 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
+            enterLevel(LEVEL_STATE.OVER_MAP);
+        }
+
         borderIntensity += dt;
 
         player.update(dt);
@@ -194,6 +198,21 @@ public class GameScreen implements Screen {
             case RED:
                 color = new Color(1, .5f, .5f,1);
                 break;
+            case YELLOW:
+                color = new Color(1, 1f, .5f,1);
+                break;
+            case GREEN:
+                color = new Color(.5f, 1f, .5f,1);
+                break;
+            case CYAN:
+                color = new Color(.5f, 1f, 1f,1);
+                break;
+            case BLUE:
+                color = new Color(.5f, .5f, 1f,1);
+                break;
+            case PURPLE:
+                color = new Color(1f, .5f, 1f,1);
+                break;
         }
         borderColor = color;
         Color ambient = color.cpy();
@@ -202,6 +221,10 @@ public class GameScreen implements Screen {
     }
 
     public void enterLevel(LEVEL_STATE newState){
+        if (newState == currentGameState)   {
+            System.out.println("Don't do this: newState == curState");
+            return;
+        }
         LEVEL_STATE prevState = currentGameState;
         currentGameState = newState;
         setWorldColor();
@@ -213,11 +236,11 @@ public class GameScreen implements Screen {
             case RED:
                 enterRedLevel();
                 break;
-            case GREEN:
-                enterGreenLevel();
-                break;
             case YELLOW:
                 enterYellowLevel();
+                break;
+            case GREEN:
+                enterGreenLevel();
                 break;
             case CYAN:
                 enterCyanLevel();
@@ -259,7 +282,41 @@ public class GameScreen implements Screen {
     }
 
     public void returnToOverMap(LEVEL_STATE prevState){
+        switch (prevState)
+        {
+            case RED:
+                colorsBeat[0] = true;
+                player.availableColors.add(Color.RED);
+                break;
+            case YELLOW:
+                colorsBeat[1] = true;
+                player.availableColors.add(Color.YELLOW);
+                break;
+            case GREEN:
+                colorsBeat[2] = true;
+                player.availableColors.add(Color.GREEN);
+                break;
+            case CYAN:
+                colorsBeat[3] = true;
+                player.availableColors.add(Color.CYAN);
+                break;
+            case BLUE:
+                colorsBeat[4] = true;
+                player.availableColors.add(Color.BLUE);
+                break;
+            case PURPLE:
+                colorsBeat[5] = true;
+                player.availableColors.add(Color.MAGENTA);
+                break;
 
+        }
+        for (int i = 0; i < colorsBeat.length; i ++){
+            if (!colorsBeat[i]) portals[i].activate();
+        }
+        for (Enemy enemy : enemies){
+            Globals.world.destroyBody(enemy.body);
+        }
+        enemies.clear();
     }
 
     @Override

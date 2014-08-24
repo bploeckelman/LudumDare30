@@ -63,6 +63,6 @@ public class Portal {
     }
 
     public boolean playerInside(Vector2 playerPos){
-         return pos.dst(playerPos)< portalRadius;
+         return active && pos.dst(playerPos)< portalRadius;
     }
 }

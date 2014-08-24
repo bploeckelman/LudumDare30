@@ -49,7 +49,7 @@ public class Player implements InputProcessor, Collidable {
         alive = true;
         availableColors = new ArrayList<Color>();
         this.screen = screen;
-        this.speed = 100f;
+        this.speed = 200f;
 
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(2f);
@@ -89,7 +89,7 @@ public class Player implements InputProcessor, Collidable {
         playerLight.attachToBody(body, 0, 0);
     }
 
-    private final float MAX_VELOCITY = 20f;
+    private final float MAX_VELOCITY = 30f;
     public void update(float dt) {
         if (respawnTimer > 0 ){
             if (alive == true) {
