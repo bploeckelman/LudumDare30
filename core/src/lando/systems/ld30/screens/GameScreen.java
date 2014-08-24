@@ -1,5 +1,7 @@
 package lando.systems.ld30.screens;
 
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
@@ -18,6 +20,7 @@ import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
 import lando.systems.ld30.enemies.RedEnemy;
 import lando.systems.ld30.enemies.YellowEnemy;
+import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Box2dContactListener;
 import lando.systems.ld30.utils.Config;
@@ -39,7 +42,7 @@ public class GameScreen implements Screen {
 
     RayHandler rayHandler;
 
-    PointLight light, light1;
+    PointLight light, light1, light2;
 
     ArrayList<Body> balls = new ArrayList<Body>();
 
@@ -77,6 +80,22 @@ public class GameScreen implements Screen {
 
         player = new Player(new Vector2(), this);
         camera.position.set(new Vector3(player.body.getPosition(), 0));
+
+        light2 = new PointLight(rayHandler, num_rays);
+        light2.setColor(0,0,0,1);
+        light2.setDistance(1);
+        light2.attachToBody(player.body, 0, 0);
+
+        Tween.to(light2, PointLightAccessor.DIST, 2)
+                .target(30)
+                .repeatYoyo(-1, 0.5f)
+                .start(game.tweenManager);
+        Timeline.createParallel()
+                .push(Tween.to(light2, PointLightAccessor.R, 4).target(1))
+                .push(Tween.to(light2, PointLightAccessor.G, 6).target(1))
+                .push(Tween.to(light2, PointLightAccessor.B, 8).target(1))
+                .repeatYoyo(-1, 0)
+                .start(game.tweenManager);
 
         enemies.add(new RedEnemy(new Vector2(0, 5), this));
         enemies.add(new RedEnemy(new Vector2(5, 0), this));

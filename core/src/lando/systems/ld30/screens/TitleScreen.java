@@ -44,7 +44,7 @@ public class TitleScreen implements Screen {
                     .ease(Linear.INOUT)
                     .setCallbackTriggers(TweenCallback.END)
                     .setCallback(callbackEnd)
-                    .start(game.tManager);
+                    .start(game.tweenManager);
         }
     }
 
