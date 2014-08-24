@@ -22,7 +22,7 @@ public class LaserShot {
     public float timeLeft;
     public boolean alive = false;
     public Sprite sprite;
-    private Vector2 target;
+    Vector2 target;
     Body body;
     float scale;
     float length;
