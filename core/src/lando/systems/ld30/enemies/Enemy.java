@@ -30,7 +30,6 @@ public abstract class Enemy implements Collidable {
     public Body body;
     public Sprite sprite;
     public Animation animation;
-    public TextureRegion keyframe;
 
     public float speed;
     public float animTimer;
@@ -47,14 +46,10 @@ public abstract class Enemy implements Collidable {
 
     public void update(float dt) {
         animTimer += dt;
-        keyframe = animation.getKeyFrame(animTimer);
-
+        sprite.setRegion(animation.getKeyFrame(animTimer));
         sprite.setCenter(body.getPosition().x, body.getPosition().y);
         sprite.setOriginCenter();
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
-
-        sprite.setTexture(keyframe.getTexture());
-        sprite.setRegion(keyframe.getU(), keyframe.getV(), keyframe.getU2(), keyframe.getV2());
     }
 
     public void render(SpriteBatch batch) {
