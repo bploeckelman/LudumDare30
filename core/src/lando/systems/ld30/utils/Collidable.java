@@ -8,4 +8,5 @@ import com.badlogic.gdx.graphics.Color;
 public interface Collidable {
     public CollidableType getType();
     public void shotByPlayer(Color color);
+    public void shotByEnemy(Color color);
 }

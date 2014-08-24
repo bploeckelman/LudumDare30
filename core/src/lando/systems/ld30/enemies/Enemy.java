@@ -73,6 +73,11 @@ public abstract class Enemy implements Collidable {
          kill();
     }
 
+    @Override
+    public void shotByEnemy(Color color) {
+
+    }
+
     protected abstract void intializeSprite();
     protected abstract void initializeBox2dBody(Vector2 position);
 

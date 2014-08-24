@@ -33,9 +33,12 @@ public class Player implements InputProcessor, Collidable {
     private LaserShot shot;
     public int currentColor;
     public ArrayList<Color> availableColors;
+    public boolean alive;
+    public float respawnTimer;
 
     public Player (Vector2 position, GameScreen screen){
         currentColor = 0;
+        alive = true;
         availableColors = new ArrayList<Color>();
         this.screen = screen;
         this.speed = 100f;
@@ -60,6 +63,14 @@ public class Player implements InputProcessor, Collidable {
 
     private final float MAX_VELOCITY = 20f;
     public void update(float dt) {
+        if (respawnTimer > 0 ){
+            respawnTimer -= dt;
+            if (respawnTimer <= 0){
+                respawnTimer = 0;
+                alive = true;
+            }
+        }
+
         if (shot != null) {
             shot.update(dt);
             if (!shot.alive) shot = null;
@@ -91,7 +102,10 @@ public class Player implements InputProcessor, Collidable {
         } else {
             sprite.setColor(Color.WHITE);
         }
-        sprite.draw(batch);
+        if (alive || respawnTimer % .2f > .1f){
+            sprite.draw(batch);
+        }
+
         if (shot != null) shot.render(batch);
         //batch.draw(Assets.badlogic, body.getPosition().x , body.getPosition().y - 10, 20, 20);
     }
@@ -153,6 +167,14 @@ public class Player implements InputProcessor, Collidable {
         return false;
     }
 
+    public void kill(){
+        if (alive){
+            alive = false;
+            respawnTimer = 2f;
+            shot = null;
+        }
+    }
+
     @Override
     public CollidableType getType() {
         return CollidableType.PLAYER;
@@ -161,5 +183,10 @@ public class Player implements InputProcessor, Collidable {
     @Override
     public void shotByPlayer(Color color) {
 
+    }
+
+    @Override
+    public void shotByEnemy(Color color) {
+        kill();
     }
 }
