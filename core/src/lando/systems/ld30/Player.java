@@ -36,10 +36,11 @@ public class Player implements InputProcessor{
         circleShape.setRadius(2f);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position);
-        this.body = Globals.world.createBody(bodyDef);
-        this.body.createFixture(circleShape, .1f);
+        body = Globals.world.createBody(bodyDef);
+        body.createFixture(circleShape, .1f);
         body.setLinearDamping(1f);
         body.setAngularDamping(2f);
+        body.setUserData("player");
         circleShape.dispose();
 
         sprite = new Sprite(Assets.badlogic);

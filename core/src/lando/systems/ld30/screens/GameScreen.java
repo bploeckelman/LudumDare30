@@ -17,6 +17,7 @@ import lando.systems.ld30.Enemy;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
 import lando.systems.ld30.utils.Assets;
+import lando.systems.ld30.utils.Box2dContactListener;
 import lando.systems.ld30.utils.Config;
 import lando.systems.ld30.utils.Globals;
 
@@ -89,6 +90,7 @@ public class GameScreen implements Screen {
                     scale * (float) Math.sin(a));
 
             Body ball = Globals.world.createBody(bodyDef);
+            ball.setUserData("ball" + i);
 
             CircleShape circleShape = new CircleShape();
             circleShape.setRadius(radius);
@@ -97,6 +99,8 @@ public class GameScreen implements Screen {
 
             balls.add(ball);
         }
+
+        Globals.world.setContactListener(new Box2dContactListener(this));
     }
 
     float accum = 0;
@@ -158,10 +162,10 @@ public class GameScreen implements Screen {
             physicsTimeLeft -= TIME_STEP;
             stepped = true;
 
-            accum += TIME_STEP / 2f;
+            accum += TIME_STEP;
             light1.setPosition(
-                    100 * (float) Math.sin(accum),
-                    100 * (float) Math.cos(accum));
+                    10 * (float) Math.cos(accum),
+                    10 * (float) Math.sin(accum));
             light.setPosition(0,0);
         }
         return stepped;

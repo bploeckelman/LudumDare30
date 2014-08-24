@@ -35,7 +35,7 @@ public class Enemy {
     public Enemy(Vector2 position, GameScreen screen) {
         this.screen = screen;
 
-        body_radius = 0.1f;
+        body_radius = 1.5f;
 
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(body_radius);
@@ -47,6 +47,7 @@ public class Enemy {
         body.createFixture(circleShape, 1f);
         body.setLinearDamping(1f);
         body.setAngularDamping(2f);
+        body.setUserData("enemy");
 
         circleShape.dispose();
 
