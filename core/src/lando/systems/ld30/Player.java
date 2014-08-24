@@ -56,7 +56,6 @@ public class Player implements InputProcessor, Collidable {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position);
         body = Globals.world.createBody(bodyDef);
-        //body.createFixture(circleShape, 1f);
         FixtureDef playerFixture;
         playerFixture = new FixtureDef();
         playerFixture.shape = circleShape;
@@ -152,6 +151,8 @@ public class Player implements InputProcessor, Collidable {
     }
 
     public void render(SpriteBatch batch){
+        if (shot != null) shot.render(batch);
+
         if (availableColors.size() > 0){
             sprite.setColor(availableColors.get(currentColor));
         } else {
@@ -160,8 +161,6 @@ public class Player implements InputProcessor, Collidable {
         if (alive || respawnTimer % .4f > .2f){
             sprite.draw(batch);
         }
-
-        if (shot != null) shot.render(batch);
     }
 
     @Override
@@ -182,7 +181,7 @@ public class Player implements InputProcessor, Collidable {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (alive && shot == null ){  //TODO: make this not shot if you have no colors
-            shootLaser(screen.getPosFromScreen(screenX, screenY), Color.GREEN);
+            shootLaser(screen.getPosFromScreen(screenX, screenY), Color.WHITE);
         }
         return false;
     }
