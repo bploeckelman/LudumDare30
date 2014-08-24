@@ -16,25 +16,26 @@ import lando.systems.ld30.utils.Globals;
 /**
  * Brian Ploeckelman created on 8/23/2014.
  */
-public class RedEnemy extends Enemy {
+public class YellowEnemy extends Enemy {
 
-    public RedEnemy(Vector2 position, GameScreen screen) {
+    public YellowEnemy(Vector2 position, GameScreen screen) {
         super(position, screen);
-        speed = 2f;
+        speed = 5f;
     }
 
     Vector2 dist = new Vector2();
     Vector2 dir = new Vector2();
+    Vector2 target = new Vector2();
     @Override
     public void update(float dt) {
         super.update(dt);
 
         dist.set(screen.player.body.getPosition());
         final float d2 = dist.dst2(body.getPosition());
-        final float shoot_dist2 = 300;
+        final float shoot_dist2 = 500;
         if (d2 < shoot_dist2) {
             if (shot == null) {
-                shot = new EnemyLaserShot(body, screen.player.body.getPosition().cpy(), Color.RED);
+                shot = new EnemyLaserShot(body, screen.player.body.getPosition().cpy(), Color.YELLOW);
             }
         } else {
             dir.set(screen.player.body.getPosition());
@@ -57,18 +58,16 @@ public class RedEnemy extends Enemy {
 
     @Override
     public CollidableType getType() {
-        return CollidableType.RED_ENEMY;
+        return CollidableType.YELLOW_ENEMY;
     }
 
     @Override
     protected void intializeSprite() {
         animation = new Animation(0.075f,
-                Assets.atlas.findRegion("red-enemy0"),
-                Assets.atlas.findRegion("red-enemy1"),
-                Assets.atlas.findRegion("red-enemy2"),
-                Assets.atlas.findRegion("red-enemy3"),
-                Assets.atlas.findRegion("red-enemy4"),
-                Assets.atlas.findRegion("red-enemy5"));
+                Assets.atlas.findRegion("yellow-enemy0"),
+                Assets.atlas.findRegion("yellow-enemy1"),
+                Assets.atlas.findRegion("yellow-enemy2"),
+                Assets.atlas.findRegion("yellow-enemy3"));
         animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         animTimer = 0;
 

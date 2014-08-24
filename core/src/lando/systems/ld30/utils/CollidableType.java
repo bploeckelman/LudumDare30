@@ -7,6 +7,7 @@ public enum CollidableType {
     PLAYER,
     ENEMY,
     RED_ENEMY,
+    YELLOW_ENEMY,
     WORLD,
     MISC
 }

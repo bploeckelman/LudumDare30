@@ -16,6 +16,7 @@ import lando.systems.ld30.enemies.Enemy;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
 import lando.systems.ld30.enemies.RedEnemy;
+import lando.systems.ld30.enemies.YellowEnemy;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Box2dContactListener;
 import lando.systems.ld30.utils.Config;
@@ -65,7 +66,6 @@ public class GameScreen implements Screen {
         light = new PointLight(rayHandler, num_rays);
         light.setColor(1, 0, 0, 1);
         light.setDistance(200);
-//        light.setActive(false);
 
         light1 = new PointLight(rayHandler, num_rays);
         light1.setPosition(100, 100);
@@ -75,10 +75,14 @@ public class GameScreen implements Screen {
         player = new Player(new Vector2(), this);
         camera.position.set(new Vector3(player.position, 0));
 
-        enemies.add(new RedEnemy(new Vector2(0, 3), this));
-        enemies.add(new RedEnemy(new Vector2(3, 0), this));
-        enemies.add(new RedEnemy(new Vector2(0,-3), this));
-        enemies.add(new RedEnemy(new Vector2(-3,0), this));
+        enemies.add(new RedEnemy(new Vector2(0, 5), this));
+        enemies.add(new RedEnemy(new Vector2(5, 0), this));
+        enemies.add(new RedEnemy(new Vector2(0,-5), this));
+        enemies.add(new RedEnemy(new Vector2(-5,0), this));
+        enemies.add(new YellowEnemy(new Vector2(-7,-7), this));
+        enemies.add(new YellowEnemy(new Vector2(-7, 7), this));
+        enemies.add(new YellowEnemy(new Vector2( 7, 7), this));
+        enemies.add(new YellowEnemy(new Vector2( 7,-7), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);

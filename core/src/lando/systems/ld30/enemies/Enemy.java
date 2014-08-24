@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import lando.systems.ld30.EnemyLaserShot;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Collidable;
 import lando.systems.ld30.utils.CollidableType;
@@ -19,6 +20,8 @@ import lando.systems.ld30.utils.Globals;
 public abstract class Enemy implements Collidable {
 
     protected static final BodyDef bodyDef = new BodyDef();
+
+    public EnemyLaserShot shot;
 
     public float body_radius;
 
