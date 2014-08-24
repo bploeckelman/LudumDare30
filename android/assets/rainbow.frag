@@ -9,6 +9,7 @@ varying LOWP vec4 v_color;
 varying vec2 v_texCoords;
 uniform sampler2D u_texture;
 uniform float u_time;
+uniform float u_alpha;
 
 void main()
 {
@@ -20,5 +21,5 @@ void main()
   vec2 uv = v_texCoords.xy+(cPos/cLength)*cos(cLength*12.0-u_time*4.0)*0.02;
   vec4 col = texture2D(u_texture,uv);
 
-  gl_FragColor = vec4(col.xyz, col.a * .4);
+  gl_FragColor = vec4(col.xyz, col.a * u_alpha);
 }

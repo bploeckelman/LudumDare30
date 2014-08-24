@@ -14,11 +14,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import lando.systems.ld30.Bullet;
-import lando.systems.ld30.Level;
+import lando.systems.ld30.*;
 import lando.systems.ld30.enemies.*;
-import lando.systems.ld30.LudumDare30;
-import lando.systems.ld30.Player;
 import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Box2dContactListener;
@@ -34,9 +31,11 @@ public class GameScreen implements Screen {
 
     public final LudumDare30 game;
     public final OrthographicCamera camera;
+    public enum LEVEL_STATE {PRE_RED, RED, OVER_MAP, YELLOW, GREEN, CYAN, BLUE, PURPLE};
     public Color[] colorsBeat = new Color[] {new Color(1,0,0,1), new Color(0,1,0,1), new Color(0,0,1,1),
                                              new Color(1,1,0,1), new Color(0,1,1,1), new Color(1,0,1,1)};
 
+    public LEVEL_STATE currentGameState = LEVEL_STATE.PRE_RED;
     Box2DDebugRenderer box2DDebugRenderer;
 
     public RayHandler rayHandler;
@@ -45,6 +44,7 @@ public class GameScreen implements Screen {
     float borderIntensity = 0;
 
     PointLight light, light1;
+    Portal[] portals = new Portal[6];
 
     PointLight chamberLightRed, chamberLightCyan, chamberLightYellow, chamberLightGreen, chamberLightBlue, chamberLightPurple;
 
@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(LudumDare30 game) {
         this.game = game;
-
+        Globals.gameScreen = this;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Config.window_width / 10, Config.window_height / 10);
         camera.update();
@@ -69,7 +69,7 @@ public class GameScreen implements Screen {
         box2DDebugRenderer = new Box2DDebugRenderer();
 
         rayHandler = new RayHandler(Globals.world);
-        setWorldColor(new Color(.5f, .5f, .5f, .5f));
+        setWorldColor();
         rayHandler.setShadows(true);
         rayHandler.setCulling(true);
 
@@ -127,6 +127,7 @@ public class GameScreen implements Screen {
         Globals.world.setContactListener(new Box2dContactListener(this));
 
         level = new Level(this);
+        portals[0].activate();
     }
 
     private void initializeChamberLights() {
@@ -139,65 +140,15 @@ public class GameScreen implements Screen {
         light1.setColor(0, 1, 0, 1);
         light1.setDistance(100);
 
-        chamberLightRed = new PointLight(rayHandler, num_rays);
-        chamberLightRed.setPosition(Globals.red_center.x, Globals.red_center.y);
-        chamberLightRed.setColor(Color.RED);
-        chamberLightRed.setDistance(0);
-        Timeline.createSequence()
-                .push(Tween.to(chamberLightRed, PointLightAccessor.DIST, 2.5f).target(400))
-                .push(Tween.to(chamberLightRed, PointLightAccessor.DIST, 2.5f).target(40))
-                .repeatYoyo(-1, 0)
-                .start(game.tweenManager);
 
-        chamberLightCyan = new PointLight(rayHandler, num_rays);
-        chamberLightCyan.setPosition(Globals.cyan_center.x, Globals.cyan_center.y);
-        chamberLightCyan.setColor(Color.CYAN);
-        chamberLightCyan.setDistance(0);
-        Timeline.createSequence()
-                .push(Tween.to(chamberLightCyan, PointLightAccessor.DIST, 2.5f).target(400))
-                .push(Tween.to(chamberLightCyan, PointLightAccessor.DIST, 2.5f).target(40))
-                .repeatYoyo(-1, 0)
-                .start(game.tweenManager);
+        portals[0] = new Portal(new Color(1,0,0,1), Globals.red_center, LEVEL_STATE.RED);
 
-        chamberLightYellow = new PointLight(rayHandler, num_rays);
-        chamberLightYellow.setPosition(Globals.yellow_center.x, Globals.yellow_center.y);
-        chamberLightYellow.setColor(Color.YELLOW);
-        chamberLightYellow.setDistance(0);
-        Timeline.createSequence()
-                .push(Tween.to(chamberLightYellow, PointLightAccessor.DIST, 2.5f).target(400))
-                .push(Tween.to(chamberLightYellow, PointLightAccessor.DIST, 2.5f).target(40))
-                .repeatYoyo(-1, 0)
-                .start(game.tweenManager);
+        portals[1] = new Portal(new Color(1,1,0,1), Globals.yellow_center, LEVEL_STATE.YELLOW);
+        portals[2] = new Portal(new Color(0,1,0,1), Globals.green_center, LEVEL_STATE.GREEN);
+        portals[3] = new Portal(new Color(0,1,1,1), Globals.cyan_center, LEVEL_STATE.CYAN);
+        portals[4] = new Portal(new Color(0,0,1,1), Globals.blue_center, LEVEL_STATE.BLUE);
+        portals[5] = new Portal(new Color(1,0,1,1), Globals.purple_center, LEVEL_STATE.PURPLE);
 
-        chamberLightGreen = new PointLight(rayHandler, num_rays);
-        chamberLightGreen.setPosition(Globals.green_center.x, Globals.green_center.y);
-        chamberLightGreen.setColor(Color.GREEN);
-        chamberLightGreen.setDistance(0);
-        Timeline.createSequence()
-                .push(Tween.to(chamberLightGreen, PointLightAccessor.DIST, 2.5f).target(400))
-                .push(Tween.to(chamberLightGreen, PointLightAccessor.DIST, 2.5f).target(40))
-                .repeatYoyo(-1, 0)
-                .start(game.tweenManager);
-
-        chamberLightBlue = new PointLight(rayHandler, num_rays);
-        chamberLightBlue.setPosition(Globals.blue_center.x, Globals.blue_center.y);
-        chamberLightBlue.setColor(Color.BLUE);
-        chamberLightBlue.setDistance(0);
-        Timeline.createSequence()
-                .push(Tween.to(chamberLightBlue, PointLightAccessor.DIST, 2.5f).target(400))
-                .push(Tween.to(chamberLightBlue, PointLightAccessor.DIST, 2.5f).target(40))
-                .repeatYoyo(-1, 0)
-                .start(game.tweenManager);
-
-        chamberLightPurple = new PointLight(rayHandler, num_rays);
-        chamberLightPurple.setPosition(Globals.purple_center.x, Globals.purple_center.y);
-        chamberLightPurple.setColor(Color.PURPLE);
-        chamberLightPurple.setDistance(0);
-        Timeline.createSequence()
-                .push(Tween.to(chamberLightPurple, PointLightAccessor.DIST, 2.5f).target(400))
-                .push(Tween.to(chamberLightPurple, PointLightAccessor.DIST, 2.5f).target(40))
-                .repeatYoyo(-1, 0)
-                .start(game.tweenManager);
     }
 
     float accum = 0;
@@ -228,17 +179,54 @@ public class GameScreen implements Screen {
             }
         }
 
-        camera.position.lerp(new Vector3(player.sprite.getX(), player.sprite.getY(), 0f), .03f);
+        for (int i = 0; i < portals.length; i ++){
+            portals[i].update(dt);
+            if (portals[i].playerInside(player.body.getPosition())){
+                enterLevel(portals[i].nextState);
+            }
+        }
+
+        camera.position.lerp(new Vector3(player.body.getPosition().x, player.body.getPosition().y, 0f), .03f);
+
         camera.update();
 
         level.update(dt);
     }
 
-    public void setWorldColor(Color color){
-        rayHandler.setAmbientLight(color);
+    public void setWorldColor(){
+        Color color = new Color(1,1,1,1);
+        switch (currentGameState){
+            case PRE_RED:
+            case OVER_MAP:
+                color = new Color(1,1,1,1);
+                break;
+            case RED:
+                color = new Color(1,0,0,1);
+                break;
+        }
+        borderColor = color;
+        Color ambient = color.cpy();
+        ambient.a = .3f;
+        rayHandler.setAmbientLight(ambient);
     }
 
+    public void enterLevel(LEVEL_STATE newState){
+        currentGameState = newState;
+        setWorldColor();
+        for (int i = 0; i < portals.length; i++)
+        {
+            portals[i].deactivate();
+        }
+        switch(currentGameState){
+            case RED:
+                enterRedLevel();
+                break;
+        }
+    }
 
+    public void enterRedLevel(){
+
+    }
 
     @Override
     public void render(float delta) {
@@ -254,6 +242,10 @@ public class GameScreen implements Screen {
         Assets.batch.draw(Assets.background, 632, 629.9f, 736, 741);
 
         Assets.batch.setColor(Color.WHITE);
+
+        for (int i = 0; i < portals.length; i ++){
+            portals[i].render(Assets.batch);
+        }
 
         for (Body body : balls) {
             Assets.batch.draw(player.animation.getKeyFrame(player.animTimer), body.getPosition().x - 5f, body.getPosition().y - 5f, 10, 10);

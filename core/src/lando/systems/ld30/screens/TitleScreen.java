@@ -71,12 +71,13 @@ public class TitleScreen implements Screen {
         Assets.batch.end();
         fbo.end();
 
-        Gdx.gl20.glClearColor(1f, 1f, 1f, 1);
+        Gdx.gl20.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         Assets.batch.begin();
         Assets.batch.setShader(Assets.shimmerProgram);
         Assets.shimmerProgram.setUniformf("u_time", shimmerAccum);
+        Assets.shimmerProgram.setUniformf("u_alpha", .3f);
         rainbowSprite.draw(Assets.batch);
 
         Assets.batch.setShader(Assets.prismProgram);
