@@ -1,82 +1,103 @@
 
 game.png
-size: 201,29
+size: 60,123
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
 player0
   rotate: false
-  xy: 2, 2
+  xy: 2, 96
+  size: 19, 27
+  orig: 19, 27
+  offset: 0, 0
+  index: -1
+player1
+  rotate: false
+  xy: 2, 67
+  size: 19, 27
+  orig: 19, 27
+  offset: 0, 0
+  index: -1
+player2
+  rotate: false
+  xy: 23, 96
+  size: 19, 27
+  orig: 19, 27
+  offset: 0, 0
+  index: -1
+player3
+  rotate: false
+  xy: 2, 38
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 red-enemy0
   rotate: false
-  xy: 23, 13
+  xy: 23, 78
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy1
   rotate: false
-  xy: 41, 13
+  xy: 44, 107
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy2
   rotate: false
-  xy: 59, 13
+  xy: 2, 20
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy3
   rotate: false
-  xy: 77, 13
+  xy: 23, 60
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy4
   rotate: false
-  xy: 95, 13
+  xy: 2, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy5
   rotate: false
-  xy: 113, 13
+  xy: 23, 42
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy0
   rotate: false
-  xy: 131, 13
+  xy: 44, 89
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy1
   rotate: false
-  xy: 149, 13
+  xy: 41, 71
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy2
   rotate: false
-  xy: 167, 13
+  xy: 41, 53
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy3
   rotate: false
-  xy: 185, 13
+  xy: 41, 35
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

@@ -57,9 +57,12 @@ public class Player implements InputProcessor, Collidable {
         body.setUserData(this);
         circleShape.dispose();
 
-        animation = new Animation(0.01f,
-                Assets.atlas.findRegion("player0"));
-        animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        animation = new Animation(0.075f,
+                Assets.atlas.findRegion("player0"),
+                Assets.atlas.findRegion("player1"),
+                Assets.atlas.findRegion("player2"),
+                Assets.atlas.findRegion("player3"));
+        animation.setPlayMode(Animation.PlayMode.LOOP);
         animTimer = 0;
 
         sprite = new Sprite();
