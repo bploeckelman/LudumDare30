@@ -3,6 +3,7 @@ package lando.systems.ld30;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -100,7 +101,7 @@ public class Player implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (shot == null){
-           shot = new LaserShot(this, screen.getPosFromScreen(screenX, screenY));
+           shot = new LaserShot(this, screen.getPosFromScreen(screenX, screenY), Color.GREEN);
         }
         return false;
     }
