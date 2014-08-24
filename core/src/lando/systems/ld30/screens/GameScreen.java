@@ -1,21 +1,29 @@
 package lando.systems.ld30.screens;
 
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.*;
+import lando.systems.ld30.Bullet;
+import lando.systems.ld30.Level;
+import lando.systems.ld30.enemies.Enemy;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
+import lando.systems.ld30.enemies.RedEnemy;
+import lando.systems.ld30.enemies.YellowEnemy;
+import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.Assets;
+import lando.systems.ld30.utils.Box2dContactListener;
 import lando.systems.ld30.utils.Config;
 import lando.systems.ld30.utils.Globals;
 
@@ -28,47 +36,77 @@ public class GameScreen implements Screen {
 
     private final LudumDare30 game;
     private final OrthographicCamera camera;
+    public Color[] colorsBeat = new Color[] {new Color(1,0,0,1), new Color(0,1,0,1), new Color(0,0,1,1),
+                                             new Color(1,1,0,1), new Color(0,1,1,1), new Color(1,0,1,1)};
 
     Box2DDebugRenderer box2DDebugRenderer;
 
     RayHandler rayHandler;
 
-    PointLight light, light1;
+    PointLight light, light1, light2;
 
     ArrayList<Body> balls = new ArrayList<Body>();
 
-    Player player;
+    public Level level;
+    public Player player;
+    ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
-    final int num_rays = 128;
+    public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+
+    final int num_rays = 512;
 
 
     public GameScreen(LudumDare30 game) {
         this.game = game;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Config.window_width / 100, Config.window_height / 100);
+        camera.setToOrtho(false, Config.window_width / 10, Config.window_height / 10);
         camera.update();
 
         box2DDebugRenderer = new Box2DDebugRenderer();
 
         rayHandler = new RayHandler(Globals.world);
-        rayHandler.setAmbientLight(0.2f, 0.2f, 0.2f, 0.1f);
+        setWorldColor(new Color(.5f, .5f, .5f, .5f));
         rayHandler.setShadows(true);
         rayHandler.setCulling(true);
 
 
         light = new PointLight(rayHandler, num_rays);
         light.setColor(1, 0, 0, 1);
-        light.setDistance(20);
-//        light.setActive(false);
+        light.setDistance(200);
 
         light1 = new PointLight(rayHandler, num_rays);
-        light1.setPosition(10, 10);
-        light1.setColor(0,1,0,1);
-        light1.setDistance(10);
+        light1.setPosition(100, 100);
+        light1.setColor(0, 1, 0, 1);
+        light1.setDistance(100);
 
         player = new Player(new Vector2(), this);
-        camera.position.set(new Vector3(player.position, 0));
+        camera.position.set(new Vector3(player.body.getPosition(), 0));
+
+        light2 = new PointLight(rayHandler, num_rays);
+        light2.setColor(0,0,0,1);
+        light2.setDistance(1);
+        light2.attachToBody(player.body, 0, 0);
+
+        Tween.to(light2, PointLightAccessor.DIST, 2)
+                .target(30)
+                .repeatYoyo(-1, 0.5f)
+                .start(game.tweenManager);
+        Timeline.createParallel()
+                .push(Tween.to(light2, PointLightAccessor.R, 4).target(1))
+                .push(Tween.to(light2, PointLightAccessor.G, 6).target(1))
+                .push(Tween.to(light2, PointLightAccessor.B, 8).target(1))
+                .repeatYoyo(-1, 0)
+                .start(game.tweenManager);
+
+        enemies.add(new RedEnemy(new Vector2(0, 5), this));
+        enemies.add(new RedEnemy(new Vector2(5, 0), this));
+        enemies.add(new RedEnemy(new Vector2(0,-5), this));
+        enemies.add(new RedEnemy(new Vector2(-5,0), this));
+        enemies.add(new YellowEnemy(new Vector2(-7,-7), this));
+        enemies.add(new YellowEnemy(new Vector2(-7, 7), this));
+        enemies.add(new YellowEnemy(new Vector2( 7, 7), this));
+        enemies.add(new YellowEnemy(new Vector2( 7,-7), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -76,8 +114,8 @@ public class GameScreen implements Screen {
 
         BodyDef bodyDef = new BodyDef();
         float a = 0f;
-        final float scale = 3;
-        final float radius = 0.5f;
+        final float scale = 30;
+        final float radius = 5f;
         for (int i = 0; i < 10; ++i, a += (2f * Math.PI) / 10f) {
             bodyDef.type = BodyDef.BodyType.StaticBody;
             bodyDef.position.set(
@@ -88,11 +126,20 @@ public class GameScreen implements Screen {
 
             CircleShape circleShape = new CircleShape();
             circleShape.setRadius(radius);
-            ball.createFixture(circleShape, 0);
+            FixtureDef fixture = new FixtureDef();
+            fixture.shape = circleShape;
+            fixture.density = 0f;
+            fixture.filter.categoryBits = Box2dContactListener.CATEGORY_WORLD;
+            fixture.filter.maskBits = Box2dContactListener.MASK_WORLD;
+            ball.createFixture(fixture);
             circleShape.dispose();
 
             balls.add(ball);
         }
+
+        Globals.world.setContactListener(new Box2dContactListener(this));
+
+        level = new Level(this);
     }
 
     float accum = 0;
@@ -102,8 +149,33 @@ public class GameScreen implements Screen {
         }
 
         player.update(dt);
+        int enemySize = enemies.size();
+        for (int i = enemySize; --i >= 0;){
+            Enemy enemy = enemies.get(i);
+            enemy.update(dt);
+            if (!enemy.alive) {
+                enemies.remove(i);
+            }
+        }
+
+        int bulletSize = bullets.size();
+        for (int i = bulletSize; --i >= 0;){
+            Bullet bullet = bullets.get(i);
+            bullet.update(dt);
+            if (!bullet.alive) {
+                Globals.world.destroyBody(bullet.body);
+                bullets.remove(i);
+            }
+        }
+
         camera.position.lerp(new Vector3(player.sprite.getX(), player.sprite.getY(), 0f), .03f);
         camera.update();
+
+        level.update(dt);
+    }
+
+    public void setWorldColor(Color color){
+        rayHandler.setAmbientLight(color);
     }
 
     @Override
@@ -119,10 +191,19 @@ public class GameScreen implements Screen {
 //        Assets.batch.draw(Assets.badlogic, 0, 0);
 
         for (Body body : balls) {
-            Assets.batch.draw(Assets.badlogic, body.getPosition().x - .5f, body.getPosition().y - .5f, 1, 1);
+            Assets.batch.draw(Assets.badlogic, body.getPosition().x - 5f, body.getPosition().y - 5f, 10, 10);
+        }
+        for (int i = 0; i < enemies.size(); i ++){
+            enemies.get(i).render(Assets.batch);
+        }
+
+        for (int i = 0; i < bullets.size(); i ++){
+            bullets.get(i).render(Assets.batch);
         }
 
         player.render(Assets.batch);
+
+        level.render(Assets.batch);
 
         Assets.batch.end();
 
@@ -152,10 +233,10 @@ public class GameScreen implements Screen {
             physicsTimeLeft -= TIME_STEP;
             stepped = true;
 
-            accum += TIME_STEP / 2f;
+            accum += TIME_STEP;
             light1.setPosition(
-                    10 * (float) Math.sin(accum),
-                    10 * (float) Math.cos(accum));
+                    10 * (float) Math.cos(accum),
+                    10 * (float) Math.sin(accum));
             light.setPosition(0,0);
         }
         return stepped;
