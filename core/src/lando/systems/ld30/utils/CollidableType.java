@@ -6,6 +6,7 @@ package lando.systems.ld30.utils;
 public enum CollidableType {
     PLAYER,
     ENEMY,
+    RED_ENEMY,
     WORLD,
     MISC
 }

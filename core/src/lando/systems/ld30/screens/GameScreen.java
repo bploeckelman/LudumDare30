@@ -9,14 +9,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.*;
-import lando.systems.ld30.Enemy;
+import lando.systems.ld30.enemies.Enemy;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
+import lando.systems.ld30.enemies.RedEnemy;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Box2dContactListener;
 import lando.systems.ld30.utils.Config;
@@ -56,7 +55,7 @@ public class GameScreen implements Screen {
         box2DDebugRenderer = new Box2DDebugRenderer();
 
         rayHandler = new RayHandler(Globals.world);
-        setWorldColor(new Color(.5f,.5f,.5f,.5f));
+        setWorldColor(new Color(.5f, .5f, .5f, .5f));
         rayHandler.setShadows(true);
         rayHandler.setCulling(true);
 
@@ -74,7 +73,10 @@ public class GameScreen implements Screen {
         player = new Player(new Vector2(), this);
         camera.position.set(new Vector3(player.position, 0));
 
-        enemies.add(new Enemy(new Vector2(0, 3), this));
+        enemies.add(new RedEnemy(new Vector2(0, 3), this));
+        enemies.add(new RedEnemy(new Vector2(3, 0), this));
+        enemies.add(new RedEnemy(new Vector2(0,-3), this));
+        enemies.add(new RedEnemy(new Vector2(-3,0), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);

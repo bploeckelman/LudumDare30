@@ -1,0 +1,69 @@
+package lando.systems.ld30.enemies;
+
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import lando.systems.ld30.screens.GameScreen;
+import lando.systems.ld30.utils.Assets;
+import lando.systems.ld30.utils.CollidableType;
+import lando.systems.ld30.utils.Globals;
+
+/**
+ * Brian Ploeckelman created on 8/23/2014.
+ */
+public class RedEnemy extends Enemy {
+
+    public RedEnemy(Vector2 position, GameScreen screen) {
+        super(position, screen);
+        speed = .1f;
+    }
+
+    @Override
+    public void update(float dt) {
+        super.update(dt);
+        // TODO : do other update things specific to this enemy
+    }
+
+    @Override
+    public CollidableType getType() {
+        return CollidableType.RED_ENEMY;
+    }
+
+    @Override
+    protected void intializeSprite() {
+        animation = new Animation(0.075f,
+                Assets.atlas.findRegion("red-enemy0"),
+                Assets.atlas.findRegion("red-enemy1"),
+                Assets.atlas.findRegion("red-enemy2"),
+                Assets.atlas.findRegion("red-enemy3"),
+                Assets.atlas.findRegion("red-enemy4"),
+                Assets.atlas.findRegion("red-enemy5"));
+        animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        animTimer = 0;
+
+        sprite = new Sprite();
+        sprite.setOriginCenter();
+        sprite.setSize(2*body_radius, 2*body_radius);
+    }
+
+    @Override
+    protected void initializeBox2dBody(Vector2 position) {
+        body_radius = 1.5f;
+
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(body_radius);
+
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(position);
+
+        body = Globals.world.createBody(bodyDef);
+        body.createFixture(circleShape, 0.1f);
+        body.setLinearDamping(1f);
+        body.setAngularDamping(2f);
+        body.setUserData(this);
+
+        circleShape.dispose();
+    }
+}
