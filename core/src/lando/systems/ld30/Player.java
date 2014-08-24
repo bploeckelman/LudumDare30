@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -26,8 +28,8 @@ public class Player implements InputProcessor, Collidable {
     private static final BodyDef bodyDef = new BodyDef();
 
     public Body body;
-    public Vector2 position;
     public float speed;
+    public Animation animation;
     public Sprite sprite;
     private GameScreen screen;
     private LaserShot shot;
@@ -35,6 +37,7 @@ public class Player implements InputProcessor, Collidable {
     public ArrayList<Color> availableColors;
     public boolean alive;
     public float respawnTimer;
+    public float animTimer;
 
     public Player (Vector2 position, GameScreen screen){
         currentColor = 0;
@@ -42,7 +45,6 @@ public class Player implements InputProcessor, Collidable {
         availableColors = new ArrayList<Color>();
         this.screen = screen;
         this.speed = 100f;
-        this.position = position;
 
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(2f);
@@ -55,7 +57,12 @@ public class Player implements InputProcessor, Collidable {
         body.setUserData(this);
         circleShape.dispose();
 
-        sprite = new Sprite(Assets.badlogic);
+        animation = new Animation(0.01f,
+                Assets.atlas.findRegion("player0"));
+        animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        animTimer = 0;
+
+        sprite = new Sprite();
 
         sprite.setOriginCenter();
         sprite.setSize(4f,4f);
@@ -93,7 +100,9 @@ public class Player implements InputProcessor, Collidable {
         sprite.setCenter(body.getPosition().x, body.getPosition().y);
         sprite.setOriginCenter();
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
-        //body.setTransform(position, 0);
+
+        animTimer += dt;
+        sprite.setRegion(animation.getKeyFrame(animTimer));
     }
 
     public void render(SpriteBatch batch){
