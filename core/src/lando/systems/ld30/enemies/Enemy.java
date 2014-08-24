@@ -34,7 +34,7 @@ public abstract class Enemy implements Collidable {
 
     public float speed;
     public float animTimer;
-    public float bulletSpeed = 100;
+    public float bulletSpeed = 50;
 
     public boolean alive;
 
@@ -80,6 +80,11 @@ public abstract class Enemy implements Collidable {
 
     @Override
     public void shotByEnemy(Color color) {
+
+    }
+
+    @Override
+    public void collideWithBullet(Bullet bullet) {
 
     }
 

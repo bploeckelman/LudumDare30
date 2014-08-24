@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import lando.systems.ld30.EnemyLaserShot;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Assets;
+import lando.systems.ld30.utils.Box2dContactListener;
 import lando.systems.ld30.utils.CollidableType;
 import lando.systems.ld30.utils.Globals;
 
@@ -88,7 +90,12 @@ public class YellowEnemy extends Enemy {
         bodyDef.position.set(position);
 
         body = Globals.world.createBody(bodyDef);
-        body.createFixture(circleShape, 0.1f);
+        FixtureDef Fixture = new FixtureDef();
+        Fixture.shape = circleShape;
+        Fixture.density = .1f;
+        Fixture.filter.categoryBits = Box2dContactListener.CATEGORY_ENEMY;
+        Fixture.filter.maskBits = Box2dContactListener.MASK_ENEMY;
+        body.createFixture(Fixture);
         body.setLinearDamping(1f);
         body.setAngularDamping(2f);
         body.setUserData(this);

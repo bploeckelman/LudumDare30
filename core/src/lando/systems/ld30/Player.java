@@ -12,12 +12,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import lando.systems.ld30.screens.GameScreen;
-import lando.systems.ld30.utils.Assets;
-import lando.systems.ld30.utils.Collidable;
-import lando.systems.ld30.utils.CollidableType;
-import lando.systems.ld30.utils.Globals;
+import lando.systems.ld30.utils.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -51,7 +50,13 @@ public class Player implements InputProcessor, Collidable {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position);
         body = Globals.world.createBody(bodyDef);
-        body.createFixture(circleShape, 1f);
+        //body.createFixture(circleShape, 1f);
+        FixtureDef playerFixture = new FixtureDef();
+        playerFixture.shape = circleShape;
+        playerFixture.density = 1f;
+        playerFixture.filter.categoryBits = Box2dContactListener.CATEGORY_PLAYER;
+        playerFixture.filter.maskBits = Box2dContactListener.MASK_PLAYER;
+        body.createFixture(playerFixture);
         body.setLinearDamping(1f);
         body.setAngularDamping(2f);
         body.setUserData(this);
@@ -199,6 +204,11 @@ public class Player implements InputProcessor, Collidable {
 
     @Override
     public void shotByEnemy(Color color) {
+        kill();
+    }
+
+    @Override
+    public void collideWithBullet(Bullet bullet) {
         kill();
     }
 }

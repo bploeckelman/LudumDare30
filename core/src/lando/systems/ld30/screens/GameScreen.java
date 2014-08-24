@@ -105,7 +105,12 @@ public class GameScreen implements Screen {
 
             CircleShape circleShape = new CircleShape();
             circleShape.setRadius(radius);
-            ball.createFixture(circleShape, 0);
+            FixtureDef fixture = new FixtureDef();
+            fixture.shape = circleShape;
+            fixture.density = 0f;
+            fixture.filter.categoryBits = Box2dContactListener.CATEGORY_WORLD;
+            fixture.filter.maskBits = Box2dContactListener.MASK_WORLD;
+            ball.createFixture(fixture);
             circleShape.dispose();
 
             balls.add(ball);
@@ -135,6 +140,7 @@ public class GameScreen implements Screen {
             Bullet bullet = bullets.get(i);
             bullet.update(dt);
             if (!bullet.alive) {
+                Globals.world.destroyBody(bullet.body);
                 bullets.remove(i);
             }
         }

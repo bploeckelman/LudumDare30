@@ -7,11 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import lando.systems.ld30.screens.GameScreen;
-import lando.systems.ld30.utils.Assets;
-import lando.systems.ld30.utils.Collidable;
-import lando.systems.ld30.utils.CollidableType;
-import lando.systems.ld30.utils.Globals;
+import lando.systems.ld30.utils.*;
 
 /**
  * Created by dsgraham on 8/23/14.
@@ -37,7 +35,12 @@ public class Bullet implements Collidable{
         bodyDef.position.set(position);
 
         body = Globals.world.createBody(bodyDef);
-        body.createFixture(circleShape, 10f);
+        FixtureDef playerFixture = new FixtureDef();
+        playerFixture.shape = circleShape;
+        playerFixture.density = 10f;
+        playerFixture.filter.categoryBits = Box2dContactListener.CATEGORY_BULLET;
+        playerFixture.filter.maskBits = Box2dContactListener.MASK_BULLET;
+        body.createFixture(playerFixture);
         body.setLinearDamping(0);
         body.setAngularDamping(2f);
         body.setUserData(this);
@@ -59,7 +62,7 @@ public class Bullet implements Collidable{
     public void die()
     {
         alive = false;
-        Globals.world.destroyBody(body);
+
     }
 
     public void render(SpriteBatch batch)
@@ -83,6 +86,11 @@ public class Bullet implements Collidable{
 
     @Override
     public void shotByEnemy(Color color) {
+
+    }
+
+    @Override
+    public void collideWithBullet(Bullet bullet) {
 
     }
 }

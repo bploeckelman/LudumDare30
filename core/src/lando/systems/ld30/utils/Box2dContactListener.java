@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import lando.systems.ld30.Bullet;
 import lando.systems.ld30.screens.GameScreen;
 
 /**
@@ -13,6 +14,16 @@ import lando.systems.ld30.screens.GameScreen;
 public class Box2dContactListener implements ContactListener {
 
     public GameScreen screen;
+
+    public final static short CATEGORY_PLAYER = 0x001;
+    public final static short CATEGORY_ENEMY = 0x002;
+    public final static short CATEGORY_BULLET = 0x004;
+    public final static short CATEGORY_WORLD = 0x008;
+
+    public final static short MASK_PLAYER = CATEGORY_BULLET | CATEGORY_ENEMY | CATEGORY_WORLD;
+    public final static short MASK_ENEMY = CATEGORY_PLAYER | CATEGORY_WORLD;
+    public final static short MASK_BULLET = CATEGORY_PLAYER | CATEGORY_WORLD;
+    public final static short MASK_WORLD = CATEGORY_BULLET | CATEGORY_ENEMY | CATEGORY_PLAYER;
 
     public Box2dContactListener(GameScreen screen) {
         this.screen = screen;
@@ -30,9 +41,20 @@ public class Box2dContactListener implements ContactListener {
         final CollidableType typeA = (collidableA != null) ? collidableA.getType() : CollidableType.MISC;
         final CollidableType typeB = (collidableB != null) ? collidableB.getType() : CollidableType.MISC;
 
-        // TODO : figure out which fixture is what body and respond appropriately
-
         Gdx.app.log("CONTACT", "typeA(" + collidableA + ") = " + typeA.toString() + ", typeB(" + collidableB + ") = " + typeB.toString());
+
+
+        // TODO : figure out which fixture is what body and respond appropriately
+        switch (typeB){
+            case BULLET:
+                if (collidableA == null) {
+                    ((Bullet) collidableB).die();
+                    break;
+                }
+                collidableA.collideWithBullet((Bullet)collidableB);
+                ((Bullet) collidableB).die();
+                break;
+        }
     }
 
     @Override
