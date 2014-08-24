@@ -45,6 +45,9 @@ public class GameScreen implements Screen {
 
     public RayHandler rayHandler;
 
+    Color borderColor = Color.GREEN;
+    float borderIntensity = 0;
+
     PointLight light, light1, light2;
 
     ArrayList<Body> balls = new ArrayList<Body>();
@@ -86,17 +89,17 @@ public class GameScreen implements Screen {
         camera.position.set(new Vector3(player.body.getPosition(), 0));
 
         enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
-        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  5, Globals.world_center_y + 0), this));
-        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0,Globals.world_center_y +  -5), this));
-        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x + -5, Globals.world_center_y + 0), this));
-        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x + -7,Globals.world_center_y + -7), this));
-        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x + -7,Globals.world_center_y +  7), this));
-        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y +  7), this));
-        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y + -7), this));
-        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y +  9), this));
-        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  9, Globals.world_center_y +  0), this));
-        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + -9), this));
-        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x + -9, Globals.world_center_y +  0), this));
+//        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  5, Globals.world_center_y + 0), this));
+//        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0,Globals.world_center_y +  -5), this));
+//        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x + -5, Globals.world_center_y + 0), this));
+//        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x + -7,Globals.world_center_y + -7), this));
+//        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x + -7,Globals.world_center_y +  7), this));
+//        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y +  7), this));
+//        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y + -7), this));
+//        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y +  9), this));
+//        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  9, Globals.world_center_y +  0), this));
+//        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + -9), this));
+//        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x + -9, Globals.world_center_y +  0), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -138,6 +141,7 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
+        borderIntensity += dt;
 
         player.update(dt);
         int enemySize = enemies.size();
@@ -169,6 +173,8 @@ public class GameScreen implements Screen {
         rayHandler.setAmbientLight(color);
     }
 
+
+
     @Override
     public void render(float delta) {
         update(delta);
@@ -178,6 +184,11 @@ public class GameScreen implements Screen {
 
         Assets.batch.setProjectionMatrix(camera.combined);
         Assets.batch.begin();
+
+        Assets.batch.setColor(borderColor.cpy().mul(((float)(Math.sin(borderIntensity)+1.0)/4.0f) + .5f));
+        Assets.batch.draw(Assets.background, 632, 629.9f, 736, 741);
+
+        Assets.batch.setColor(Color.WHITE);
 
         for (Body body : balls) {
             Assets.batch.draw(player.animation.getKeyFrame(player.animTimer), body.getPosition().x - 5f, body.getPosition().y - 5f, 10, 10);
@@ -196,7 +207,7 @@ public class GameScreen implements Screen {
 
         Assets.batch.end();
 
-//        box2DDebugRenderer.render(Globals.world, camera.combined);
+        //box2DDebugRenderer.render(Globals.world, camera.combined);
 
         rayHandler.setCombinedMatrix(camera.combined);
         if (didStep) rayHandler.update();

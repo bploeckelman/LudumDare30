@@ -21,12 +21,14 @@ public class Assets {
     public static Texture badlogic;
     public static Texture beam;
     public static Texture rainbow;
+    public static Texture background;
 
     public static TextureAtlas atlas;
 
     public static Random random;
     public static ShaderProgram prismProgram;
     public static ShaderProgram shimmerProgram;
+
 
     public static ParticleEffect explodeParticleEffect;
 
@@ -42,6 +44,9 @@ public class Assets {
 
         rainbow = new Texture("rainbow.png");
         rainbow.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        background = new Texture("background.png");
+        background.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         random = new Random();
 

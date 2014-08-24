@@ -34,6 +34,7 @@ public class Level implements Collidable {
         body = Globals.world.createBody(bodyDef);
         body.setUserData(this);
 
+
         ChainShape chainShape = new ChainShape();
         Vector2[] tempVerts = createChamber(0);
         Vector2[] fullVerts = new Vector2[tempVerts.length*6];
@@ -59,6 +60,8 @@ public class Level implements Collidable {
         particleEffects = new ArrayList<ParticleEffect>();
     }
 
+
+
     public Vector2[] createChamber(float angle){
         Vector2 offset = new Vector2(0,0).sub(183,0).rotate(angle+180).add(Globals.world_center_x, Globals.world_center_y);
         Vector2[] items = new Vector2[] {
@@ -75,6 +78,8 @@ public class Level implements Collidable {
         };
         for (Vector2 vert : items){
             vert.sub(0, 100).rotate(angle).add(offset);
+
+
         }
         return items;
     }
