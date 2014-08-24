@@ -24,8 +24,9 @@ public class LudumDare30 extends Game {
 
     @Override
     public void render(){
-        super.render();
         tManager.update(Gdx.graphics.getDeltaTime());
+        super.render();
+
     }
 
     @Override

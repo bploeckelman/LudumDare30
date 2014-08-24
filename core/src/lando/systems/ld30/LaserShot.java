@@ -44,10 +44,11 @@ public class LaserShot {
         timeLeft -= dt;
 
         if (timeLeft > 1.8f){
-            scale = .5f;
+            scale = .1f;
         } else if (timeLeft > .2f){
             scale = .1f;
         } else if (timeLeft > 0 ) {
+            // TODO: Play Laser Sound
             scale = 2f;
             active = true;
         } else {
