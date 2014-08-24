@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -41,7 +42,7 @@ public class GameScreen implements Screen {
     Player player;
     Enemy enemy;
 
-    final int num_rays = 1028;
+    final int num_rays = 256;
 
 
     public GameScreen(LudumDare30 game) {
@@ -54,7 +55,7 @@ public class GameScreen implements Screen {
         box2DDebugRenderer = new Box2DDebugRenderer();
 
         rayHandler = new RayHandler(Globals.world);
-        rayHandler.setAmbientLight(0.2f, 0.2f, 0.2f, 0.1f);
+        setWorldColor(new Color(.5f,.5f,.5f,.5f));
         rayHandler.setShadows(true);
         rayHandler.setCulling(true);
 
@@ -66,7 +67,7 @@ public class GameScreen implements Screen {
 
         light1 = new PointLight(rayHandler, num_rays);
         light1.setPosition(100, 100);
-        light1.setColor(0,1,0,1);
+        light1.setColor(0, 1, 0, 1);
         light1.setDistance(100);
 
         player = new Player(new Vector2(), this);
@@ -109,6 +110,10 @@ public class GameScreen implements Screen {
         enemy.update(dt);
         camera.position.lerp(new Vector3(player.sprite.getX(), player.sprite.getY(), 0f), .03f);
         camera.update();
+    }
+
+    public void setWorldColor(Color color){
+        rayHandler.setAmbientLight(color);
     }
 
     @Override

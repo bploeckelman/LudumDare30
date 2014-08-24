@@ -7,6 +7,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import lando.systems.ld30.screens.TitleScreen;
 import lando.systems.ld30.utils.Assets;
+import lando.systems.ld30.utils.Globals;
 
 public class LudumDare30 extends Game {
 
@@ -15,6 +16,7 @@ public class LudumDare30 extends Game {
     @Override
     public void create () {
         Assets.load();
+        Globals.game = this;
         tManager = new TweenManager();
 //        Tween.registerAccessor(Prism.class, new PrismAccessor());
         setScreen(new TitleScreen(this));
