@@ -40,6 +40,8 @@ public class GameScreen implements Screen {
     public Color[] colorsBeat = new Color[] {new Color(1,0,0,1), new Color(0,1,0,1), new Color(0,0,1,1),
                                              new Color(1,1,0,1), new Color(0,1,1,1), new Color(1,0,1,1)};
 
+
+
     Box2DDebugRenderer box2DDebugRenderer;
 
     RayHandler rayHandler;
@@ -81,7 +83,7 @@ public class GameScreen implements Screen {
         light1.setColor(0, 1, 0, 1);
         light1.setDistance(100);
 
-        player = new Player(new Vector2(500,500), this);
+        player = new Player(new Vector2(Globals.world_center_x, Globals.world_center_y), this);
         camera.position.set(new Vector3(player.body.getPosition(), 0));
 
         light2 = new PointLight(rayHandler, num_rays);
@@ -100,18 +102,18 @@ public class GameScreen implements Screen {
                 .repeatYoyo(-1, 0)
                 .start(game.tweenManager);
 
-        enemies.add(new RedEnemy(new Vector2( 0, 5), this));
-        enemies.add(new RedEnemy(new Vector2( 5, 0), this));
-        enemies.add(new RedEnemy(new Vector2( 0,-5), this));
-        enemies.add(new RedEnemy(new Vector2(-5, 0), this));
-        enemies.add(new YellowEnemy(new Vector2(-7,-7), this));
-        enemies.add(new YellowEnemy(new Vector2(-7, 7), this));
-        enemies.add(new YellowEnemy(new Vector2( 7, 7), this));
-        enemies.add(new YellowEnemy(new Vector2( 7,-7), this));
-        enemies.add(new GreenEnemy(new Vector2( 0, 9), this));
-        enemies.add(new GreenEnemy(new Vector2( 9, 0), this));
-        enemies.add(new GreenEnemy(new Vector2( 0,-9), this));
-        enemies.add(new GreenEnemy(new Vector2(-9, 0), this));
+        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  5, Globals.world_center_y + 0), this));
+        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0,Globals.world_center_y +  -5), this));
+        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x + -5, Globals.world_center_y + 0), this));
+        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x + -7,Globals.world_center_y + -7), this));
+        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x + -7,Globals.world_center_y +  7), this));
+        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y +  7), this));
+        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y + -7), this));
+        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y +  9), this));
+        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  9, Globals.world_center_y +  0), this));
+        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + -9), this));
+        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x + -9, Globals.world_center_y +  0), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -124,8 +126,8 @@ public class GameScreen implements Screen {
         for (int i = 0; i < 10; ++i, a += (2f * Math.PI) / 10f) {
             bodyDef.type = BodyDef.BodyType.StaticBody;
             bodyDef.position.set(
-                    scale * (float) Math.cos(a),
-                    scale * (float) Math.sin(a));
+                    scale * (float) Math.cos(a) + Globals.world_center_x,
+                    scale * (float) Math.sin(a) + Globals.world_center_y);
 
             Body ball = Globals.world.createBody(bodyDef);
 
@@ -241,9 +243,9 @@ public class GameScreen implements Screen {
 
             accum += TIME_STEP;
             light1.setPosition(
-                    10 * (float) Math.cos(accum),
-                    10 * (float) Math.sin(accum));
-            light.setPosition(0,0);
+                    40 * (float) Math.cos(accum) + Globals.world_center_x,
+                    40 * (float) Math.sin(accum) + Globals.world_center_y);
+            light.setPosition(Globals.world_center_x, Globals.world_center_y);
         }
         return stepped;
     }

@@ -60,7 +60,7 @@ public class Level implements Collidable {
     }
 
     public Vector2[] createChamber(float angle){
-        Vector2 offset = new Vector2(0,0).sub(183,0).rotate(angle+180).add(500,500);  // I know.. be cool
+        Vector2 offset = new Vector2(0,0).sub(183,0).rotate(angle+180).add(Globals.world_center_x, Globals.world_center_y);
         Vector2[] items = new Vector2[] {
                 new Vector2 (0,200),
                 new Vector2 (0,125),
