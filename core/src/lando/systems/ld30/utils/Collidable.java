@@ -7,5 +7,5 @@ import com.badlogic.gdx.graphics.Color;
  */
 public interface Collidable {
     public CollidableType getType();
-    public void ShotByPlayer(Color color);
+    public void shotByPlayer(Color color);
 }

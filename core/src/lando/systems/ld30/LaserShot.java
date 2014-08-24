@@ -92,7 +92,7 @@ public class LaserShot {
                 return 0;
             }
             if (active) {
-                collidable.ShotByPlayer(color);
+                collidable.shotByPlayer(color);
             }
             return 1;
         }

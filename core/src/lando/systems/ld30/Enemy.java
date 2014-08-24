@@ -100,7 +100,7 @@ public class Enemy implements Collidable {
     }
 
     @Override
-    public void ShotByPlayer(Color color) {
+    public void shotByPlayer(Color color) {
 
          kill();
     }

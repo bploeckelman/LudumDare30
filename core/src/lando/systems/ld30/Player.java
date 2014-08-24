@@ -38,7 +38,7 @@ public class Player implements InputProcessor, Collidable {
         currentColor = 0;
         availableColors = new ArrayList<Color>();
         this.screen = screen;
-        this.speed = 10f;
+        this.speed = 100f;
         this.position = position;
 
         CircleShape circleShape = new CircleShape();
@@ -46,7 +46,7 @@ public class Player implements InputProcessor, Collidable {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position);
         body = Globals.world.createBody(bodyDef);
-        body.createFixture(circleShape, .1f);
+        body.createFixture(circleShape, 1f);
         body.setLinearDamping(1f);
         body.setAngularDamping(2f);
         body.setUserData(this);
@@ -159,7 +159,7 @@ public class Player implements InputProcessor, Collidable {
     }
 
     @Override
-    public void ShotByPlayer(Color color) {
+    public void shotByPlayer(Color color) {
 
     }
 }
