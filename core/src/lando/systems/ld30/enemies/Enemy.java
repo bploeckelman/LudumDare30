@@ -38,6 +38,10 @@ public abstract class Enemy implements Collidable {
 
     public boolean alive;
 
+    // Temporary helper vectors for calculating all the things
+    protected Vector2 dist = new Vector2();
+    protected Vector2 dir = new Vector2();
+
     public Enemy(Vector2 position, GameScreen screen) {
         this.screen = screen;
         alive = true;
@@ -56,6 +60,9 @@ public abstract class Enemy implements Collidable {
 
     public void render(SpriteBatch batch) {
         sprite.draw(batch);
+        if (shot != null) {
+            shot.render(batch);
+        }
     }
 
     public void kill(){

@@ -16,13 +16,13 @@ import lando.systems.ld30.utils.CollidableType;
 import lando.systems.ld30.utils.Globals;
 
 /**
- * Brian Ploeckelman created on 8/23/2014.
+ * Brian Ploeckelman created on 8/24/2014.
  */
-public class YellowEnemy extends Enemy {
+public class GreenEnemy extends Enemy {
 
-    public YellowEnemy(Vector2 position, GameScreen screen) {
+    public GreenEnemy(Vector2 position, GameScreen screen) {
         super(position, screen);
-        speed = 5f;
+        speed = 7.5f;
     }
 
     @Override
@@ -31,11 +31,10 @@ public class YellowEnemy extends Enemy {
 
         dist.set(screen.player.body.getPosition());
         final float d2 = dist.dst2(body.getPosition());
-        final float shoot_dist2 = 1000;
+        final float shoot_dist2 = 300;
         if (d2 < shoot_dist2) {
             if (shot == null) {
-                shot = new EnemyLaserShot(body, screen.player.body.getPosition().cpy(), Color.YELLOW);
-                shootBullet(screen.player.body.getPosition());
+                shot = new EnemyLaserShot(body, screen.player.body.getPosition().cpy(), Color.GREEN);
             }
         } else {
             dir.set(screen.player.body.getPosition());
@@ -47,7 +46,6 @@ public class YellowEnemy extends Enemy {
             shot.update(dt);
             if (!shot.alive) shot = null;
         }
-        // TODO : do other update things specific to this enemy
     }
 
     @Override
@@ -57,16 +55,17 @@ public class YellowEnemy extends Enemy {
 
     @Override
     public CollidableType getType() {
-        return CollidableType.YELLOW_ENEMY;
+        return CollidableType.GREEN_ENEMY;
     }
 
     @Override
     protected void intializeSprite() {
-        animation = new Animation(0.075f,
-                Assets.atlas.findRegion("yellow-enemy0"),
-                Assets.atlas.findRegion("yellow-enemy1"),
-                Assets.atlas.findRegion("yellow-enemy2"),
-                Assets.atlas.findRegion("yellow-enemy3"));
+        animation = new Animation(0.1f,
+                Assets.atlas.findRegion("green-enemy0"),
+                Assets.atlas.findRegion("green-enemy1"),
+                Assets.atlas.findRegion("green-enemy2"),
+                Assets.atlas.findRegion("green-enemy3"),
+                Assets.atlas.findRegion("green-enemy4"));
         animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         animTimer = 0;
 
@@ -92,6 +91,7 @@ public class YellowEnemy extends Enemy {
         Fixture.filter.categoryBits = Box2dContactListener.CATEGORY_ENEMY;
         Fixture.filter.maskBits = Box2dContactListener.MASK_ENEMY;
         body.createFixture(Fixture);
+
         body.setLinearDamping(1f);
         body.setAngularDamping(2f);
         body.setUserData(this);

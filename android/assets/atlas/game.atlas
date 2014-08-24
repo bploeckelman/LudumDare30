@@ -1,110 +1,145 @@
 
 game.png
-size: 60,123
+size: 349,29
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
+green-enemy0
+  rotate: false
+  xy: 266, 14
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+green-enemy1
+  rotate: false
+  xy: 283, 14
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+green-enemy2
+  rotate: false
+  xy: 300, 14
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+green-enemy3
+  rotate: false
+  xy: 317, 14
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+green-enemy4
+  rotate: false
+  xy: 334, 14
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
 player0
   rotate: false
-  xy: 2, 96
+  xy: 2, 2
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 player1
   rotate: false
-  xy: 2, 67
+  xy: 23, 2
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 player2
   rotate: false
-  xy: 23, 96
+  xy: 44, 2
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 player3
   rotate: false
-  xy: 2, 38
+  xy: 65, 2
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 red-enemy0
   rotate: false
-  xy: 23, 78
+  xy: 86, 13
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy1
   rotate: false
-  xy: 44, 107
+  xy: 104, 13
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy2
   rotate: false
-  xy: 2, 20
+  xy: 122, 13
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy3
   rotate: false
-  xy: 23, 60
+  xy: 140, 13
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy4
   rotate: false
-  xy: 2, 2
+  xy: 158, 13
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy5
   rotate: false
-  xy: 23, 42
+  xy: 176, 13
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 sparkle-small
   rotate: false
-  xy: 23, 31
+  xy: 86, 2
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
   index: -1
 yellow-enemy0
   rotate: false
-  xy: 44, 89
+  xy: 194, 13
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy1
   rotate: false
-  xy: 41, 71
+  xy: 212, 13
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy2
   rotate: false
-  xy: 41, 53
+  xy: 230, 13
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy3
   rotate: false
-  xy: 41, 35
+  xy: 248, 13
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

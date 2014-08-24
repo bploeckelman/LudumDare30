@@ -25,8 +25,6 @@ public class RedEnemy extends Enemy {
         speed = 2f;
     }
 
-    Vector2 dist = new Vector2();
-    Vector2 dir = new Vector2();
     @Override
     public void update(float dt) {
         super.update(dt);
@@ -54,7 +52,6 @@ public class RedEnemy extends Enemy {
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);
-        if (shot != null) shot.render(batch);
     }
 
     @Override

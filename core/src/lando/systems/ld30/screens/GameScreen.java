@@ -19,6 +19,7 @@ import lando.systems.ld30.Level;
 import lando.systems.ld30.enemies.Enemy;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
+import lando.systems.ld30.enemies.GreenEnemy;
 import lando.systems.ld30.enemies.RedEnemy;
 import lando.systems.ld30.enemies.YellowEnemy;
 import lando.systems.ld30.tweens.PointLightAccessor;
@@ -99,14 +100,18 @@ public class GameScreen implements Screen {
                 .repeatYoyo(-1, 0)
                 .start(game.tweenManager);
 
-        enemies.add(new RedEnemy(new Vector2(0, 5), this));
-        enemies.add(new RedEnemy(new Vector2(5, 0), this));
-        enemies.add(new RedEnemy(new Vector2(0,-5), this));
-        enemies.add(new RedEnemy(new Vector2(-5,0), this));
+        enemies.add(new RedEnemy(new Vector2( 0, 5), this));
+        enemies.add(new RedEnemy(new Vector2( 5, 0), this));
+        enemies.add(new RedEnemy(new Vector2( 0,-5), this));
+        enemies.add(new RedEnemy(new Vector2(-5, 0), this));
         enemies.add(new YellowEnemy(new Vector2(-7,-7), this));
         enemies.add(new YellowEnemy(new Vector2(-7, 7), this));
         enemies.add(new YellowEnemy(new Vector2( 7, 7), this));
         enemies.add(new YellowEnemy(new Vector2( 7,-7), this));
+        enemies.add(new GreenEnemy(new Vector2( 0, 9), this));
+        enemies.add(new GreenEnemy(new Vector2( 9, 0), this));
+        enemies.add(new GreenEnemy(new Vector2( 0,-9), this));
+        enemies.add(new GreenEnemy(new Vector2(-9, 0), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
