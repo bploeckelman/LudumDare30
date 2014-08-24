@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import lando.systems.ld30.Bullet;
+import lando.systems.ld30.Level;
 import lando.systems.ld30.enemies.Enemy;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.Player;
@@ -46,6 +47,7 @@ public class GameScreen implements Screen {
 
     ArrayList<Body> balls = new ArrayList<Body>();
 
+    public Level level;
     public Player player;
     ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
@@ -136,6 +138,8 @@ public class GameScreen implements Screen {
         }
 
         Globals.world.setContactListener(new Box2dContactListener(this));
+
+        level = new Level(this);
     }
 
     float accum = 0;
