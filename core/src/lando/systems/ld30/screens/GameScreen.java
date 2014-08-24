@@ -11,6 +11,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
@@ -196,10 +197,8 @@ public class GameScreen implements Screen {
         Assets.batch.setProjectionMatrix(camera.combined);
         Assets.batch.begin();
 
-//        Assets.batch.draw(Assets.badlogic, 0, 0);
-
         for (Body body : balls) {
-            Assets.batch.draw(Assets.badlogic, body.getPosition().x - 5f, body.getPosition().y - 5f, 10, 10);
+            Assets.batch.draw(player.animation.getKeyFrame(player.animTimer), body.getPosition().x - 5f, body.getPosition().y - 5f, 10, 10);
         }
         for (int i = 0; i < enemies.size(); i ++){
             enemies.get(i).render(Assets.batch);
@@ -215,7 +214,7 @@ public class GameScreen implements Screen {
 
         Assets.batch.end();
 
-        box2DDebugRenderer.render(Globals.world, camera.combined);
+//        box2DDebugRenderer.render(Globals.world, camera.combined);
 
         rayHandler.setCombinedMatrix(camera.combined);
         if (didStep) rayHandler.update();
