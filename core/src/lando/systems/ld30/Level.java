@@ -10,6 +10,7 @@ import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.*;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 /**
  * Brian Ploeckelman created on 8/24/2014.
@@ -21,6 +22,7 @@ public class Level implements Collidable {
 
     ArrayList<ParticleEffect> particleEffects;
     ParticleEffectPool particleEffectPool;
+
 
     public Level(GameScreen screen) {
         this.screen = screen;

@@ -100,13 +100,13 @@ public class GameScreen implements Screen {
                 .start(game.tweenManager);
 
         enemies.add(new RedEnemy(new Vector2(0, 5), this));
-//        enemies.add(new RedEnemy(new Vector2(5, 0), this));
-//        enemies.add(new RedEnemy(new Vector2(0,-5), this));
-//        enemies.add(new RedEnemy(new Vector2(-5,0), this));
-//        enemies.add(new YellowEnemy(new Vector2(-7,-7), this));
-//        enemies.add(new YellowEnemy(new Vector2(-7, 7), this));
-//        enemies.add(new YellowEnemy(new Vector2( 7, 7), this));
-//        enemies.add(new YellowEnemy(new Vector2( 7,-7), this));
+        enemies.add(new RedEnemy(new Vector2(5, 0), this));
+        enemies.add(new RedEnemy(new Vector2(0,-5), this));
+        enemies.add(new RedEnemy(new Vector2(-5,0), this));
+        enemies.add(new YellowEnemy(new Vector2(-7,-7), this));
+        enemies.add(new YellowEnemy(new Vector2(-7, 7), this));
+        enemies.add(new YellowEnemy(new Vector2( 7, 7), this));
+        enemies.add(new YellowEnemy(new Vector2( 7,-7), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
