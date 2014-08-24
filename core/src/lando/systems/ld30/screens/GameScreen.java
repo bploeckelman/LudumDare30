@@ -30,6 +30,8 @@ public class GameScreen implements Screen {
 
     private final LudumDare30 game;
     private final OrthographicCamera camera;
+    public Color[] colorsBeat = new Color[] {new Color(1,0,0,1), new Color(0,1,0,1), new Color(0,0,1,1),
+                                             new Color(1,1,0,1), new Color(0,1,1,1), new Color(1,0,1,1)};
 
     Box2DDebugRenderer box2DDebugRenderer;
 
@@ -42,7 +44,7 @@ public class GameScreen implements Screen {
     Player player;
     ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
-    final int num_rays = 256;
+    final int num_rays = 512;
 
 
     public GameScreen(LudumDare30 game) {
