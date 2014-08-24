@@ -2,6 +2,7 @@ package lando.systems.ld30.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -25,6 +26,8 @@ public class Assets {
     public static Random random;
     public static ShaderProgram prismProgram;
 
+    public static ParticleEffect explodeParticleEffect;
+
     public static void load() {
         batch = new SpriteBatch();
         shapes = new ShapeRenderer();
@@ -37,6 +40,8 @@ public class Assets {
 
         random = new Random();
 
+        explodeParticleEffect = new ParticleEffect();
+        explodeParticleEffect.load(Gdx.files.internal("explode.p"), Gdx.files.internal("images"));
 
         final String VERTEX = Gdx.files.internal("prism.vert").readString();
         final String FRAG = Gdx.files.internal("prism.frag").readString();
@@ -49,6 +54,7 @@ public class Assets {
     }
 
     public static void dispose() {
+        explodeParticleEffect.dispose();
         atlas.dispose();
         badlogic.dispose();
         shapes.dispose();

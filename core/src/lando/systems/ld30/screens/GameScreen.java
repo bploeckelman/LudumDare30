@@ -170,6 +170,8 @@ public class GameScreen implements Screen {
 
         camera.position.lerp(new Vector3(player.sprite.getX(), player.sprite.getY(), 0f), .03f);
         camera.update();
+
+        level.update(dt);
     }
 
     public void setWorldColor(Color color){
@@ -200,6 +202,8 @@ public class GameScreen implements Screen {
         }
 
         player.render(Assets.batch);
+
+        level.render(Assets.batch);
 
         Assets.batch.end();
 

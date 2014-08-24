@@ -74,6 +74,13 @@ red-enemy5
   orig: 16, 16
   offset: 0, 0
   index: -1
+sparkle-small
+  rotate: false
+  xy: 23, 31
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
 yellow-enemy0
   rotate: false
   xy: 44, 89

@@ -1,13 +1,15 @@
 package lando.systems.ld30;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import lando.systems.ld30.screens.GameScreen;
-import lando.systems.ld30.utils.Box2dContactListener;
-import lando.systems.ld30.utils.Collidable;
-import lando.systems.ld30.utils.CollidableType;
-import lando.systems.ld30.utils.Globals;
+import lando.systems.ld30.utils.*;
+
+import java.util.ArrayList;
 
 /**
  * Brian Ploeckelman created on 8/24/2014.
@@ -16,6 +18,9 @@ public class Level implements Collidable {
 
     GameScreen screen;
     Body body;
+
+    ArrayList<ParticleEffect> particleEffects;
+    ParticleEffectPool particleEffectPool;
 
     public Level(GameScreen screen) {
         this.screen = screen;
@@ -44,8 +49,28 @@ public class Level implements Collidable {
         body.createFixture(fixtureDef);
 
         chainShape.dispose();
+
+        particleEffectPool = new ParticleEffectPool(Assets.explodeParticleEffect, 0, 20);
+        particleEffects = new ArrayList<ParticleEffect>();
     }
 
+    public void update(float dt) {
+        ParticleEffect effect;
+        for (int i = particleEffects.size() - 1; i >= 0; --i) {
+            effect = particleEffects.get(i);
+            if (effect.isComplete()) {
+                particleEffects.remove(i);
+            } else {
+                effect.update(dt);
+            }
+        }
+    }
+
+    public void render(SpriteBatch batch) {
+        for (ParticleEffect effect : particleEffects) {
+            effect.draw(batch);
+        }
+    }
 
     @Override
     public CollidableType getType() {
@@ -64,7 +89,10 @@ public class Level implements Collidable {
 
     @Override
     public boolean collideWithBullet(Bullet bullet) {
-        // TODO : explosion or decal or something?
+        ParticleEffect particleEffect = particleEffectPool.obtain();
+        particleEffect.setPosition(bullet.body.getPosition().x, bullet.body.getPosition().y);
+        particleEffect.scaleEffect(0.075f);
+        particleEffects.add(particleEffect);
         return true;
     }
 }
