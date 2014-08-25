@@ -98,8 +98,7 @@ public class Player implements InputProcessor, Collidable {
         playerLight.setDistance(0);
         playerLight.attachToBody(body, 0, 0);
 
-        healthBar = new HealthBar(100, 30);
-        healthBar.setValue(1);
+        healthBar = new HealthBar(100, 18);
 
         //TODO DEBUG STUFF
         availableColors.add(Globals.COLORS.CYAN);

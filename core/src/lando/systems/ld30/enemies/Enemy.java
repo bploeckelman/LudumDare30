@@ -74,8 +74,7 @@ public abstract class Enemy implements Collidable {
         enemyLight.attachToBody(body, 0, 0);
         reloadTimer = RELOAD_TIME;
 
-        healthBar = new HealthBar(50, 25);
-        healthBar.setValue(1);
+        healthBar = new HealthBar(50, 12, Color.LIGHT_GRAY, new Color(0, 0.5f, 0, 1));
     }
 
     public void update(float dt) {

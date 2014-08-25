@@ -207,6 +207,13 @@ green-enemy4
   orig: 15, 15
   offset: 0, 0
   index: -1
+ninepatch-small
+  rotate: false
+  xy: 114, 3
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: -1
 player0
   rotate: false
   xy: 104, 99
@@ -412,7 +419,7 @@ red-enemy5
   index: -1
 shard
   rotate: false
-  xy: 114, 3
+  xy: 123, 3
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
