@@ -14,10 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import lando.systems.ld30.*;
 import lando.systems.ld30.enemies.*;
-import lando.systems.ld30.utils.Assets;
-import lando.systems.ld30.utils.Box2dContactListener;
-import lando.systems.ld30.utils.Config;
-import lando.systems.ld30.utils.Globals;
+import lando.systems.ld30.utils.*;
 
 import java.util.ArrayList;
 
@@ -147,6 +144,8 @@ public class GameScreen implements Screen {
             }
             return;
         }
+
+        Stats.playTime += dt;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();

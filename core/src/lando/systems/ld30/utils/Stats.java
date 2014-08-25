@@ -5,6 +5,8 @@ package lando.systems.ld30.utils;
  */
 public class Stats {
 
+    public static float playTime = 0;
+
     public static int redEnemiesKilled    = 0;
     public static int yellowEnemiesKilled = 0;
     public static int greenEnemiesKilled  = 0;
