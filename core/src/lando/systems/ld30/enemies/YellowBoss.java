@@ -75,4 +75,9 @@ public class YellowBoss extends YellowEnemy {
     public PowerUp getPowerUP() {
         return new PowerUp(body.getPosition().cpy());
     }
+
+    @Override
+    public void collideWithWorld() {
+        return;
+    }
 }

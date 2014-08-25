@@ -1,5 +1,6 @@
 package lando.systems.ld30.utils;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import lando.systems.ld30.LudumDare30;
@@ -32,6 +33,8 @@ public class Globals {
         new Vector2(30, 0), new Vector2(30, 30), new Vector2(30, -30),
         new Vector2(150, 0), new Vector2(150, 50), new Vector2(150, -50)
     };
+
+    public static final Color shieldColor = new Color(0.6f, 0.8f, 1, 1);
 
     public static final Vector2 red_center    = new Vector2(level_max_x - chamber_w / 2 + 35,  world_center_y);
     public static final Vector2 yellow_center = new Vector2(level_max_x - chamber_w / 2 - 125, world_center_y - 265);

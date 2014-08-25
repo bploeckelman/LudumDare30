@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import lando.systems.ld30.LaserShot;
 import lando.systems.ld30.PowerUp;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Assets;
@@ -77,7 +78,7 @@ public class GreenBoss extends GreenEnemy{
         Fixture.filter.maskBits = Box2dContactListener.MASK_ENEMY;
         body.createFixture(Fixture);
 
-        body.setLinearDamping(1f);
+        body.setLinearDamping(10f);
         body.setAngularDamping(2f);
         body.setUserData(this);
 
@@ -86,5 +87,15 @@ public class GreenBoss extends GreenEnemy{
 
     public PowerUp getPowerUP() {
         return new PowerUp(body.getPosition().cpy());
+    }
+
+    @Override
+    public void collideWithWorld() {
+        return;
+    }
+
+    @Override
+    public void shotByPlayer(LaserShot laser) {
+        takeDamage(laser.damage * 3f);
     }
 }

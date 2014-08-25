@@ -33,6 +33,7 @@ public class Player implements InputProcessor, Collidable {
     public float speed;
     public Animation animation;
     public Sprite sprite;
+    public Sprite shieldSprite;
     private GameScreen screen;
     private LaserShot shot;
     public int currentColor;
@@ -98,13 +99,18 @@ public class Player implements InputProcessor, Collidable {
         sprite.setOriginCenter();
         sprite.setSize(4f,4f);
 
+        shieldSprite = new Sprite(Assets.circle);
+        shieldSprite.setSize(5,5);
+        shieldSprite.setOriginCenter();
+        shieldSprite.setColor(Globals.shieldColor.cpy());
+
         playerLight = new PointLight(screen.rayHandler, screen.num_rays);
         playerLight.setColor(0,0,0,1);
         playerLight.setDistance(0);
         playerLight.attachToBody(body, 0, 0);
 
         healthBar = new HealthBar(100, 18);
-        shieldBar = new HealthBar(80, 12, Color.LIGHT_GRAY.cpy(), new Color(0.6f, 0.8f, 1, 1));
+        shieldBar = new HealthBar(80, 12, Color.LIGHT_GRAY.cpy(), Globals.shieldColor.cpy());
 
         //TODO DEBUG STUFF
         availableColors.add(Globals.COLORS.BLUE);
@@ -188,6 +194,7 @@ public class Player implements InputProcessor, Collidable {
         if (vel.y < -MAX_VELOCITY) vel.y = -MAX_VELOCITY;
         body.setLinearVelocity(vel);
 
+        shieldSprite.setCenter(body.getPosition().x, body.getPosition().y);
         sprite.setCenter(body.getPosition().x, body.getPosition().y);
         sprite.setOriginCenter();
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
@@ -236,7 +243,11 @@ public class Player implements InputProcessor, Collidable {
             sprite.setColor(Color.WHITE);
         }
         if (alive) {// || respawnTimer % .4f > .2f){
+            shieldSprite.setColor(Globals.shieldColor.cpy().mul(shieldAmount/maxShield));
+            if (isShieldUp())
+                shieldSprite.draw(batch);
             sprite.draw(batch);
+
         }
 
         if (!Assets.playerDeathParticleEffect.isComplete()) {
@@ -411,6 +422,7 @@ public class Player implements InputProcessor, Collidable {
 
     @Override
     public void collisionDamage(float damage) {
+        if (isShieldUp() && shieldAmount > 0) damage/= 2f;
         takeDamage(damage);
     }
 

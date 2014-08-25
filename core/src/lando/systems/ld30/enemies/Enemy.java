@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import lando.systems.ld30.*;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.tweens.PointLightAccessor;
+import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Collidable;
 import lando.systems.ld30.utils.CollidableType;
 import lando.systems.ld30.utils.Globals;
@@ -36,6 +37,7 @@ public abstract class Enemy implements Collidable {
 
     public Body body;
     public Sprite sprite;
+    public Sprite shieldSprite;
     public Animation animation;
     public HealthBar healthBar;
     public HealthBar shieldBar;
@@ -74,6 +76,11 @@ public abstract class Enemy implements Collidable {
         initializeBox2dBody(position);
         intializeSprite();
 
+        shieldSprite = new Sprite(Assets.circle);
+        shieldSprite.setSize(5,5);
+        shieldSprite.setOriginCenter();
+        shieldSprite.setColor(Globals.shieldColor.cpy());
+
         sprite.setRegion(animation.getKeyFrame(animTimer));
         enemyLight = new PointLight(screen.rayHandler, screen.num_rays);
         enemyLight.setColor(0,0,0,1);
@@ -81,7 +88,7 @@ public abstract class Enemy implements Collidable {
         enemyLight.attachToBody(body, 0, 0);
         reloadTimer = RELOAD_TIME;
 
-        healthBar = new HealthBar(50, 12, Color.LIGHT_GRAY, new Color(0, 0.5f, 0, 1));
+        healthBar = new HealthBar(50, 12, Color.LIGHT_GRAY, Globals.shieldColor.cpy());
         shieldBar = null;
     }
 
@@ -106,6 +113,9 @@ public abstract class Enemy implements Collidable {
     public void render(SpriteBatch batch) {
         if (shot != null) shot.render(batch);
         sprite.draw(batch);
+        shieldSprite.setColor(Globals.shieldColor.cpy().mul(shieldAmount/maxShield));
+        if (isShieldUp())
+            shieldSprite.draw(batch);
     }
 
     public void takeDamage (float amount){
@@ -202,6 +212,7 @@ public abstract class Enemy implements Collidable {
 
     @Override
     public void collisionDamage(float damage) {
+        if (isShieldUp() && shieldAmount > 0) damage/= 2f;
         takeDamage(damage);
     }
 

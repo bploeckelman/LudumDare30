@@ -34,7 +34,7 @@ public class GreenEnemy extends Enemy {
         dir.sub(body.getPosition()).nor().scl(speed);
         body.applyForceToCenter(dir.x, dir.y, true);
 
-        hitPoints = Math.min(hitPoints + (dt * 5), maxHitPoints);
+        hitPoints = Math.min(hitPoints + (dt * 2), maxHitPoints);
 
 
     }
@@ -89,4 +89,6 @@ public class GreenEnemy extends Enemy {
 
         circleShape.dispose();
     }
+
+
 }
