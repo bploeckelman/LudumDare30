@@ -13,4 +13,6 @@ public interface Collidable {
     public void shotByPlayer(Color color);
     public void shotByEnemy(LaserShot laser);
     public boolean collideWithBullet(Bullet bullet);
+    public void collideWithWorld();
+    public void collisionDamage(float damage);
 }

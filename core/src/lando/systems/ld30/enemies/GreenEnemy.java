@@ -28,18 +28,13 @@ public class GreenEnemy extends Enemy {
     public void update(float dt) {
         super.update(dt);
 
-        dist.set(screen.player.body.getPosition());
-        final float d2 = dist.dst2(body.getPosition());
-        final float shoot_dist2 = 300;
-        if (d2 < shoot_dist2) {
-            if (shot == null) {
-                shootLaser(screen.player.body.getPosition().cpy(), Color.GREEN);
-            }
-        } else {
-            dir.set(screen.player.body.getPosition());
-            dir.sub(body.getPosition()).nor().scl(speed);
-            body.applyForceToCenter(dir.x, dir.y, true);
-        }
+
+        dir.set(screen.player.body.getPosition());
+        dir.sub(body.getPosition()).nor().scl(speed);
+        body.applyForceToCenter(dir.x, dir.y, true);
+
+        hitPoints = Math.min(hitPoints + (dt * 5), maxHitPoints);
+
 
         if (shot != null) {
             shot.update(dt);

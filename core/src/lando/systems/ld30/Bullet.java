@@ -23,9 +23,11 @@ public class Bullet implements Collidable{
     public Color color;
     public float TTL;
     public boolean alive;
+    public float damage;
 
-    public Bullet(Vector2 position, Vector2 dir, Color color, boolean fromPlayer, float speed){
+    public Bullet(Vector2 position, Vector2 dir, Color color, boolean fromPlayer, float speed, float damage){
         this.color = color;
+        this.damage = damage;
         alive = true;
         TTL = 30f;
         CircleShape circleShape = new CircleShape();
@@ -97,5 +99,15 @@ public class Bullet implements Collidable{
     @Override
     public boolean collideWithBullet(Bullet bullet) {
           return false;
+    }
+
+    @Override
+    public void collideWithWorld() {
+
+    }
+
+    @Override
+    public void collisionDamage(float damage) {
+
     }
 }

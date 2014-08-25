@@ -68,7 +68,7 @@ public class GameScreen implements Screen {
 
         player = new Player(new Vector2(Globals.world_center_x, Globals.world_center_y), this);
         camera.position.set(new Vector3(player.body.getPosition(), 0));
-        camera.zoom = 2;
+        camera.zoom = 1.5f;
 
 //        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
 //        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  5, Globals.world_center_y + 0), this));
@@ -129,8 +129,16 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
+        // TODO: this is DEBUG
         if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
             enterLevel(LEVEL_STATE.OVER_MAP);
+        }
+
+        if (Assets.random.nextFloat() > .9f){
+            int spawnColor = Assets.random.nextInt(6);
+            if (colorsBeat[spawnColor]){
+                spawnRandom(spawnColor);
+            }
         }
 
         borderIntensity += dt;
@@ -169,6 +177,13 @@ public class GameScreen implements Screen {
 
         level.update(dt);
     }
+
+
+    public void spawnRandom(int color){
+        // TODO make this work in a randomish way
+    }
+
+
 
     public void setWorldColor(){
         Color color = new Color(1,1,1,1);
@@ -240,9 +255,9 @@ public class GameScreen implements Screen {
     }
 
     public void enterRedLevel(){
-        int enemiesOnSpawn = 4;
+        int enemiesOnSpawn = 8;
         for (int i = 0; i < enemiesOnSpawn; i ++)    {
-            enemies.add(new RedEnemy(new Vector2(10,0).rotate(360/enemiesOnSpawn * i).add(Globals.red_center)  , this));
+            enemies.add(new RedEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.red_center)  , this));
         }
 
     }
@@ -252,7 +267,10 @@ public class GameScreen implements Screen {
     }
 
     public void enterYellowLevel(){
-
+        int enemiesOnSpawn = 8;
+        for (int i = 0; i < enemiesOnSpawn; i ++)    {
+            enemies.add(new YellowEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.yellow_center)  , this));
+        }
     }
 
     public void enterCyanLevel(){

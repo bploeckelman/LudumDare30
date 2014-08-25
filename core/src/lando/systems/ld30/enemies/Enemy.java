@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import lando.systems.ld30.Bullet;
 import lando.systems.ld30.EnemyLaserShot;
 import lando.systems.ld30.LaserShot;
+import lando.systems.ld30.SeekingBullet;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.Collidable;
@@ -43,10 +44,14 @@ public abstract class Enemy implements Collidable {
     public float animTimer;
     public float bulletSpeed = 800;
 
+
     public boolean alive;
 
+    public float hitPoints = 1f;
+    public float maxHitPoints = 1f;
     public float RELOAD_TIME = 3f;
     public float LASER_DAMAGE = 10f;
+    public float BULLET_DAMAGE = 5f;
     public float reloadTimer = 0;
 
     // Temporary helper vectors for calculating all the things
@@ -82,10 +87,15 @@ public abstract class Enemy implements Collidable {
         sprite.draw(batch);
     }
 
+    public void takeDamage (float amount){
+        hitPoints -= amount;
+        if (hitPoints <= 0) kill();
+    }
+
     public void kill(){
         alive = false;
-
         screen.game.tweenManager.killTarget(enemyLight);
+        shot = null;
         enemyLight.setColor(0,0,0,1);
         enemyLight.setDistance(0);
     }
@@ -93,7 +103,13 @@ public abstract class Enemy implements Collidable {
     public void shootBullet(Vector2 target){
         reloadTimer = RELOAD_TIME;
         Vector2 dir = target.cpy().sub(body.getPosition());
-        screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE, false, bulletSpeed));
+        screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE, false, bulletSpeed, BULLET_DAMAGE));
+    }
+
+    public void shootSeeker(Vector2 target){
+        reloadTimer = RELOAD_TIME;
+        Vector2 dir = target.cpy().sub(body.getPosition());
+        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.CYAN, false, bulletSpeed, BULLET_DAMAGE));
     }
 
     protected void shootLaser(Vector2 target, Color color) {
@@ -130,8 +146,18 @@ public abstract class Enemy implements Collidable {
 
     @Override
     public boolean collideWithBullet(Bullet bullet) {
-        kill();
+        takeDamage(bullet.damage);
         return true;
+    }
+
+    @Override
+    public void collideWithWorld() {
+        takeDamage(body.getLinearVelocity().len());
+    }
+
+    @Override
+    public void collisionDamage(float damage) {
+        takeDamage(damage);
     }
 
     protected abstract void intializeSprite();

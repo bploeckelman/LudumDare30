@@ -30,10 +30,10 @@ public class CyanEnemy extends Enemy {
 
         dist.set(screen.player.body.getPosition());
         final float d2 = dist.dst2(body.getPosition());
-        final float shoot_dist2 = 600;
+        final float shoot_dist2 = 3600;
         if (d2 < shoot_dist2) {
-            if (shot == null) {
-                shootLaser(screen.player.body.getPosition().cpy(), Color.CYAN);
+            if (reloadTimer <= 0) {
+                shootSeeker(screen.player.body.getPosition());
             }
         } else {
             dir.set(screen.player.body.getPosition());

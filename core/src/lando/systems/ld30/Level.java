@@ -18,11 +18,11 @@ import java.util.PriorityQueue;
 public class Level implements Collidable {
 
     GameScreen screen;
-    Body body;
+    public Body body;
 
     ArrayList<ParticleEffect> particleEffects;
     ParticleEffectPool particleEffectPool;
-
+    public FixtureDef fixtureDef;
 
     public Level(GameScreen screen) {
         this.screen = screen;
@@ -45,8 +45,7 @@ public class Level implements Collidable {
             }
         }
         chainShape.createLoop(fullVerts);
-
-        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef = new FixtureDef();
         fixtureDef.shape = chainShape;
         fixtureDef.density = 1;
         fixtureDef.filter.categoryBits = Box2dContactListener.CATEGORY_WORLD;
@@ -124,5 +123,15 @@ public class Level implements Collidable {
         particleEffect.scaleEffect(0.075f);
         particleEffects.add(particleEffect);
         return true;
+    }
+
+    @Override
+    public void collideWithWorld() {
+
+    }
+
+    @Override
+    public void collisionDamage(float damage) {
+
     }
 }

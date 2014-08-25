@@ -188,7 +188,7 @@ public class Player implements InputProcessor, Collidable {
 
         }
         if (availableColors.get(currentColor) == Globals.COLORS.GREEN){
-            hitPoints = Math.min(hitPoints += dt, 100);
+            hitPoints = Math.min(hitPoints + (dt * 5), 100);
         }
     }
 
@@ -298,7 +298,7 @@ public class Player implements InputProcessor, Collidable {
 
     public void shootBullet(Vector2 target){
         Vector2 dir = target.cpy().sub(body.getPosition());
-        screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE, true, bulletSpeed));
+        screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE, true, bulletSpeed, 5f));
     }
 
     private void shootLaser(Vector2 target, Color color) {
@@ -335,9 +335,19 @@ public class Player implements InputProcessor, Collidable {
     @Override
     public boolean collideWithBullet(Bullet bullet) {
         if (alive) {
-            kill();
+            takeDamage(bullet.damage);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void collideWithWorld() {
+        takeDamage(body.getLinearVelocity().len());
+    }
+
+    @Override
+    public void collisionDamage(float damage) {
+        takeDamage(damage);
     }
 }

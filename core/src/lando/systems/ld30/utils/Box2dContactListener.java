@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import lando.systems.ld30.Bullet;
+import lando.systems.ld30.Player;
 import lando.systems.ld30.screens.GameScreen;
 
 /**
@@ -38,25 +39,40 @@ public class Box2dContactListener implements ContactListener {
             return;
         }
 
-        final Collidable collidableA = (Collidable) contact.getFixtureA().getBody().getUserData();
-        final Collidable collidableB = (Collidable) contact.getFixtureB().getBody().getUserData();
+        Collidable collidableA = (Collidable) contact.getFixtureA().getBody().getUserData();
+        Collidable collidableB = (Collidable) contact.getFixtureB().getBody().getUserData();
 
         final CollidableType typeA = (collidableA != null) ? collidableA.getType() : CollidableType.MISC;
         final CollidableType typeB = (collidableB != null) ? collidableB.getType() : CollidableType.MISC;
 
         Gdx.app.log("CONTACT", "typeA(" + collidableA + ") = " + typeA.toString() + ", typeB(" + collidableB + ") = " + typeB.toString());
 
+        if (collidableB.getType() == CollidableType.BULLET){
+            Collidable temp = collidableB;
+            collidableB = collidableA;
+            collidableA = temp;
+        }  else if (collidableB.getType() == CollidableType.WORLD) {
+            Collidable temp = collidableB;
+            collidableB = collidableA;
+            collidableA = temp;
+        }  else  if (collidableB.getType() == CollidableType.PLAYER){
+            Collidable temp = collidableB;
+            collidableB = collidableA;
+            collidableA = temp;
+        }
 
         // TODO : figure out which fixture is what body and respond appropriately
-        switch (typeB){
+        switch (collidableA.getType()){
             case BULLET:
-                if (collidableA == null) {
-                    ((Bullet) collidableB).die();
-                    break;
-                }
-                if (collidableA.collideWithBullet((Bullet)collidableB))
-                    ((Bullet) collidableB).die();
+                if (collidableB.collideWithBullet((Bullet)collidableA))
+                    ((Bullet) collidableA).die();
                 break;
+            case WORLD:
+                collidableB.collideWithWorld();
+                break;
+            case PLAYER:
+                collidableB.collisionDamage(((Player)collidableA).body.getLinearVelocity().len());
+                collidableA.collisionDamage(((Player)collidableA).body.getLinearVelocity().len());
         }
     }
 
