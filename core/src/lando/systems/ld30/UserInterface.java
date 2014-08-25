@@ -1,5 +1,7 @@
 package lando.systems.ld30;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.equations.Bounce;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -83,11 +85,12 @@ public class UserInterface {
     private void updateHealthBars() {
         final Viewport v = stage.getViewport();
 
-
         // Update the player's health bar
         p.set(screen.player.body.getPosition().x, screen.player.body.getPosition().y, 0);
         screen.camera.project(p, v.getScreenX(), v.getScreenY(), v.getScreenWidth(), v.getScreenHeight());
-        playerHealthBar.setPosition(p.x - playerHealthBar.bounds.width / 2, p.y + screen.player.fixture.getShape().getRadius() + 1);
+        playerHealthBar.setPosition(
+                p.x - playerHealthBar.bounds.width / 2,
+                p.y + playerHealthBar.bounds.height / 2);
         playerHealthBar.setValue(screen.player.getPercentHP());
     }
 

@@ -4,6 +4,8 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.Bounce;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -129,6 +131,12 @@ public class Player implements InputProcessor, Collidable {
                 aliveFixtureDef.filter.maskBits = Box2dContactListener.MASK_PLAYER;
                 fixture = body.createFixture(aliveFixtureDef);
                 circleShape.dispose();
+
+                screen.ui.playerHealthBar.setValue(0);
+                Tween.to(screen.ui.playerHealthBar.value, 0, 0.5f)
+                        .target(1)
+                        .ease(Bounce.OUT)
+                        .start(screen.game.tweenManager);
             }
         }
 
@@ -292,6 +300,7 @@ public class Player implements InputProcessor, Collidable {
             screen.game.tweenManager.killTarget(playerLight);
             playerLight.setColor(0,0,0,1);
             playerLight.setDistance(0);
+            hitPoints = 0;
         }
     }
 

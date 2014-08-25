@@ -144,16 +144,6 @@ public class GameScreen implements Screen {
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
-            ui.playerHealthBar.setValue(ui.playerHealthBar.value - 0.1f);
-            if (ui.playerHealthBar.value <= 0f) {
-                ui.playerHealthBar.value = 0.1f;
-            }
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
-            ui.playerHealthBar.setValue(1);
-        }
-
         borderIntensity += dt;
 
         player.update(dt);
