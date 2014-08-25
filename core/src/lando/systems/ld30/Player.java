@@ -373,7 +373,7 @@ public class Player implements InputProcessor, Collidable {
             playerLight.setDistance(0);
             Assets.playerDeathParticleEffect.reset();
             Assets.playerDeathParticleEffect.setPosition(body.getPosition().x, body.getPosition().y);
-//            Assets.playerDeathParticleEffect.start();
+            Stats.playerDeaths++;
             // TODO : play shatter sound
         }
     }

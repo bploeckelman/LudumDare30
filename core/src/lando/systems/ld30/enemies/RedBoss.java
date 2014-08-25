@@ -36,6 +36,7 @@ public class RedBoss extends RedEnemy {
         healthBar.bounds.width = 200;
         healthBar.bounds.height = 20;
         healthBar.setBarColor(Color.RED.cpy());
+        setHealthBarVerticalOffset(body_radius * 6);
         isBoss = true;
         // TODO: Play Sound on spawn
     }

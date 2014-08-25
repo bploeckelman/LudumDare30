@@ -14,6 +14,7 @@ public class HealthBar {
     public Rectangle bounds;
     public Color baseColor;
     public Color barColor;
+    public float verticalOffset;
 
 
     public HealthBar(float width, float height) {
@@ -25,6 +26,7 @@ public class HealthBar {
         this.bounds = new Rectangle(0, 0, width, height);
         this.baseColor = baseColor;
         this.barColor = barColor;
+        this.verticalOffset = 0;
     }
 
     public void setColors(Color baseColor, Color barColor) {
@@ -66,11 +68,11 @@ public class HealthBar {
         final float pad_bottom = Assets.ninepatchSmall.getPadBottom();
 
         batch.setColor(baseColor);
-        Assets.ninepatchGrey.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
+        Assets.ninepatchGrey.draw(batch, bounds.x, bounds.y + verticalOffset, bounds.width, bounds.height);
 
         if (value.floatValue() > 0) {
             batch.setColor(barColor);
-            Assets.ninepatchSmall.draw(batch, bounds.x + pad_left, bounds.y + pad_bottom,
+            Assets.ninepatchSmall.draw(batch, bounds.x + pad_left, bounds.y + pad_bottom + verticalOffset,
                     (bounds.width - pad_left - pad_right) * value.floatValue(), bounds.height - pad_top - pad_bottom);
         }
         batch.setColor(Color.WHITE);
