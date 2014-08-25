@@ -57,6 +57,7 @@ public class Player implements InputProcessor, Collidable {
     public final static float YELLOW_RELOAD_TIME = .2f;
     public final static float CYAN_RELOAD_TIME = .8f;
     public final static float SHIELD_DELAY = 10f;
+    public final static float PURPLE_LASER_DAMAGE = .3f;
 
 
 
@@ -113,7 +114,7 @@ public class Player implements InputProcessor, Collidable {
         shieldBar = new HealthBar(80, 12, Color.LIGHT_GRAY.cpy(), Globals.shieldColor.cpy());
 
         //TODO DEBUG STUFF
-//        availableColors.add(Globals.COLORS.BLUE);
+        //availableColors.add(Globals.COLORS.PURPLE);
     }
 
     private final float MAX_VELOCITY = 20f;
@@ -222,10 +223,27 @@ public class Player implements InputProcessor, Collidable {
                     shootSeeker(target);
                     break;
                 case PURPLE:
+                    reloadTimer = 5f;
+                    purpleTarget = target.cpy();
+                    shootPurpleLaser();
+
                     break;
             }
 
         }
+
+        if (availableColors.get(currentColor) == Globals.COLORS.PURPLE){
+            if (Gdx.input.isTouched() && alive) {
+                purpleTarget.set(screen.getPosFromScreen(Gdx.input.getX(), Gdx.input.getY()));
+            }  else {
+               if (shot != null){
+                   //TODO kill light?
+                   reloadTimer = (RED_RELOAD_TIME- shot.timeLeft);
+               }
+               shot = null;
+            }
+        }
+
         if (availableColors.get(currentColor) == Globals.COLORS.GREEN){
             hitPoints = Math.min(hitPoints + (dt * 5), 100);
         }
@@ -341,6 +359,7 @@ public class Player implements InputProcessor, Collidable {
                 currentColor = colors -1;
             }
         }
+        shot = null;
         timeSinceLastHit = Math.min(timeSinceLastHit, SHIELD_DELAY/2f);
         return false;
     }
@@ -390,6 +409,25 @@ public class Player implements InputProcessor, Collidable {
 
     private void shootLaser(Vector2 target, Color color) {
         shot = new LaserShot(body, target, color, RED_RELOAD_TIME, 10);
+        Timeline.createSequence()
+                .beginParallel()
+                .push(Tween.to(playerLight, PointLightAccessor.DIST, RED_RELOAD_TIME).target(10))
+                .push(Tween.to(playerLight, PointLightAccessor.RGB, RED_RELOAD_TIME).target(color.r, color.g, color.b).setCallback(new TweenCallback() {
+                    @Override
+                    public void onEvent(int type, BaseTween<?> source) {
+                        playerLight.setColor(0,0,0,1);
+                    }
+                }))
+                .end()
+                .push(Tween.to(playerLight, PointLightAccessor.DIST, 0.1f).target(0))
+                .start(screen.game.tweenManager);
+    }
+
+    private Vector2 purpleTarget;
+    private void shootPurpleLaser(){
+        Color color = Color.PURPLE;
+        shot = new LaserShot(body, purpleTarget, color, RED_RELOAD_TIME, PURPLE_LASER_DAMAGE);
+        shot.alwaysOn = true;
         Timeline.createSequence()
                 .beginParallel()
                 .push(Tween.to(playerLight, PointLightAccessor.DIST, RED_RELOAD_TIME).target(10))
