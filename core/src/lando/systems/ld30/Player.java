@@ -46,6 +46,8 @@ public class Player implements InputProcessor, Collidable {
     public float bulletSpeed = 800;
     public float seekerSpeed = 500;
     public float hitPoints = max_hit_points;
+    public HealthBar healthBar;
+
     public final static float RED_RELOAD_TIME = 2f;
     public final static float YELLOW_RELOAD_TIME = .2f;
     public final static float CYAN_RELOAD_TIME = .8f;
@@ -96,6 +98,8 @@ public class Player implements InputProcessor, Collidable {
         playerLight.setDistance(0);
         playerLight.attachToBody(body, 0, 0);
 
+        healthBar = new HealthBar(100, 30);
+        healthBar.setValue(1);
 
         //TODO DEBUG STUFF
         availableColors.add(Globals.COLORS.CYAN);
@@ -105,7 +109,6 @@ public class Player implements InputProcessor, Collidable {
     public void update(float dt) {
         if (respawnTimer > 0 ){
             if (alive) {
-
                 alive = false;
                 body.destroyFixture(fixture);
                 CircleShape circleShape = new CircleShape();
@@ -122,6 +125,7 @@ public class Player implements InputProcessor, Collidable {
             if (respawnTimer <= 0){
                 respawnTimer = 0;
                 hitPoints = max_hit_points;
+                healthBar.setValue(1);
                 body.setTransform(1000,1000, 0);
                 screen.enterLevel(GameScreen.LEVEL_STATE.OVER_MAP, true);
                 alive = true;
@@ -138,6 +142,7 @@ public class Player implements InputProcessor, Collidable {
                 circleShape.dispose();
             }
         }
+        healthBar.setValue(getPercentHP());
 
         reloadTimer -= dt;
         reloadTimer = Math.max(reloadTimer, 0);
@@ -302,7 +307,7 @@ public class Player implements InputProcessor, Collidable {
             respawnTimer = 5f;
             shot = null;
             screen.game.tweenManager.killTarget(playerLight);
-            playerLight.setColor(0,0,0,1);
+            playerLight.setColor(0, 0, 0, 1);
             playerLight.setDistance(0);
         }
     }

@@ -12,10 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import lando.systems.ld30.Bullet;
-import lando.systems.ld30.EnemyLaserShot;
-import lando.systems.ld30.LaserShot;
-import lando.systems.ld30.SeekingBullet;
+import lando.systems.ld30.*;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.Collidable;
@@ -39,6 +36,7 @@ public abstract class Enemy implements Collidable {
     public Body body;
     public Sprite sprite;
     public Animation animation;
+    public HealthBar healthBar;
 
     public float speed;
     public float animTimer;
@@ -73,6 +71,9 @@ public abstract class Enemy implements Collidable {
         enemyLight.setDistance(0);
         enemyLight.attachToBody(body, 0, 0);
         reloadTimer = RELOAD_TIME;
+
+        healthBar = new HealthBar(50, 25);
+        healthBar.setValue(1);
     }
 
     public void update(float dt) {
@@ -82,6 +83,8 @@ public abstract class Enemy implements Collidable {
         sprite.setCenter(body.getPosition().x, body.getPosition().y);
         sprite.setOriginCenter();
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+
+        healthBar.setValue(getPercentHP());
     }
 
     public void render(SpriteBatch batch) {
@@ -98,7 +101,7 @@ public abstract class Enemy implements Collidable {
         alive = false;
         screen.game.tweenManager.killTarget(enemyLight);
         shot = null;
-        enemyLight.setColor(0,0,0,1);
+        enemyLight.setColor(0, 0, 0, 1);
         enemyLight.setDistance(0);
     }
 
@@ -160,6 +163,11 @@ public abstract class Enemy implements Collidable {
     @Override
     public void collisionDamage(float damage) {
         takeDamage(damage);
+    }
+
+    public float getPercentHP() {
+        if (!alive) return 0;
+        return hitPoints / maxHitPoints;
     }
 
     protected abstract void intializeSprite();

@@ -1,17 +1,15 @@
 package lando.systems.ld30;
 
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.equations.Bounce;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import lando.systems.ld30.enemies.Enemy;
 import lando.systems.ld30.screens.GameScreen;
 
 /**
@@ -24,7 +22,6 @@ public class UserInterface {
     public Skin skin;
     public Stage stage;
 
-    public HealthBar playerHealthBar;
     public Label playerHealthBarLabel;
 
     public final GameScreen screen;
@@ -54,10 +51,7 @@ public class UserInterface {
 
     public void render() {
         stage.draw();
-
-        stage.getBatch().begin();
-        playerHealthBar.render((SpriteBatch) stage.getBatch());
-        stage.getBatch().end();
+        renderHealthBars();
     }
 
     public void resize(int width, int height) {
@@ -76,9 +70,6 @@ public class UserInterface {
 //        playerHealthBarLabel.setPosition(margin_x, margin_y);
 //
 //        stage.addActor(playerHealthBarLabel);
-
-        playerHealthBar = new HealthBar(100, 30);
-        playerHealthBar.setValue(1);
     }
 
     Vector3 p = new Vector3();
@@ -88,10 +79,30 @@ public class UserInterface {
         // Update the player's health bar
         p.set(screen.player.body.getPosition().x, screen.player.body.getPosition().y, 0);
         screen.camera.project(p, v.getScreenX(), v.getScreenY(), v.getScreenWidth(), v.getScreenHeight());
-        playerHealthBar.setPosition(
-                p.x - playerHealthBar.bounds.width / 2,
-                p.y + playerHealthBar.bounds.height / 2);
-        playerHealthBar.setValue(screen.player.getPercentHP());
+        screen.player.healthBar.setPosition(
+                p.x - screen.player.healthBar.bounds.width / 2,
+                p.y + screen.player.healthBar.bounds.height / 2);
+
+        // Update enemy health bars
+        for (Enemy enemy : screen.enemies) {
+            if (!enemy.alive) continue;
+
+            p.set(enemy.body.getPosition().x, enemy.body.getPosition().y, 0);
+            screen.camera.project(p, v.getScreenX(), v.getScreenY(), v.getScreenWidth(), v.getScreenHeight());
+            enemy.healthBar.setPosition(
+                    p.x - enemy.healthBar.bounds.width / 2,
+                    p.y + enemy.healthBar.bounds.height / 2);
+        }
+    }
+
+    private void renderHealthBars() {
+        stage.getBatch().begin();
+        screen.player.healthBar.render((SpriteBatch) stage.getBatch());
+        for (Enemy enemy : screen.enemies) {
+            if (!enemy.alive) continue;
+            enemy.healthBar.render((SpriteBatch) stage.getBatch());
+        }
+        stage.getBatch().end();
     }
 
 }
