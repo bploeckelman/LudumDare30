@@ -38,6 +38,7 @@ public abstract class Enemy implements Collidable {
     public Sprite sprite;
     public Animation animation;
     public HealthBar healthBar;
+    public HealthBar shieldBar;
 
     public float speed;
     public float animTimer;
@@ -76,6 +77,7 @@ public abstract class Enemy implements Collidable {
         reloadTimer = RELOAD_TIME;
 
         healthBar = new HealthBar(50, 12, Color.LIGHT_GRAY, new Color(0, 0.5f, 0, 1));
+        shieldBar = null;
     }
 
     public void update(float dt) {
@@ -87,6 +89,7 @@ public abstract class Enemy implements Collidable {
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
 
         healthBar.setValue(getPercentHP());
+        if (shieldBar != null) shieldBar.setValue(getPercentShield());
 
         if (shot != null) {
             shot.update(dt);
@@ -185,6 +188,16 @@ public abstract class Enemy implements Collidable {
     public float getPercentHP() {
         if (!alive) return 0;
         return hitPoints / maxHitPoints;
+    }
+
+    public float getPercentShield() {
+        if (!alive) return 0;
+        // return shieldPoints / max_shield_points;
+        return 0.5f;
+    }
+
+    public boolean isShieldUp() {
+        return false;
     }
 
     protected abstract void intializeSprite();

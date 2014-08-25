@@ -108,7 +108,10 @@ public class UserInterface {
         screen.camera.project(p, v.getScreenX(), v.getScreenY(), v.getScreenWidth(), v.getScreenHeight());
         screen.player.healthBar.setPosition(
                 p.x - screen.player.healthBar.bounds.width / 2,
-                p.y + screen.player.healthBar.bounds.height / 2);
+                p.y + screen.player.healthBar.bounds.height / 2 + 5);
+        screen.player.shieldBar.setPosition(
+                p.x - screen.player.shieldBar.bounds.width / 2,
+                p.y + screen.player.shieldBar.bounds.height + screen.player.healthBar.bounds.height + 5);
 
         // Update enemy health bars
         for (Enemy enemy : screen.enemies) {
@@ -119,6 +122,11 @@ public class UserInterface {
             enemy.healthBar.setPosition(
                     p.x - enemy.healthBar.bounds.width / 2,
                     p.y + enemy.healthBar.bounds.height / 2);
+            if (enemy.shieldBar != null) {
+                enemy.shieldBar.setPosition(
+                        p.x - enemy.shieldBar.bounds.width / 2,
+                        p.y + enemy.shieldBar.bounds.height + enemy.healthBar.bounds.height - 1);
+            }
         }
     }
 
@@ -126,10 +134,16 @@ public class UserInterface {
         stage.getBatch().begin();
         if (screen.player.alive) {
             screen.player.healthBar.render((SpriteBatch) stage.getBatch());
+            if (screen.player.isShieldUp()) {
+                screen.player.shieldBar.render((SpriteBatch) stage.getBatch());
+            }
         }
         for (Enemy enemy : screen.enemies) {
             if (!enemy.alive) continue;
             enemy.healthBar.render((SpriteBatch) stage.getBatch());
+            if (enemy.shieldBar != null && enemy.isShieldUp()) {
+                enemy.shieldBar.render((SpriteBatch) stage.getBatch());
+            }
         }
         stage.getBatch().end();
     }

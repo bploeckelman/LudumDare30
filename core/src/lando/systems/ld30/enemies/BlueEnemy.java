@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import lando.systems.ld30.HealthBar;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Box2dContactListener;
@@ -22,6 +23,7 @@ public class BlueEnemy extends Enemy {
         super(position, screen);
         speed = 9f;
         healthBar.setBarColor(Color.BLUE.cpy());
+        shieldBar = new HealthBar(40, 12, Color.LIGHT_GRAY.cpy(), Color.CYAN.cpy());
     }
 
     @Override
@@ -100,5 +102,10 @@ public class BlueEnemy extends Enemy {
         body.setUserData(this);
 
         circleShape.dispose();
+    }
+
+    @Override
+    public boolean isShieldUp() {
+        return true;
     }
 }

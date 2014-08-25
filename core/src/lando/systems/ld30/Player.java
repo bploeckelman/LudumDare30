@@ -47,6 +47,7 @@ public class Player implements InputProcessor, Collidable {
     public float seekerSpeed = 500;
     public float hitPoints = max_hit_points;
     public HealthBar healthBar;
+    public HealthBar shieldBar;
 
     public final static float RED_RELOAD_TIME = 2f;
     public final static float YELLOW_RELOAD_TIME = .2f;
@@ -99,6 +100,7 @@ public class Player implements InputProcessor, Collidable {
         playerLight.attachToBody(body, 0, 0);
 
         healthBar = new HealthBar(100, 18);
+        shieldBar = new HealthBar(80, 12, Color.LIGHT_GRAY.cpy(), new Color(0.5f, 0.5f, 1, 1));
 
         //TODO DEBUG STUFF
         //availableColors.add(Globals.COLORS.RED);
@@ -142,6 +144,7 @@ public class Player implements InputProcessor, Collidable {
             }
         }
         healthBar.setValue(getPercentHP());
+        shieldBar.setValue(getPercentShield());
 
         if (!Assets.playerDeathParticleEffect.isComplete()) {
             Assets.playerDeathParticleEffect.update(dt);
@@ -398,5 +401,16 @@ public class Player implements InputProcessor, Collidable {
     public float getPercentHP() {
         if (!alive) return 0;
         return hitPoints / max_hit_points;
+    }
+
+    public float getPercentShield() {
+        if (!alive) return 0;
+        // return shieldPoints / max_shield_points;
+        return 0.5f;
+    }
+
+    public boolean isShieldUp() {
+        // TODO : return shield_up_flag;
+        return true;
     }
 }
