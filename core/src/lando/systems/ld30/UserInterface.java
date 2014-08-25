@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import lando.systems.ld30.enemies.Enemy;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Assets;
+import lando.systems.ld30.utils.Stats;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,7 +34,10 @@ public class UserInterface {
 
     public Image[] finishedColors;
     public Image colorSelection;
-    public int selectedColor = -1;
+
+    public Label enemyKillsLabel;
+    public Image[] enemyKillStatsIcons;
+    public Label[] enemyKillStatsLabels;
 
     public Dialog popup;
 
@@ -64,6 +68,7 @@ public class UserInterface {
         popup.setCenterPosition(stage.getWidth() / 2, stage.getHeight() / 2);
         updateHealthBars();
         updateColors();
+        updateKillCounts();
     }
 
     public void render() {
@@ -120,6 +125,46 @@ public class UserInterface {
         colorSelection = new Image(Assets.atlas.findRegion("color-icon-select"));
         colorSelection.setVisible(false);
         stage.addActor(colorSelection);
+
+        final float pad_left = 3 * margin_x;
+        final float pad_bottom = 4 * margin_y;
+        final float w = 24;
+
+        enemyKillsLabel = new Label("Kills:", skin);
+        enemyKillsLabel.setPosition(pad_left, pad_bottom + 20);
+        enemyKillsLabel.setVisible(false);
+        stage.addActor(enemyKillsLabel);
+
+        Stats.redEnemiesKilled = 1;
+
+        float x = 0;
+        enemyKillStatsLabels = new Label[num_colors];
+        for (int i = 0; i < num_colors; ++i) {
+            enemyKillStatsLabels[i] = new Label("0", skin);
+            enemyKillStatsLabels[i].setPosition(pad_left + x + i * w, pad_bottom - margin_y);
+            enemyKillStatsLabels[i].setVisible(false);
+
+            stage.addActor(enemyKillStatsLabels[i]);
+
+            x += w + margin_x;
+        }
+
+        x = 0;
+        enemyKillStatsIcons = new Image[num_colors];
+        enemyKillStatsIcons[0] = new Image(Assets.atlas.findRegion("red-enemy0"));
+        enemyKillStatsIcons[1] = new Image(Assets.atlas.findRegion("yellow-enemy0"));
+        enemyKillStatsIcons[2] = new Image(Assets.atlas.findRegion("green-enemy0"));
+        enemyKillStatsIcons[3] = new Image(Assets.atlas.findRegion("cyan-enemy0"));
+        enemyKillStatsIcons[4] = new Image(Assets.atlas.findRegion("blue-enemy00"));
+        enemyKillStatsIcons[5] = new Image(Assets.atlas.findRegion("purple-enemy00"));
+        for (int i = 0; i < num_colors; ++i) {
+            enemyKillStatsIcons[i].setPosition(pad_left + x + i * w + enemyKillStatsLabels[i].getTextBounds().width + margin_x, pad_bottom);
+            enemyKillStatsIcons[i].setVisible(false);
+
+            stage.addActor(enemyKillStatsIcons[i]);
+
+            x += w + margin_x;
+        }
 
         stage.addActor(popup);
     }
@@ -192,7 +237,7 @@ public class UserInterface {
 
         final int index = screen.player.getColorIndex();
         for (int i = 0; i < finishedColors.length; ++i) {
-            finishedColors[i].setColor( (screen.colorsBeat[i] ? color_map.get(i) : Color.LIGHT_GRAY.cpy()) );
+            finishedColors[i].setColor((screen.colorsBeat[i] ? color_map.get(i) : Color.LIGHT_GRAY.cpy()));
             finishedColors[i].setCenterPosition(pad_left + x + i * w, stage.getHeight() - pad_top);
             finishedColors[i].setZIndex(1);
 
@@ -207,6 +252,59 @@ public class UserInterface {
 
         if (index == -1) {
             colorSelection.setVisible(false);
+        }
+    }
+
+    private void updateKillCounts() {
+        final float pad_left = 3 * margin_x;
+        final float pad_bottom = 4 * margin_y;
+        final float w = 24;
+        float x = 0;
+
+        for (int i = 0; i < enemyKillStatsLabels.length; ++i) {
+            enemyKillStatsLabels[i].setPosition(pad_left + x + i * w, pad_bottom - margin_y);
+            enemyKillStatsIcons[i].setPosition(pad_left + x + i * w + enemyKillStatsLabels[i].getTextBounds().width + margin_x, pad_bottom);
+
+            enemyKillStatsLabels[i].setVisible(false);
+            enemyKillStatsIcons[i].setVisible(false);
+
+            x += w + margin_x;
+        }
+
+        // Set visibility and count
+        if (Stats.redEnemiesKilled > 0) {
+            enemyKillStatsLabels[0].setText("" + Stats.redEnemiesKilled);
+            enemyKillStatsLabels[0].setVisible(true);
+            enemyKillStatsIcons [0].setVisible(true);
+        }
+        if (Stats.yellowEnemiesKilled > 0) {
+            enemyKillStatsLabels[1].setText("" + Stats.yellowEnemiesKilled);
+            enemyKillStatsLabels[1].setVisible(true);
+            enemyKillStatsIcons [1].setVisible(true);
+        }
+        if (Stats.greenEnemiesKilled > 0) {
+            enemyKillStatsLabels[2].setText("" + Stats.greenEnemiesKilled);
+            enemyKillStatsLabels[2].setVisible(true);
+            enemyKillStatsIcons [2].setVisible(true);
+        }
+        if (Stats.cyanEnemiesKilled > 0) {
+            enemyKillStatsLabels[3].setText("" + Stats.cyanEnemiesKilled);
+            enemyKillStatsLabels[3].setVisible(true);
+            enemyKillStatsIcons [3].setVisible(true);
+        }
+        if (Stats.blueEnemiesKilled > 0) {
+            enemyKillStatsLabels[4].setText("" + Stats.blueEnemiesKilled);
+            enemyKillStatsLabels[4].setVisible(true);
+            enemyKillStatsIcons [4].setVisible(true);
+        }
+        if (Stats.purpleEnemiesKilled > 0) {
+            enemyKillStatsLabels[5].setText("" + Stats.purpleEnemiesKilled);
+            enemyKillStatsLabels[5].setVisible(true);
+            enemyKillStatsIcons [5].setVisible(true);
+        }
+
+        if (Stats.haveKilled()) {
+            enemyKillsLabel.setVisible(true);
         }
     }
 

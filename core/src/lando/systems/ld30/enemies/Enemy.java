@@ -16,10 +16,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import lando.systems.ld30.*;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.tweens.PointLightAccessor;
-import lando.systems.ld30.utils.Assets;
-import lando.systems.ld30.utils.Collidable;
-import lando.systems.ld30.utils.CollidableType;
-import lando.systems.ld30.utils.Globals;
+import lando.systems.ld30.utils.*;
 
 import java.util.ArrayList;
 
@@ -124,7 +121,7 @@ public abstract class Enemy implements Collidable {
             lasers.get(i).render(batch);
         }
         sprite.draw(batch);
-        shieldSprite.setColor(Globals.shieldColor.cpy().mul(shieldAmount/maxShield));
+        shieldSprite.setColor(Globals.shieldColor.cpy().mul(shieldAmount / maxShield));
         if (isShieldUp())
             shieldSprite.draw(batch);
     }
@@ -144,7 +141,6 @@ public abstract class Enemy implements Collidable {
         hitPoints -= amount;
         if (hitPoints <= 0) {
             kill();
-            //TODO record this?
         }
     }
 
@@ -154,6 +150,13 @@ public abstract class Enemy implements Collidable {
         lasers.clear();
         enemyLight.setColor(0, 0, 0, 1);
         enemyLight.setDistance(0);
+
+        if (this instanceof RedEnemy)    Stats.redEnemiesKilled++;
+        if (this instanceof YellowEnemy) Stats.yellowEnemiesKilled++;
+        if (this instanceof GreenEnemy)  Stats.greenEnemiesKilled++;
+        if (this instanceof CyanEnemy)   Stats.cyanEnemiesKilled++;
+        if (this instanceof BlueEnemy)   Stats.blueEnemiesKilled++;
+        if (this instanceof PurpleEnemy) Stats.purpleEnemiesKilled++;
     }
 
     public void shootBullet(Vector2 target){
