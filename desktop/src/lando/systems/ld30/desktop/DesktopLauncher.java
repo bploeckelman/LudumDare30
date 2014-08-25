@@ -10,7 +10,7 @@ import lando.systems.ld30.utils.Config;
 public class DesktopLauncher {
 
 
-    final static boolean PARSE_SVG = true;
+    final static boolean PARSE_SVG = false;
 
     public static void main (String[] arg) {
 
@@ -28,9 +28,12 @@ public class DesktopLauncher {
         TexturePacker.Settings settings = new TexturePacker.Settings();
         settings.filterMin = Texture.TextureFilter.MipMapNearestNearest;
         settings.filterMag = Texture.TextureFilter.MipMapNearestNearest;
+//        settings.filterMin = Texture.TextureFilter.Linear;
+//        settings.filterMag = Texture.TextureFilter.Linear;
         settings.maxWidth = 1024;
         settings.maxHeight = 1024;
         TexturePacker.process(settings, "./images", "./atlas", "game");
+//        TexturePacker.process(settings, "./prism", "./atlas", "prism");
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = Config.window_width;

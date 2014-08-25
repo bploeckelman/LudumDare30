@@ -32,6 +32,7 @@ public class Assets {
     public static NinePatch ninepatchSmall;
 
     public static TextureAtlas atlas;
+    public static TextureAtlas prism;
 
     public static Random random;
     public static ShaderProgram prismProgram;
@@ -86,6 +87,7 @@ public class Assets {
             System.out.println(shimmerProgram.getLog());
 
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
+        prism = new TextureAtlas(Gdx.files.internal("atlas/prism.atlas"));
 
         ninepatchBrown = new NinePatch(atlas.findRegion("brown-panel"), 10, 10, 10, 10);
         ninepatchGreen = new NinePatch(atlas.findRegion("green-bar"), 7, 7, 7, 7);
@@ -101,6 +103,7 @@ public class Assets {
         playerDeathParticleEffect.dispose();
         explodeParticleEffect.dispose();
         atlas.dispose();
+        prism.dispose();
         badlogic.dispose();
         shapes.dispose();
         batch.dispose();
