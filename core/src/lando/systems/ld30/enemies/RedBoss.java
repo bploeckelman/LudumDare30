@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import lando.systems.ld30.PowerUp;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Box2dContactListener;
@@ -35,6 +36,8 @@ public class RedBoss extends RedEnemy {
         healthBar.bounds.width = 200;
         healthBar.bounds.height = 20;
         healthBar.setBarColor(Color.RED.cpy());
+        isBoss = true;
+        // TODO: Play Sound on spawn
     }
 
     public void update(float dt){
@@ -120,5 +123,9 @@ public class RedBoss extends RedEnemy {
         body.setUserData(this);
 
         circleShape.dispose();
+    }
+
+    public PowerUp getPowerUP() {
+        return new PowerUp(body.getPosition().cpy());
     }
 }

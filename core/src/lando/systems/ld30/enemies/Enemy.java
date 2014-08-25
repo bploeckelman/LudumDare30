@@ -44,7 +44,7 @@ public abstract class Enemy implements Collidable {
     public float bulletSpeed = 800;
     public float seekerSpeed = 500;
 
-
+    public boolean isBoss;
     public boolean alive;
 
     public float hitPoints = 1f;
@@ -63,6 +63,7 @@ public abstract class Enemy implements Collidable {
     public Enemy(Vector2 position, GameScreen screen) {
         this.screen = screen;
         alive = true;
+        isBoss = false;
 
         initializeBox2dBody(position);
         intializeSprite();
@@ -184,4 +185,7 @@ public abstract class Enemy implements Collidable {
     protected abstract void intializeSprite();
     protected abstract void initializeBox2dBody(Vector2 position);
 
+    public PowerUp getPowerUP() {
+        return null;
+    }
 }

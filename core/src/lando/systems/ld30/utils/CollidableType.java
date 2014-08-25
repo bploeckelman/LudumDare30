@@ -14,5 +14,6 @@ public enum CollidableType {
     CYAN_ENEMY,
     PURPLE_ENEMY,
     WORLD,
-    MISC
+    MISC,
+    POWER_UP
 }

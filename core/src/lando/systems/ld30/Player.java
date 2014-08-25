@@ -101,7 +101,7 @@ public class Player implements InputProcessor, Collidable {
         healthBar = new HealthBar(100, 18);
 
         //TODO DEBUG STUFF
-        availableColors.add(Globals.COLORS.CYAN);
+        //availableColors.add(Globals.COLORS.CYAN);
     }
 
     private final float MAX_VELOCITY = 30f;
