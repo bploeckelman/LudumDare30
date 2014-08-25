@@ -441,6 +441,7 @@ public class GameScreen implements Screen {
 
     public void returnToOverMap(LEVEL_STATE prevState, boolean dead){
         if (!dead) {
+            player.hitPoints = player.max_hit_points;
             switch (prevState) {
                 case RED:
                     colorsBeat[0] = true;
