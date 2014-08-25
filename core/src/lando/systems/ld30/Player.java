@@ -45,9 +45,11 @@ public class Player implements InputProcessor, Collidable {
     public PointLight playerLight;
     public float reloadTimer = 0;
     public float bulletSpeed = 800;
+    public float seekerSpeed = 500;
     public float hitPoints = max_hit_points;
     public final static float RED_RELOAD_TIME = 2f;
     public final static float YELLOW_RELOAD_TIME = .2f;
+    public final static float CYAN_RELOAD_TIME = .8f;
 
 
 
@@ -97,13 +99,13 @@ public class Player implements InputProcessor, Collidable {
 
 
         //TODO DEBUG STUFF
-        availableColors.add(Globals.COLORS.YELLOW);
+        availableColors.add(Globals.COLORS.CYAN);
     }
 
     private final float MAX_VELOCITY = 30f;
     public void update(float dt) {
         if (respawnTimer > 0 ){
-            if (alive == true) {
+            if (alive) {
                 alive = false;
                 body.destroyFixture(fixture);
                 CircleShape circleShape = new CircleShape();
@@ -119,6 +121,7 @@ public class Player implements InputProcessor, Collidable {
             respawnTimer -= dt;
             if (respawnTimer <= 0){
                 respawnTimer = 0;
+                hitPoints = max_hit_points;
                 alive = true;
                 body.destroyFixture(fixture);
                 CircleShape circleShape = new CircleShape();
@@ -188,6 +191,8 @@ public class Player implements InputProcessor, Collidable {
                     shootBullet(target);
                     break;
                 case CYAN:
+                    reloadTimer = CYAN_RELOAD_TIME;
+                    shootSeeker(target);
                     break;
                 case PURPLE:
                     break;
@@ -307,6 +312,11 @@ public class Player implements InputProcessor, Collidable {
     public void shootBullet(Vector2 target){
         Vector2 dir = target.cpy().sub(body.getPosition());
         screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE, true, bulletSpeed, 5f));
+    }
+
+    public void shootSeeker(Vector2 target){
+        Vector2 dir = target.cpy().sub(body.getPosition());
+        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.CYAN, true, seekerSpeed, 20f));
     }
 
     private void shootLaser(Vector2 target, Color color) {

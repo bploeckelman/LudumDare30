@@ -43,6 +43,7 @@ public abstract class Enemy implements Collidable {
     public float speed;
     public float animTimer;
     public float bulletSpeed = 800;
+    public float seekerSpeed = 500;
 
 
     public boolean alive;
@@ -52,6 +53,7 @@ public abstract class Enemy implements Collidable {
     public float RELOAD_TIME = 3f;
     public float LASER_DAMAGE = 10f;
     public float BULLET_DAMAGE = 5f;
+    public float SEEKER_DAMAGE = 20;
     public float reloadTimer = 0;
 
     // Temporary helper vectors for calculating all the things
@@ -109,7 +111,7 @@ public abstract class Enemy implements Collidable {
     public void shootSeeker(Vector2 target){
         reloadTimer = RELOAD_TIME;
         Vector2 dir = target.cpy().sub(body.getPosition());
-        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.CYAN, false, bulletSpeed, BULLET_DAMAGE));
+        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.WHITE, false, seekerSpeed, SEEKER_DAMAGE));
     }
 
     protected void shootLaser(Vector2 target, Color color) {
