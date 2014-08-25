@@ -15,4 +15,5 @@ public interface Collidable {
     public boolean collideWithBullet(Bullet bullet);
     public void collideWithWorld();
     public void collisionDamage(float damage);
+    public float getVelocity();
 }

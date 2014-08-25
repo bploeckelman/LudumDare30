@@ -42,6 +42,8 @@ public class GameScreen implements Screen {
     PointLight light, light1;
     Portal[] portals = new Portal[6];
 
+    public int MAX_ENEMIES = 50;
+
     public Level level;
     public Player player;
     public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -87,14 +89,16 @@ public class GameScreen implements Screen {
 //        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
 //        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
 //        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
-        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
-        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
-        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
+//        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
+//        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
+//        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
 //        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
+
+        //enemies.add(new RedBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -137,7 +141,7 @@ public class GameScreen implements Screen {
             enterLevel(LEVEL_STATE.OVER_MAP, false);
         }
 
-        if (Assets.random.nextFloat() > .9f){
+        if (Assets.random.nextFloat() > .995f && enemies.size() < MAX_ENEMIES){
             int spawnColor = Assets.random.nextInt(6);
             if (colorsBeat[spawnColor]){
                 spawnRandom(spawnColor);
@@ -185,7 +189,32 @@ public class GameScreen implements Screen {
 
 
     public void spawnRandom(int color){
-        // TODO make this work in a randomish way
+        Enemy enemy;
+        Vector2 spawn = Globals.spawnPoints[Assets.random.nextInt(Globals.spawnPoints.length)].cpy().rotate(60 * Assets.random.nextInt(6)).add(Globals.worldCenter);
+        switch (color){
+            case 0:
+                enemy = new RedEnemy(spawn, this);
+                break;
+            case 1:
+                enemy = new YellowEnemy(spawn, this);
+                break;
+            case 2:
+                enemy = new GreenEnemy(spawn, this);
+                break;
+            case 3:
+                enemy = new CyanEnemy(spawn, this);
+                break;
+            case 4:
+                enemy = new BlueEnemy(spawn, this);
+                break;
+            case 5:
+                enemy = new PurpleEnemy(spawn, this);
+                break;
+            default:
+                enemy = new RedEnemy(spawn, this);
+        }
+
+        enemies.add(enemy);
     }
 
 

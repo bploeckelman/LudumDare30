@@ -18,6 +18,10 @@ public class HealthBar {
         bounds = new Rectangle(0, 0, width, height);
     }
 
+    public void setWidth(float width){
+        bounds.width = width;
+    }
+
     public void setPosition(float x, float y) {
         bounds.x = x;
         bounds.y = y;

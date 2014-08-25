@@ -42,10 +42,6 @@ public class YellowEnemy extends Enemy {
             body.applyForceToCenter(dir.x, dir.y, true);
         }
 
-        if (shot != null) {
-            shot.update(dt);
-            if (!shot.alive) shot = null;
-        }
         // TODO : do other update things specific to this enemy
     }
 

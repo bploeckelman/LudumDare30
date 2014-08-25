@@ -71,8 +71,8 @@ public class Box2dContactListener implements ContactListener {
                 collidableB.collideWithWorld();
                 break;
             case PLAYER:
-                collidableB.collisionDamage(((Player)collidableA).body.getLinearVelocity().len());
-                collidableA.collisionDamage(((Player)collidableA).body.getLinearVelocity().len());
+                collidableB.collisionDamage(((Player)collidableA).body.getLinearVelocity().len() + collidableB.getVelocity());
+                collidableA.collisionDamage(collidableB.getVelocity());
         }
     }
 

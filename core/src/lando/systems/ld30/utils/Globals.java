@@ -18,6 +18,7 @@ public class Globals {
 
     public static final float world_center_x = 1000;
     public static final float world_center_y = 1000;
+    public static final Vector2 worldCenter = new Vector2(world_center_x,world_center_y);
 
     public static final float chamber_w = 175;
     public static final float chamber_h = 200;
@@ -26,6 +27,11 @@ public class Globals {
     public static final float level_min_y = 640;
     public static final float level_max_x = 1360;
     public static final float level_max_y = 1360;
+
+    public static final Vector2[] spawnPoints = new Vector2[]{
+        new Vector2(30, 0), new Vector2(30, 30), new Vector2(30, -30),
+        new Vector2(150, 0), new Vector2(150, 50), new Vector2(150, -50)
+    };
 
     public static final Vector2 red_center    = new Vector2(level_max_x - chamber_w / 2 + 35,  world_center_y);
     public static final Vector2 yellow_center = new Vector2(level_max_x - chamber_w / 2 - 125, world_center_y - 265);

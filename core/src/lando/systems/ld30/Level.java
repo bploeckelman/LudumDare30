@@ -134,4 +134,9 @@ public class Level implements Collidable {
     public void collisionDamage(float damage) {
 
     }
+
+    @Override
+    public float getVelocity() {
+        return 0;
+    }
 }

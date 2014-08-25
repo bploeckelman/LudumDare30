@@ -25,7 +25,7 @@ public class SeekingBullet extends Bullet{
             dir = (Globals.gameScreen.player.body.getPosition().cpy().sub(body.getPosition())).nor();
         } else {
             for (Enemy enemy : Globals.gameScreen.enemies){
-                Vector2 temp = enemy.body.getPosition().cpy().sub(body.getPosition()).nor();
+                Vector2 temp = enemy.body.getPosition().cpy().sub(body.getPosition());
                 if (dir.len() == 0 || temp.len() < dir.len()){
                     dir = temp;
                 }
@@ -33,6 +33,6 @@ public class SeekingBullet extends Bullet{
         }
         Vector2 vel = body.getLinearVelocity();
         // TODO: maybe make a max speed?
-        body.applyForceToCenter(dir.scl(300), true);
+        body.applyForceToCenter(dir.nor().scl(300), true);
     }
 }

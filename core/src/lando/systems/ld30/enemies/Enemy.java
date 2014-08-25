@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -53,6 +54,7 @@ public abstract class Enemy implements Collidable {
     public float BULLET_DAMAGE = 5f;
     public float SEEKER_DAMAGE = 20;
     public float reloadTimer = 0;
+    public MutableFloat rotation = new MutableFloat(0);
 
     // Temporary helper vectors for calculating all the things
     protected Vector2 dist = new Vector2();
@@ -85,6 +87,11 @@ public abstract class Enemy implements Collidable {
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
 
         healthBar.setValue(getPercentHP());
+
+        if (shot != null) {
+            shot.update(dt);
+            if (!shot.alive) shot = null;
+        }
     }
 
     public void render(SpriteBatch batch) {
@@ -163,6 +170,11 @@ public abstract class Enemy implements Collidable {
     @Override
     public void collisionDamage(float damage) {
         takeDamage(damage);
+    }
+
+    @Override
+    public float getVelocity() {
+        return body.getLinearVelocity().len();
     }
 
     public float getPercentHP() {

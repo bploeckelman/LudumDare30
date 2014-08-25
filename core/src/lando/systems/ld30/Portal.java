@@ -36,7 +36,7 @@ public class Portal {
     }
 
     public void update(float dt){
-        portalShimmer += dt * 5;
+        portalShimmer += dt * 3;
         light.update();
     }
 

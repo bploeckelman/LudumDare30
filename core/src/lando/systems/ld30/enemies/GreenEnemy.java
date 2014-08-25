@@ -36,10 +36,6 @@ public class GreenEnemy extends Enemy {
         hitPoints = Math.min(hitPoints + (dt * 5), maxHitPoints);
 
 
-        if (shot != null) {
-            shot.update(dt);
-            if (!shot.alive) shot = null;
-        }
     }
 
     @Override

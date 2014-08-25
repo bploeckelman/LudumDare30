@@ -41,10 +41,6 @@ public class CyanEnemy extends Enemy {
             body.applyForceToCenter(dir.x, dir.y, true);
         }
 
-        if (shot != null) {
-            shot.update(dt);
-            if (!shot.alive) shot = null;
-        }
     }
 
     @Override

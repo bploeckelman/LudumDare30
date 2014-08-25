@@ -126,7 +126,7 @@ public class Player implements InputProcessor, Collidable {
                 respawnTimer = 0;
                 hitPoints = max_hit_points;
                 healthBar.setValue(1);
-                body.setTransform(1000,1000, 0);
+                body.setTransform(1000, 1000, 0);
                 screen.enterLevel(GameScreen.LEVEL_STATE.OVER_MAP, true);
                 alive = true;
                 body.destroyFixture(fixture);
@@ -370,6 +370,11 @@ public class Player implements InputProcessor, Collidable {
     @Override
     public void collisionDamage(float damage) {
         takeDamage(damage);
+    }
+
+    @Override
+    public float getVelocity() {
+        return body.getLinearVelocity().len();
     }
 
     public float getPercentHP() {
