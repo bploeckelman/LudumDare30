@@ -46,13 +46,6 @@ blue-enemy03
   orig: 15, 15
   offset: 0, 0
   index: -1
-blue-enemy04
-  rotate: false
-  xy: 154, 42
-  size: 15, 15
-  orig: 15, 15
-  offset: 0, 0
-  index: -1
 blue-enemy09
   rotate: false
   xy: 154, 42
@@ -61,6 +54,13 @@ blue-enemy09
   offset: 0, 0
   index: -1
 blue-enemy05
+  rotate: false
+  xy: 154, 42
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy04
   rotate: false
   xy: 154, 42
   size: 15, 15
@@ -408,6 +408,13 @@ red-enemy5
   xy: 125, 56
   size: 16, 16
   orig: 16, 16
+  offset: 0, 0
+  index: -1
+shard
+  rotate: false
+  xy: 114, 3
+  size: 7, 7
+  orig: 7, 7
   offset: 0, 0
   index: -1
 sparkle-small
