@@ -279,6 +279,10 @@ public class GameScreen implements Screen {
                     bossSpawned = true;
                     enemies.add(new BlueBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
                     break;
+                case PURPLE:
+                    bossSpawned = true;
+                    enemies.add(new PurpleBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+                    break;
 
             }
         }
@@ -343,7 +347,7 @@ public class GameScreen implements Screen {
         }
         borderColor = color;
         Color ambient = color.cpy();
-        ambient.a = .3f;
+        ambient.a = .2f;
         rayHandler.setAmbientLight(ambient);
     }
 
