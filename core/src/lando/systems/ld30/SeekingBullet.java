@@ -10,10 +10,10 @@ import lando.systems.ld30.utils.Globals;
  */
 public class SeekingBullet extends Bullet{
     boolean fromPlayer;
-    public SeekingBullet(Vector2 position, Vector2 dir, Color color, boolean fromPlayer, float speed, float damage) {
+    public SeekingBullet(Vector2 position, Vector2 dir, Color color, boolean fromPlayer, float speed, float damage, float TTL) {
         super(position, dir, color, fromPlayer, speed, damage);
         this.fromPlayer = fromPlayer;
-        TTL = 5;
+        this.TTL = TTL;
         body.setLinearDamping(.3f);
     }
 

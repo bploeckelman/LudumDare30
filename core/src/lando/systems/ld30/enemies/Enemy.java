@@ -21,6 +21,8 @@ import lando.systems.ld30.utils.Collidable;
 import lando.systems.ld30.utils.CollidableType;
 import lando.systems.ld30.utils.Globals;
 
+import java.util.ArrayList;
+
 /**
  * Brian Ploeckelman created on 8/23/2014.
  */
@@ -28,7 +30,7 @@ public abstract class Enemy implements Collidable {
 
     protected static final BodyDef bodyDef = new BodyDef();
 
-    public EnemyLaserShot shot;
+    public ArrayList<EnemyLaserShot> lasers = new ArrayList<EnemyLaserShot>();
     public PointLight enemyLight;
 
     public float body_radius;
@@ -46,6 +48,7 @@ public abstract class Enemy implements Collidable {
     public float animTimer;
     public float bulletSpeed = 800;
     public float seekerSpeed = 500;
+    public float SEEKER_TIME = 10f;
 
     public boolean isBoss;
     public boolean alive;
@@ -104,14 +107,22 @@ public abstract class Enemy implements Collidable {
         healthBar.setValue(getPercentHP());
         if (shieldBar != null) shieldBar.setValue(getPercentShield());
 
-        if (shot != null) {
-            shot.update(dt);
-            if (!shot.alive) shot = null;
+        for (int i = lasers.size(); --i >= 0;) {
+            EnemyLaserShot shot = lasers.get(i);
+            if (shot != null) {
+                shot.update(dt);
+                if (!shot.alive) lasers.remove(i);
+            }
+        }
+        if (timeSinceLastHit > SHIELD_DELAY){
+            shieldAmount = Math.min(shieldAmount + (dt * 10), maxShield);
         }
     }
 
     public void render(SpriteBatch batch) {
-        if (shot != null) shot.render(batch);
+        for (int i = 0; i < lasers.size(); i++) {
+            lasers.get(i).render(batch);
+        }
         sprite.draw(batch);
         shieldSprite.setColor(Globals.shieldColor.cpy().mul(shieldAmount/maxShield));
         if (isShieldUp())
@@ -140,7 +151,7 @@ public abstract class Enemy implements Collidable {
     public void kill(){
         alive = false;
         screen.game.tweenManager.killTarget(enemyLight);
-        shot = null;
+        lasers.clear();
         enemyLight.setColor(0, 0, 0, 1);
         enemyLight.setDistance(0);
     }
@@ -159,17 +170,17 @@ public abstract class Enemy implements Collidable {
     public void shootSeeker(Vector2 target){
         reloadTimer = RELOAD_TIME;
         Vector2 dir = target.cpy().sub(body.getPosition());
-        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.WHITE, false, seekerSpeed, SEEKER_DAMAGE));
+        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.WHITE, false, seekerSpeed, SEEKER_DAMAGE, SEEKER_TIME));
     }
 
     public void shootSeekerDir(Vector2 dir){
-        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.WHITE, false, seekerSpeed, SEEKER_DAMAGE));
+        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.WHITE, false, seekerSpeed, SEEKER_DAMAGE, SEEKER_TIME));
 
     }
 
     protected void shootLaser(Vector2 target, Color color) {
         reloadTimer = RELOAD_TIME;
-        shot = new EnemyLaserShot(body, target, color, RELOAD_TIME, LASER_DAMAGE);
+        lasers.add(new EnemyLaserShot(body, target, color, RELOAD_TIME, LASER_DAMAGE));
         Timeline.createSequence()
                 .beginParallel()
                 .push(Tween.to(enemyLight, PointLightAccessor.DIST, RELOAD_TIME).target(8))
@@ -212,7 +223,7 @@ public abstract class Enemy implements Collidable {
 
     @Override
     public void collisionDamage(float damage) {
-        if (isShieldUp() && shieldAmount > 0) damage/= 2f;
+        if (isShieldUp() && shieldAmount > 0) damage/= 10f;
         takeDamage(damage);
     }
 

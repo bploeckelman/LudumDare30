@@ -81,7 +81,7 @@ public class Player implements InputProcessor, Collidable {
         fixture = body.createFixture(playerFixture);
 
 
-        body.setLinearDamping(1f);
+        body.setLinearDamping(.5f);
         body.setAngularDamping(2f);
         body.setUserData(this);
         circleShape.dispose();
@@ -116,7 +116,7 @@ public class Player implements InputProcessor, Collidable {
         availableColors.add(Globals.COLORS.BLUE);
     }
 
-    private final float MAX_VELOCITY = 15f;
+    private final float MAX_VELOCITY = 20f;
     public void update(float dt) {
         if (respawnTimer > 0 ){
             if (alive) {
@@ -372,7 +372,7 @@ public class Player implements InputProcessor, Collidable {
 
     public void shootSeeker(Vector2 target){
         Vector2 dir = target.cpy().sub(body.getPosition());
-        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.CYAN, true, seekerSpeed, 20f));
+        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.CYAN, true, seekerSpeed, 20f, 10f));
     }
 
     private void shootLaser(Vector2 target, Color color) {
@@ -422,7 +422,7 @@ public class Player implements InputProcessor, Collidable {
 
     @Override
     public void collisionDamage(float damage) {
-        if (isShieldUp() && shieldAmount > 0) damage/= 2f;
+        if (isShieldUp() && shieldAmount > 0) damage/= 10f;
         takeDamage(damage);
     }
 

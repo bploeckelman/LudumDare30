@@ -14,47 +14,42 @@ import lando.systems.ld30.utils.Globals;
 /**
  * Created by dsgraham on 8/25/14.
  */
-public class CyanBoss extends CyanEnemy{
-    public CyanBoss(Vector2 position, GameScreen screen) {
+public class BlueBoss extends BlueEnemy {
+    public BlueBoss(Vector2 position, GameScreen screen) {
         super(position, screen);
 
-
-        speed = 20f;
+        speed = 40f;
         maxHitPoints = 100;
         hitPoints = 100;
+        shieldAmount = 100;
+        maxShield = 100;
         healthBar.setWidth(150);
         RELOAD_TIME = 4f;
         healthBar.bounds.width = 200;
         healthBar.bounds.height = 20;
-        healthBar.setBarColor(Color.CYAN.cpy());
-        SEEKER_DAMAGE = 10f;
-        SEEKER_TIME = 30f;
+        healthBar.setBarColor(Color.BLUE.cpy());
         isBoss = true;
     }
 
-    public void update(float dt)
-    {
+    @Override
+    public void update(float dt) {
         superUpdate(dt);
 
+        // Always be chasing
         dir.set(screen.player.body.getPosition());
         dir.sub(body.getPosition()).nor().scl(speed);
         body.applyForceToCenter(dir.x, dir.y, true);
 
         if (reloadTimer <= 0){
-            shootLaser(screen.player.body.getPosition(), Color.GREEN);
-            int bulletSpread = 5 + Assets.random.nextInt(10);
-
+            int bulletSpread = 4 + Assets.random.nextInt(4);
+            float spreadOffset = Assets.random.nextFloat() * 360/bulletSpread;
             for (int i = 0; i < bulletSpread; i++){
-                new Vector2(1,0);
-
-                shootSeekerDir(new Vector2(1, 0).rotate(i * (360 / bulletSpread)));
-
+                shootLaser(new Vector2(1, 0).rotate(spreadOffset + (i * (360 / bulletSpread))).add(body.getPosition()), Color.BLUE);
+                reloadTimer = 5f;
             }
-
-            reloadTimer = 5f;
         }
-    }
 
+    }
 
     @Override
     protected void initializeBox2dBody(Vector2 position) {

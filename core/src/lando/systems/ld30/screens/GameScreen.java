@@ -88,11 +88,11 @@ public class GameScreen implements Screen {
 //        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y +  7), this));
 //        enemies.add(new YellowEnemy(new Vector2( Globals.world_center_x +  7,Globals.world_center_y + -7), this));
 //        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y +  9), this));
-        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  9, Globals.world_center_y +  0), this));
-        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + -9), this));
-        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x + -9, Globals.world_center_y +  0), this));
-        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
-        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
+//        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  9, Globals.world_center_y +  0), this));
+//        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + -9), this));
+//        enemies.add(new GreenEnemy(new Vector2( Globals.world_center_x + -9, Globals.world_center_y +  0), this));
+//        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
+//        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
 //        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
 //        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
 //        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
@@ -104,7 +104,7 @@ public class GameScreen implements Screen {
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
 
-        //enemies.add(new CyanBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+        //enemies.add(new BlueBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -266,6 +266,12 @@ public class GameScreen implements Screen {
                 case CYAN:
                     bossSpawned = true;
                     enemies.add(new CyanBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+                    break;
+                case BLUE:
+                    bossSpawned = true;
+                    enemies.add(new BlueBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+                    break;
+
             }
         }
     }
@@ -329,7 +335,7 @@ public class GameScreen implements Screen {
         }
         borderColor = color;
         Color ambient = color.cpy();
-        ambient.a = .4f;
+        ambient.a = .3f;
         rayHandler.setAmbientLight(ambient);
     }
 

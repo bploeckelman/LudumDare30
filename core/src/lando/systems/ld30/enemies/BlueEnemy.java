@@ -43,9 +43,13 @@ public class BlueEnemy extends Enemy {
             body.applyForceToCenter(dir.x, dir.y, true);
         }
 
-        if (timeSinceLastHit > SHIELD_DELAY){
-            shieldAmount = Math.min(shieldAmount + (dt * 10), maxShield);
-        }
+
+
+
+    }
+
+    public void superUpdate(float dt){
+        super.update(dt);     // Brian gave me this idea
 
 
     }
