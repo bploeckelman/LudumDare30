@@ -47,8 +47,8 @@ public abstract class Enemy implements Collidable {
     public boolean isBoss;
     public boolean alive;
 
-    public float hitPoints = 1f;
-    public float maxHitPoints = 1f;
+    public float hitPoints = 10f;
+    public float maxHitPoints = 10f;
     public float RELOAD_TIME = 3f;
     public float LASER_DAMAGE = 10f;
     public float BULLET_DAMAGE = 5f;
