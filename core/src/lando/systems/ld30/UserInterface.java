@@ -5,12 +5,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import lando.systems.ld30.enemies.Enemy;
 import lando.systems.ld30.screens.GameScreen;
+import lando.systems.ld30.utils.Assets;
 
 /**
  * Brian Ploeckelman created on 8/24/2014.
@@ -22,12 +25,14 @@ public class UserInterface {
     public Skin skin;
     public Stage stage;
 
-    public Label playerHealthBarLabel;
+    public Dialog popup;
 
     public final GameScreen screen;
 
     final float margin_x = 5;
     final float margin_y = 5;
+    final float popup_width = 400;
+    final float popup_height = 250;
 
     public UserInterface(GameScreen screen) {
         this.screen = screen;
@@ -46,12 +51,15 @@ public class UserInterface {
         stage.act(delta);
         hudCamera.update();
 
+        popup.setCenterPosition(stage.getWidth() / 2, stage.getHeight() / 2);
         updateHealthBars();
     }
 
     public void render() {
         stage.draw();
-        renderHealthBars();
+        if (!popup.isVisible()) {
+            renderHealthBars();
+        }
     }
 
     public void resize(int width, int height) {
@@ -65,11 +73,30 @@ public class UserInterface {
         stage.dispose();
     }
 
+    public void showPopup(String text) {
+        showPopup(text, null);
+    }
+
+    public void showPopup(String text, String title) {
+        popup.getContentTable().clear();
+        popup.setTitle((title != null) ? title : "Note");
+        popup.text(text);
+        popup.setVisible(true);
+    }
+
+    public void hidePopup() {
+        popup.setVisible(false);
+    }
+
     private void initializeWidgets() {
-//        playerHealthBarLabel = new Label("Player: ", skin);
-//        playerHealthBarLabel.setPosition(margin_x, margin_y);
-//
-//        stage.addActor(playerHealthBarLabel);
+        popup = new Dialog("Popup text", skin);
+        popup.setSize(popup_width, popup_height);
+        popup.setKeepWithinStage(true);
+        popup.setBackground(new TextureRegionDrawable(Assets.atlas.findRegion("brown-panel")));
+        popup.setCenterPosition(stage.getWidth() / 2, stage.getHeight() / 2);
+        popup.setVisible(false);
+
+        stage.addActor(popup);
     }
 
     Vector3 p = new Vector3();

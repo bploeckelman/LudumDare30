@@ -139,8 +139,23 @@ public class GameScreen implements Screen {
     float accum = 0;
     public void update(float dt){
         dt = Math.min (dt, 1/30f);
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+
+        if (ui.popup.isVisible()) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.justTouched()) {
+                ui.hidePopup();
+            }
+            return;
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+            ui.showPopup("Read all the things!  (click or esc to dismiss) \n"
+                        +"................................................\n"
+                        +"................................................\n"
+                        +"................................................");
         }
 
         // TODO: this is DEBUG
@@ -493,6 +508,10 @@ public class GameScreen implements Screen {
     private final static int POSITION_ITERS = 2;
     private float physicsTimeLeft;
     private boolean fixedStep(float delta) {
+        if (ui.popup.isVisible()) {
+            return false;
+        }
+
         physicsTimeLeft += delta;
         if (physicsTimeLeft > MAX_TIME_PER_FRAME)
             physicsTimeLeft = MAX_TIME_PER_FRAME;
