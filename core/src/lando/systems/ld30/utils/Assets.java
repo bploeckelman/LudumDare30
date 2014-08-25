@@ -2,6 +2,7 @@ package lando.systems.ld30.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -17,6 +18,8 @@ public class Assets {
 
     public static SpriteBatch batch;
     public static ShapeRenderer shapes;
+
+    public static BitmapFont font;
 
     public static Texture badlogic;
     public static Texture beam;
@@ -35,6 +38,8 @@ public class Assets {
     public static void load() {
         batch = new SpriteBatch();
         shapes = new ShapeRenderer();
+
+        font = new BitmapFont(Gdx.files.internal("font/crystalline.fnt"), false);
 
         badlogic = new Texture("badlogic.jpg");
         badlogic.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -70,6 +75,7 @@ public class Assets {
     }
 
     public static void dispose() {
+        font.dispose();
         explodeParticleEffect.dispose();
         atlas.dispose();
         badlogic.dispose();

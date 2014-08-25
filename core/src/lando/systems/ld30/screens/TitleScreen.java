@@ -7,6 +7,7 @@ import aurelienribon.tweenengine.equations.Linear;
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -67,7 +68,10 @@ public class TitleScreen implements Screen {
 
         Assets.batch.setProjectionMatrix(camera.combined);
         Assets.batch.begin();  // THINGS THAT NEED TO get prismed go here
-        Assets.batch.draw(Assets.badlogic, 500, 100);
+//        Assets.batch.draw(Assets.badlogic, 500, 100);
+        Assets.font.setScale(1.5f);
+        Assets.font.setColor(Color.WHITE);
+        Assets.font.draw(Assets.batch, "Prismatic Worlds", 100, Gdx.graphics.getHeight() - 100 );
         Assets.batch.end();
         fbo.end();
 
