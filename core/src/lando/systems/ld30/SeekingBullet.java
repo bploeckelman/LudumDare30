@@ -30,6 +30,9 @@ public class SeekingBullet extends Bullet{
                     dir = temp;
                 }
             }
+            if (Globals.gameScreen.onFinalBoss()){
+                dir = Globals.gameScreen.finalBoss.body.getPosition().cpy().sub(body.getPosition()).nor();
+            }
         }
         Vector2 vel = body.getLinearVelocity();
         // TODO: maybe make a max speed?

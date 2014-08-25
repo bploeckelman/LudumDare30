@@ -42,7 +42,7 @@ public class CyanBoss extends CyanEnemy{
         body.applyForceToCenter(dir.x, dir.y, true);
 
         if (reloadTimer <= 0){
-            shootLaser(screen.player.body.getPosition(), Color.GREEN);
+            shootLaser(screen.player.body.getPosition(), Color.CYAN);
             int bulletSpread = 5 + Assets.random.nextInt(10);
 
             for (int i = 0; i < bulletSpread; i++){

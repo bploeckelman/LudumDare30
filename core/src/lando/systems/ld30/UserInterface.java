@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -104,7 +105,7 @@ public class UserInterface {
 
     public void showPopup(String text, String title) {
         popup.getContentTable().clear();
-        popup.setTitle((title != null) ? title : "Note");
+        popup.setTitle((title != null) ? "\n" + title : "\nNote");
         popup.text(text);
         popup.setVisible(true);
     }
@@ -120,6 +121,7 @@ public class UserInterface {
         popup.setBackground(new TextureRegionDrawable(Assets.atlas.findRegion("brown-panel")));
         popup.setCenterPosition(stage.getWidth() / 2, stage.getHeight() / 2);
         popup.setVisible(false);
+        popup.setTitleAlignment(Align.top);
         stage.addActor(popup);
 
         playTimeLabel = new Label("Time: --", skin);
@@ -208,6 +210,20 @@ public class UserInterface {
                         p.y + enemy.shieldBar.bounds.height + enemy.healthBar.bounds.height - 1);
             }
         }
+
+        if (screen.onFinalBoss()) {
+            p.set(screen.finalBoss.body.getPosition().x, screen.finalBoss.body.getPosition().y, 0);
+            screen.camera.project(p, v.getScreenX(), v.getScreenY(), v.getScreenWidth(), v.getScreenHeight());
+            screen.finalBoss.healthBar.setPosition(
+                    p.x - screen.finalBoss.healthBar.bounds.width / 2,
+                    p.y + screen.finalBoss.healthBar.bounds.height / 2);
+            if (screen.finalBoss.shieldBar != null) {
+                screen.finalBoss.shieldBar.setPosition(
+                        p.x - screen.finalBoss.shieldBar.bounds.width / 2,
+                        p.y + screen.finalBoss.shieldBar.bounds.height + screen.finalBoss.healthBar.bounds.height - 1);
+            }
+        }
+
     }
 
     private void renderHealthBars() {
@@ -223,6 +239,12 @@ public class UserInterface {
             enemy.healthBar.render((SpriteBatch) stage.getBatch());
             if (enemy.shieldBar != null && enemy.isShieldUp()) {
                 enemy.shieldBar.render((SpriteBatch) stage.getBatch());
+            }
+        }
+        if (screen.onFinalBoss()){
+            screen.finalBoss.healthBar.render((SpriteBatch) stage.getBatch());
+            if (screen.finalBoss.shieldBar != null && screen.finalBoss.isShieldUp()) {
+                screen.finalBoss.shieldBar.render((SpriteBatch) stage.getBatch());
             }
         }
         stage.getBatch().end();

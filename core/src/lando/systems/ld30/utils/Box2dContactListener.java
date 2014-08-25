@@ -22,14 +22,17 @@ public class Box2dContactListener implements ContactListener {
     public final static short CATEGORY_WORLD = 0x008;
     public final static short CATEGORY_PLAYER_BULLET = 0x010;
     public final static short CATEGORY_POWER_UP = 0x020;
+    public final static short CATEGORY_FINAL = 0x040;
+
 
     public final static short MASK_PLAYER = CATEGORY_BULLET | CATEGORY_ENEMY | CATEGORY_WORLD | CATEGORY_POWER_UP;
     public final static short MASK_ENEMY = CATEGORY_PLAYER | CATEGORY_WORLD | CATEGORY_ENEMY |CATEGORY_PLAYER_BULLET;
-    public final static short MASK_BULLET = CATEGORY_PLAYER | CATEGORY_WORLD;
+    public final static short MASK_BULLET = CATEGORY_PLAYER | CATEGORY_WORLD ;
     public final static short MASK_WORLD = CATEGORY_BULLET | CATEGORY_ENEMY | CATEGORY_PLAYER | CATEGORY_PLAYER_BULLET;
-    public final static short MASK_PLAYER_BULLET = CATEGORY_ENEMY | CATEGORY_WORLD;
+    public final static short MASK_PLAYER_BULLET = CATEGORY_ENEMY | CATEGORY_WORLD | CATEGORY_FINAL;
     public final static short MASK_DEAD = CATEGORY_WORLD;
     public final static short MASK_POWER_UP = CATEGORY_PLAYER;
+    public final static short MASK_FINAL =  CATEGORY_PLAYER_BULLET;
 
     public Box2dContactListener(GameScreen screen) {
         this.screen = screen;
@@ -67,7 +70,7 @@ public class Box2dContactListener implements ContactListener {
         final CollidableType typeA = collidableA.getType();
         final CollidableType typeB = collidableB.getType();
 
-//        Gdx.app.log("CONTACT", "typeA(" + collidableA + ") = " + typeA.toString() + ", typeB(" + collidableB + ") = " + typeB.toString());
+        Gdx.app.log("CONTACT", "typeA(" + collidableA + ") = " + typeA.toString() + ", typeB(" + collidableB + ") = " + typeB.toString());
 
 
         // TODO : figure out which fixture is what body and respond appropriately

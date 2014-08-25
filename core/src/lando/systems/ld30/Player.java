@@ -114,7 +114,7 @@ public class Player implements InputProcessor, Collidable {
         shieldBar = new HealthBar(80, 12, Color.LIGHT_GRAY.cpy(), Globals.shieldColor.cpy());
 
         //TODO DEBUG STUFF
-        //availableColors.add(Globals.COLORS.PURPLE);
+        //availableColors.add(Globals.COLORS.YELLOW);
     }
 
     private final float MAX_VELOCITY = 20f;
@@ -139,7 +139,7 @@ public class Player implements InputProcessor, Collidable {
                 shieldAmount = maxShield;
                 hitPoints = max_hit_points;
                 healthBar.setValue(1);
-                body.setTransform(1000, 1000, 0);
+                body.setTransform(1000, 1000-10, 0);
                 screen.enterLevel(GameScreen.LEVEL_STATE.OVER_MAP, true);
                 alive = true;
                 body.destroyFixture(fixture);

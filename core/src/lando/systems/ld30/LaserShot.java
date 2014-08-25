@@ -53,7 +53,7 @@ public class LaserShot {
         if (alwaysOn){
             if (timeLeft > 0) {
                 // TODO: Play Laser Sound
-                scale = 2f;
+                scale = 1.5f;
                 active = true;
             } else {
                 alive = false;
@@ -65,7 +65,7 @@ public class LaserShot {
                 scale = .1f;
             } else if (timeLeft > 0) {
                 // TODO: Play Laser Sound
-                scale = 2f;
+                scale = 1.5f;
                 active = true;
             } else {
                 alive = false;

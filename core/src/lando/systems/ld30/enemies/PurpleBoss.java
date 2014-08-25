@@ -52,7 +52,7 @@ public class PurpleBoss extends PurpleEnemy {
                 Vector2 target = new Vector2(1, 0).rotate(spreadOffset + (i * (360 / bulletSpread)));
                 Vector2 nextTarget = new Vector2(1, 0).rotate(spreadOffset + ((i+1) * (360 / bulletSpread)));
                 LASER_DAMAGE = 1f;
-                shootMovingLaser(target, Color.BLUE);
+                shootMovingLaser(target, Color.PURPLE);
                 Tween.to(target, Vector2Accessor.XY, RELOAD_TIME)
                         .target(nextTarget.x, nextTarget.y)
                         .ease(Linear.INOUT)

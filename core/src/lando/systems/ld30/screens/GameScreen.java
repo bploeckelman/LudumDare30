@@ -56,6 +56,7 @@ public class GameScreen implements Screen {
     public boolean gotPowerUp = false;
 
     public PowerUp powerUp;
+    public FinalBoss finalBoss;
 
 
     public GameScreen(LudumDare30 game) {
@@ -69,11 +70,11 @@ public class GameScreen implements Screen {
 
         RayHandler.setGammaCorrection(true);
         RayHandler.useDiffuseLight(false);
-        RayHandler.useDiffuseLight(RayHandler.BlendFunc.MULTIPLY);
-//        RayHandler.useDiffuseLight(RayHandler.BlendFunc.OVERLAY);
+        //.useDiffuseLight(RayHandler.BlendFunc.MULTIPLY);
+        //RayHandler.useDiffuseLight(RayHandler.BlendFunc.OVERLAY);
         rayHandler = new RayHandler(Globals.world);
         rayHandler.setBlur(true);
-        rayHandler.setBlurNum(1);
+        rayHandler.setBlurNum(3);
         rayHandler.setShadows(true);
         rayHandler.setCulling(true);
         rayHandler.setAmbientLight(0.9f);
@@ -110,7 +111,8 @@ public class GameScreen implements Screen {
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
 
-//        enemies.add(new PurpleBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+        //enemies.add(new FinalBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 0), this));
+
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -122,6 +124,7 @@ public class GameScreen implements Screen {
         portals[0].activate();
 
         ui = new UserInterface(this);
+
     }
 
     private void initializeChamberLights() {
@@ -182,9 +185,9 @@ public class GameScreen implements Screen {
         }
 
         // TODO: this is DEBUG
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
-            enterLevel(LEVEL_STATE.OVER_MAP, false);
-        }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
+//            enterLevel(LEVEL_STATE.OVER_MAP, false);
+//        }
 
         if (gotPowerUp){
             Globals.world.destroyBody(powerUp.body);
@@ -193,7 +196,7 @@ public class GameScreen implements Screen {
 
         }
 
-        if (allowSpawn && enemies.size() == 0 || (Assets.random.nextFloat() > .997f && enemies.size() < MAX_ENEMIES)){
+        if (allowSpawn && (enemies.size() == 0 || (Assets.random.nextFloat() > .997f && enemies.size() < MAX_ENEMIES))){
             int spawnColor = Assets.random.nextInt(6);
             if (colorsBeat[spawnColor]){
                 spawnRandom(spawnColor);
@@ -258,6 +261,18 @@ public class GameScreen implements Screen {
             portals[i].update(dt);
             if (portals[i].playerInside(player.body.getPosition())){
                 enterLevel(portals[i].nextState, false);
+            }
+        }
+
+
+
+        if (onFinalBoss()) {
+            if (!finalBoss.alive){
+                // TODO change to credits screen
+            }
+            finalBoss.update(dt);
+            if (!finalBoss.alive){
+                ui.showPopup("Congrat", "You Win!");
             }
         }
 
@@ -419,7 +434,7 @@ public class GameScreen implements Screen {
             enemies.add(new GreenEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.green_center)  , this));
         }
 
-        killsToBoss = 25;
+        killsToBoss = 15;
     }
 
     public void enterYellowLevel(){
@@ -427,7 +442,7 @@ public class GameScreen implements Screen {
         for (int i = 0; i < enemiesOnSpawn; i ++)    {
             enemies.add(new YellowEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.yellow_center)  , this));
         }
-        killsToBoss = 20;
+        killsToBoss = 15;
     }
 
     public void enterCyanLevel(){
@@ -435,7 +450,7 @@ public class GameScreen implements Screen {
         for (int i = 0; i < enemiesOnSpawn; i ++)    {
             enemies.add(new CyanEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.cyan_center)  , this));
         }
-        killsToBoss = 30;
+        killsToBoss = 15;
     }
 
     public void enterBlueLevel(){
@@ -443,7 +458,7 @@ public class GameScreen implements Screen {
         for (int i = 0; i < enemiesOnSpawn; i ++)    {
             enemies.add(new BlueEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.blue_center)  , this));
         }
-        killsToBoss = 40;
+        killsToBoss = 20;
     }
 
     public void enterPurpleLevel(){
@@ -451,7 +466,7 @@ public class GameScreen implements Screen {
         for (int i = 0; i < enemiesOnSpawn; i ++)    {
             enemies.add(new PurpleEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.purple_center)  , this));
         }
-        killsToBoss = 50;
+        killsToBoss = 30;
     }
 
     public void returnToOverMap(LEVEL_STATE prevState, boolean dead){
@@ -501,6 +516,13 @@ public class GameScreen implements Screen {
         }
         bullets.clear();
 
+        if (onFinalBoss()){
+            allowSpawn = false;
+            if (finalBoss == null)
+                finalBoss = new FinalBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 0), this);
+
+        }
+
     }
 
     public void clearBoard(){
@@ -512,6 +534,14 @@ public class GameScreen implements Screen {
             Globals.world.destroyBody(bullet.body);
         }
         bullets.clear();
+    }
+
+    public boolean onFinalBoss(){
+        boolean complete = true;
+        for (boolean level : colorsBeat){
+            if (!level) complete = false;
+        }
+        return complete;
     }
 
     @Override
@@ -549,6 +579,8 @@ public class GameScreen implements Screen {
         if (powerUp != null){
             powerUp.render(Assets.batch);
         }
+
+        if (onFinalBoss()) finalBoss.render(Assets.batch);
 
         Assets.batch.end();
 
