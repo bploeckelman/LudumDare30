@@ -184,6 +184,7 @@ public abstract class Enemy implements Collidable {
     protected void shootLaser(Vector2 target, Color color) {
         reloadTimer = RELOAD_TIME;
         lasers.add(new EnemyLaserShot(body, target, color, RELOAD_TIME, LASER_DAMAGE));
+        enemyLight.setActive(true);
         Timeline.createSequence()
                 .beginParallel()
                 .push(Tween.to(enemyLight, PointLightAccessor.DIST, RELOAD_TIME).target(8))
@@ -191,6 +192,7 @@ public abstract class Enemy implements Collidable {
                     @Override
                     public void onEvent(int type, BaseTween<?> source) {
                         enemyLight.setColor(0,0,0,1);
+                        enemyLight.setActive(false);
                     }
                 }))
                 .end()
