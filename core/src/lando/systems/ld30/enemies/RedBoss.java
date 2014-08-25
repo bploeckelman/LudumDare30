@@ -32,6 +32,9 @@ public class RedBoss extends RedEnemy {
         hitPoints = 100;
         healthBar.setWidth(150);
         RELOAD_TIME = 4f;
+        healthBar.bounds.width = 200;
+        healthBar.bounds.height = 20;
+        healthBar.setBarColor(Color.RED.cpy());
     }
 
     public void update(float dt){

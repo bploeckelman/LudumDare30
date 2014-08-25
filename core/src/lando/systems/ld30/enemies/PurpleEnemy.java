@@ -22,6 +22,7 @@ public class PurpleEnemy extends Enemy {
     public PurpleEnemy(Vector2 position, GameScreen screen) {
         super(position, screen);
         speed = 12f;
+        healthBar.setBarColor(Color.PURPLE.cpy());
     }
 
     @Override

@@ -22,6 +22,7 @@ public class RedEnemy extends Enemy {
     public RedEnemy(Vector2 position, GameScreen screen) {
         super(position, screen);
         speed = 2f;
+        healthBar.setBarColor(Color.RED.cpy());
     }
 
     @Override
