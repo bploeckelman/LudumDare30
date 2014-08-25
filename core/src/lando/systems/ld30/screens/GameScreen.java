@@ -104,7 +104,7 @@ public class GameScreen implements Screen {
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
 
-        //enemies.add(new YellowBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+        //enemies.add(new GreenBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -153,9 +153,9 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             ui.showPopup("Read all the things!  (click or esc to dismiss) \n"
-                        +"................................................\n"
-                        +"................................................\n"
-                        +"................................................");
+                    + "................................................\n"
+                    + "................................................\n"
+                    + "................................................");
         }
 
         // TODO: this is DEBUG
@@ -258,6 +258,11 @@ public class GameScreen implements Screen {
                 case YELLOW:
                     bossSpawned = true;
                     enemies.add(new YellowBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+                    break;
+                case GREEN:
+                    bossSpawned = true;
+                    enemies.add(new GreenBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+                    break;
             }
         }
     }
@@ -373,7 +378,12 @@ public class GameScreen implements Screen {
     }
 
     public void enterGreenLevel(){
+        int enemiesOnSpawn = 12;
+        for (int i = 0; i < enemiesOnSpawn; i ++)    {
+            enemies.add(new GreenEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.green_center)  , this));
+        }
 
+        killsToBoss = 25;
     }
 
     public void enterYellowLevel(){
@@ -385,15 +395,27 @@ public class GameScreen implements Screen {
     }
 
     public void enterCyanLevel(){
-
+        int enemiesOnSpawn = 12;
+        for (int i = 0; i < enemiesOnSpawn; i ++)    {
+            enemies.add(new CyanEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.cyan_center)  , this));
+        }
+        killsToBoss = 30;
     }
 
     public void enterBlueLevel(){
-
+        int enemiesOnSpawn = 16;
+        for (int i = 0; i < enemiesOnSpawn; i ++)    {
+            enemies.add(new BlueEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.blue_center)  , this));
+        }
+        killsToBoss = 40;
     }
 
     public void enterPurpleLevel(){
-
+        int enemiesOnSpawn = 16;
+        for (int i = 0; i < enemiesOnSpawn; i ++)    {
+            enemies.add(new PurpleEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.purple_center)  , this));
+        }
+        killsToBoss = 50;
     }
 
     public void returnToOverMap(LEVEL_STATE prevState, boolean dead){
