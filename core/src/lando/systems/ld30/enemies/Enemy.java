@@ -41,9 +41,12 @@ public abstract class Enemy implements Collidable {
 
     public float speed;
     public float animTimer;
-    public float bulletSpeed = 50;
+    public float bulletSpeed = 800;
 
     public boolean alive;
+
+    public float RELOAD_TIME = 3f;
+    public float reloadTimer = 0;
 
     // Temporary helper vectors for calculating all the things
     protected Vector2 dist = new Vector2();
@@ -61,9 +64,11 @@ public abstract class Enemy implements Collidable {
         enemyLight.setColor(0,0,0,1);
         enemyLight.setDistance(0);
         enemyLight.attachToBody(body, 0, 0);
+        reloadTimer = RELOAD_TIME;
     }
 
     public void update(float dt) {
+        reloadTimer = Math.max(reloadTimer - dt, 0);
         animTimer += dt;
         sprite.setRegion(animation.getKeyFrame(animTimer));
         sprite.setCenter(body.getPosition().x, body.getPosition().y);
@@ -78,23 +83,25 @@ public abstract class Enemy implements Collidable {
 
     public void kill(){
         alive = false;
-        Globals.world.destroyBody(body);
+
         screen.game.tweenManager.killTarget(enemyLight);
         enemyLight.setColor(0,0,0,1);
         enemyLight.setDistance(0);
     }
 
     public void shootBullet(Vector2 target){
-        Vector2 dir = target.cpy().sub(body.getPosition()).scl(bulletSpeed);
-        screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE));
+        reloadTimer = RELOAD_TIME;
+        Vector2 dir = target.cpy().sub(body.getPosition());
+        screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE, false, bulletSpeed));
     }
 
     protected void shootLaser(Vector2 target, Color color) {
-        shot = new EnemyLaserShot(body, target, color);
+        reloadTimer = RELOAD_TIME;
+        shot = new EnemyLaserShot(body, target, color, RELOAD_TIME);
         Timeline.createSequence()
                 .beginParallel()
-                .push(Tween.to(enemyLight, PointLightAccessor.DIST, 2.0f).target(8))
-                .push(Tween.to(enemyLight, PointLightAccessor.RGB, 2.0f).target(color.r, color.g, color.b).setCallback(new TweenCallback() {
+                .push(Tween.to(enemyLight, PointLightAccessor.DIST, RELOAD_TIME).target(8))
+                .push(Tween.to(enemyLight, PointLightAccessor.RGB, RELOAD_TIME).target(color.r, color.g, color.b).setCallback(new TweenCallback() {
                     @Override
                     public void onEvent(int type, BaseTween<?> source) {
                         enemyLight.setColor(0,0,0,1);
@@ -122,7 +129,8 @@ public abstract class Enemy implements Collidable {
 
     @Override
     public boolean collideWithBullet(Bullet bullet) {
-          return false;
+        kill();
+        return true;
     }
 
     protected abstract void intializeSprite();

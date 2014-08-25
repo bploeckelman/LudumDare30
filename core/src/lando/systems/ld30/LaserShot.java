@@ -31,8 +31,8 @@ public class LaserShot {
 
     PriorityQueue<RayHit> hits = new PriorityQueue<RayHit>();
 
-    public LaserShot(Body body, Vector2 target, Color color){
-        timeLeft = 2f;
+    public LaserShot(Body body, Vector2 target, Color color, float TTL){
+        timeLeft = TTL;
         alive = true;
         sprite = new Sprite(Assets.beam);
         this.target = target;

@@ -24,7 +24,7 @@ public class Bullet implements Collidable{
     public float TTL;
     public boolean alive;
 
-    public Bullet(Vector2 position, Vector2 dir, Color color){
+    public Bullet(Vector2 position, Vector2 dir, Color color, boolean fromPlayer, float speed){
         this.color = color;
         alive = true;
         TTL = 30f;
@@ -38,13 +38,18 @@ public class Bullet implements Collidable{
         FixtureDef playerFixture = new FixtureDef();
         playerFixture.shape = circleShape;
         playerFixture.density = 10f;
-        playerFixture.filter.categoryBits = Box2dContactListener.CATEGORY_BULLET;
-        playerFixture.filter.maskBits = Box2dContactListener.MASK_BULLET;
+        if (fromPlayer) {
+            playerFixture.filter.categoryBits = Box2dContactListener.CATEGORY_PLAYER_BULLET;
+            playerFixture.filter.maskBits = Box2dContactListener.MASK_PLAYER_BULLET;
+        } else {
+            playerFixture.filter.categoryBits = Box2dContactListener.CATEGORY_BULLET;
+            playerFixture.filter.maskBits = Box2dContactListener.MASK_BULLET;
+        }
         body.createFixture(playerFixture);
         body.setLinearDamping(0);
         body.setAngularDamping(2f);
         body.setUserData(this);
-        body.applyLinearImpulse(dir, new Vector2(0,0), true);
+        body.applyLinearImpulse(dir.nor().scl(speed), new Vector2(0,0), true);
         circleShape.dispose();
 
         sprite = new Sprite(Assets.beam);

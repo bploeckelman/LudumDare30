@@ -36,18 +36,23 @@ public class Player implements InputProcessor, Collidable {
     private GameScreen screen;
     private LaserShot shot;
     public int currentColor;
-    public ArrayList<Color> availableColors;
+    public ArrayList<Globals.COLORS> availableColors;
     public boolean alive;
     public float respawnTimer;
     public float animTimer;
     Fixture fixture;
     public PointLight playerLight;
+    public float reloadTimer = 0;
+    public float bulletSpeed = 800;
+    public final static float RED_RELOAD_TIME = 2f;
+    public final static float YELLOW_RELOAD_TIME = .2f;
+
 
 
     public Player (Vector2 position, GameScreen screen){
         currentColor = 0;
         alive = true;
-        availableColors = new ArrayList<Color>();
+        availableColors = new ArrayList<Globals.COLORS>();
         this.screen = screen;
         this.speed = 200f;
 
@@ -87,6 +92,10 @@ public class Player implements InputProcessor, Collidable {
         playerLight.setColor(0,0,0,1);
         playerLight.setDistance(0);
         playerLight.attachToBody(body, 0, 0);
+
+
+        //TODO DEBUG STUFF
+        availableColors.add(Globals.COLORS.YELLOW);
     }
 
     private final float MAX_VELOCITY = 30f;
@@ -123,10 +132,16 @@ public class Player implements InputProcessor, Collidable {
             }
         }
 
+        reloadTimer -= dt;
+        reloadTimer = Math.max(reloadTimer, 0);
+
         if (shot != null) {
             shot.update(dt);
             if (!shot.alive) shot = null;
         }
+
+        fire();
+
 
         Vector2 vel = body.getLinearVelocity();
         if (Gdx.input.isKeyPressed(Input.Keys.W) && vel.y < MAX_VELOCITY){
@@ -150,17 +165,59 @@ public class Player implements InputProcessor, Collidable {
         sprite.setRegion(animation.getKeyFrame(animTimer));
     }
 
+    public void fire(){
+        if (availableColors.size() <= 0 ) return;
+        if (Gdx.input.isTouched() && alive && reloadTimer <= 0 ){  //TODO: make this not shot if you have no colors
+
+            Vector2 target = screen.getPosFromScreen(Gdx.input.getX(), Gdx.input.getY());
+            switch (availableColors.get(currentColor)){
+                case RED:
+                    shootLaser(target, Color.RED);
+                    reloadTimer = RED_RELOAD_TIME;
+                    break;
+                case YELLOW:
+                    reloadTimer = YELLOW_RELOAD_TIME;
+                    shootBullet(target);
+                    break;
+                case CYAN:
+                    break;
+                case PURPLE:
+                    break;
+            }
+
+        }
+    }
+
     public void render(SpriteBatch batch){
         if (shot != null) shot.render(batch);
 
         if (availableColors.size() > 0){
-            sprite.setColor(availableColors.get(currentColor));
+            sprite.setColor(getColor());
         } else {
             sprite.setColor(Color.WHITE);
         }
         if (alive || respawnTimer % .4f > .2f){
             sprite.draw(batch);
         }
+    }
+
+    public Color getColor(){
+        switch (availableColors.get(currentColor)){
+            case RED:
+                return Color.RED;
+            case YELLOW:
+                return Color.YELLOW;
+            case GREEN:
+                return Color.GREEN;
+            case CYAN:
+                return Color.CYAN;
+            case BLUE:
+                return Color.BLUE;
+            case PURPLE:
+                return Color.MAGENTA;
+
+        }
+        return Color.WHITE;
     }
 
     @Override
@@ -180,9 +237,7 @@ public class Player implements InputProcessor, Collidable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (alive && shot == null ){  //TODO: make this not shot if you have no colors
-            shootLaser(screen.getPosFromScreen(screenX, screenY), Color.WHITE);
-        }
+
         return false;
     }
 
@@ -203,7 +258,7 @@ public class Player implements InputProcessor, Collidable {
 
     @Override
     public boolean scrolled(int amount) {
-        screen.camera.zoom += amount;
+        //screen.camera.zoom += amount;
 
         int colors = availableColors.size();
         if (colors > 0){
@@ -232,12 +287,17 @@ public class Player implements InputProcessor, Collidable {
         }
     }
 
+    public void shootBullet(Vector2 target){
+        Vector2 dir = target.cpy().sub(body.getPosition());
+        screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE, true, bulletSpeed));
+    }
+
     private void shootLaser(Vector2 target, Color color) {
-        shot = new LaserShot(body, target, color);
+        shot = new LaserShot(body, target, color, RED_RELOAD_TIME);
         Timeline.createSequence()
                 .beginParallel()
-                .push(Tween.to(playerLight, PointLightAccessor.DIST, 2.0f).target(10))
-                .push(Tween.to(playerLight, PointLightAccessor.RGB, 2.0f).target(color.r, color.g, color.b).setCallback(new TweenCallback() {
+                .push(Tween.to(playerLight, PointLightAccessor.DIST, RED_RELOAD_TIME).target(10))
+                .push(Tween.to(playerLight, PointLightAccessor.RGB, RED_RELOAD_TIME).target(color.r, color.g, color.b).setCallback(new TweenCallback() {
                     @Override
                     public void onEvent(int type, BaseTween<?> source) {
                         playerLight.setColor(0,0,0,1);

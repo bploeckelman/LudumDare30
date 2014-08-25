@@ -9,6 +9,9 @@ import lando.systems.ld30.screens.GameScreen;
  * Brian Ploeckelman created on 8/23/2014.
  */
 public class Globals {
+
+    public static enum COLORS {RED, YELLOW, GREEN, CYAN, BLUE, PURPLE};
+
     public static final World world = new World(new Vector2(0,0), true);
     public static LudumDare30 game;
     public static GameScreen gameScreen;

@@ -71,6 +71,7 @@ public class GameScreen implements Screen {
 
         player = new Player(new Vector2(Globals.world_center_x, Globals.world_center_y), this);
         camera.position.set(new Vector3(player.body.getPosition(), 0));
+        camera.zoom = 2;
 
 //        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
 //        enemies.add(new RedEnemy(new Vector2( Globals.world_center_x +  5, Globals.world_center_y + 0), this));
@@ -160,6 +161,7 @@ public class GameScreen implements Screen {
             Enemy enemy = enemies.get(i);
             enemy.update(dt);
             if (!enemy.alive) {
+                Globals.world.destroyBody(enemy.body);
                 enemies.remove(i);
             }
         }
@@ -258,7 +260,7 @@ public class GameScreen implements Screen {
     }
 
     public void enterRedLevel(){
-        int enemiesOnSpawn = 10;
+        int enemiesOnSpawn = 4;
         for (int i = 0; i < enemiesOnSpawn; i ++)    {
             enemies.add(new RedEnemy(new Vector2(10,0).rotate(360/enemiesOnSpawn * i).add(Globals.red_center)  , this));
         }
@@ -290,27 +292,27 @@ public class GameScreen implements Screen {
         {
             case RED:
                 colorsBeat[0] = true;
-                player.availableColors.add(Color.RED);
+                player.availableColors.add(Globals.COLORS.RED);
                 break;
             case YELLOW:
                 colorsBeat[1] = true;
-                player.availableColors.add(Color.YELLOW);
+                player.availableColors.add(Globals.COLORS.YELLOW);
                 break;
             case GREEN:
                 colorsBeat[2] = true;
-                player.availableColors.add(Color.GREEN);
+                player.availableColors.add(Globals.COLORS.GREEN);
                 break;
             case CYAN:
                 colorsBeat[3] = true;
-                player.availableColors.add(Color.CYAN);
+                player.availableColors.add(Globals.COLORS.CYAN);
                 break;
             case BLUE:
                 colorsBeat[4] = true;
-                player.availableColors.add(Color.BLUE);
+                player.availableColors.add(Globals.COLORS.BLUE);
                 break;
             case PURPLE:
                 colorsBeat[5] = true;
-                player.availableColors.add(Color.MAGENTA);
+                player.availableColors.add(Globals.COLORS.PURPLE);
                 break;
 
         }

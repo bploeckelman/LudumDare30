@@ -20,8 +20,9 @@ public class EnemyLaserShot extends LaserShot {
     float xDif;
     float yDif;
 
-    public EnemyLaserShot(Body body, Vector2 target, Color color){
-        super(body, target, color);
+
+    public EnemyLaserShot(Body body, Vector2 target, Color color, float TTL){
+        super(body, target, color, TTL);
         xDif = target.x - body.getPosition().x;
         yDif = target.y - body.getPosition().y;
         float dir = yDif < 0 ? 180 : 0;
