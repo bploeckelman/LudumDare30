@@ -4,7 +4,6 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.equations.*;
 import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -19,7 +18,6 @@ import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -28,6 +26,7 @@ import java.util.ArrayList;
 public class Player implements InputProcessor, Collidable {
 
     private static final BodyDef bodyDef = new BodyDef();
+    public static final float max_hit_points = 100;
 
     public Body body;
     public float speed;
@@ -44,7 +43,7 @@ public class Player implements InputProcessor, Collidable {
     public PointLight playerLight;
     public float reloadTimer = 0;
     public float bulletSpeed = 800;
-    public float hitPoints = 100;
+    public float hitPoints = max_hit_points;
     public final static float RED_RELOAD_TIME = 2f;
     public final static float YELLOW_RELOAD_TIME = .2f;
 
@@ -349,5 +348,9 @@ public class Player implements InputProcessor, Collidable {
     @Override
     public void collisionDamage(float damage) {
         takeDamage(damage);
+    }
+
+    public float getPercentHP() {
+        return hitPoints / max_hit_points;
     }
 }

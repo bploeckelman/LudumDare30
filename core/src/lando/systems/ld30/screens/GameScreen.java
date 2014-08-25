@@ -47,6 +47,7 @@ public class GameScreen implements Screen {
     public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
+    public UserInterface ui;
     public final int num_rays = 512;
 
 
@@ -103,6 +104,8 @@ public class GameScreen implements Screen {
 
         level = new Level(this);
         portals[0].activate();
+
+        ui = new UserInterface(this);
     }
 
     private void initializeChamberLights() {
@@ -141,6 +144,16 @@ public class GameScreen implements Screen {
             }
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+            ui.playerHealthBar.setValue(ui.playerHealthBar.value - 0.1f);
+            if (ui.playerHealthBar.value <= 0f) {
+                ui.playerHealthBar.value = 0.1f;
+            }
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+            ui.playerHealthBar.setValue(1);
+        }
+
         borderIntensity += dt;
 
         player.update(dt);
@@ -176,6 +189,8 @@ public class GameScreen implements Screen {
         camera.update();
 
         level.update(dt);
+
+        ui.update(dt);
     }
 
 
@@ -362,6 +377,8 @@ public class GameScreen implements Screen {
         rayHandler.setCombinedMatrix(camera.combined);
         if (didStep) rayHandler.update();
         rayHandler.render();
+
+        ui.render();
     }
 
     private final static int MAX_FPS = 30;
@@ -401,7 +418,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        ui.resize(width, height);
     }
 
     @Override
@@ -426,6 +443,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        ui.dispose();
         rayHandler.dispose();
         Globals.world.dispose();
     }

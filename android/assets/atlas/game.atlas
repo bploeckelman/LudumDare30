@@ -1,432 +1,446 @@
 
 game.png
-size: 961,29
+size: 254,122
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
 blue-enemy00
   rotate: false
-  xy: 266, 14
+  xy: 218, 107
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy16
   rotate: false
-  xy: 266, 14
+  xy: 218, 107
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy01
   rotate: false
-  xy: 283, 14
+  xy: 235, 107
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy15
   rotate: false
-  xy: 283, 14
+  xy: 235, 107
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy02
   rotate: false
-  xy: 300, 14
+  xy: 104, 20
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy03
   rotate: false
-  xy: 317, 14
-  size: 15, 15
-  orig: 15, 15
-  offset: 0, 0
-  index: -1
-blue-enemy09
-  rotate: false
-  xy: 317, 14
-  size: 15, 15
-  orig: 15, 15
-  offset: 0, 0
-  index: -1
-blue-enemy05
-  rotate: false
-  xy: 317, 14
+  xy: 146, 89
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy04
   rotate: false
-  xy: 317, 14
+  xy: 146, 89
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy09
+  rotate: false
+  xy: 146, 89
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+blue-enemy05
+  rotate: false
+  xy: 146, 89
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy06
   rotate: false
-  xy: 334, 14
+  xy: 163, 89
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy07
   rotate: false
-  xy: 351, 14
+  xy: 180, 89
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy08
   rotate: false
-  xy: 368, 14
+  xy: 197, 89
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy10
   rotate: false
-  xy: 385, 14
+  xy: 143, 72
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy11
   rotate: false
-  xy: 402, 14
+  xy: 143, 55
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy12
   rotate: false
-  xy: 419, 14
+  xy: 160, 72
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy13
   rotate: false
-  xy: 436, 14
+  xy: 160, 55
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 blue-enemy14
   rotate: false
-  xy: 453, 14
+  xy: 177, 72
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
+brown-panel
+  rotate: false
+  xy: 2, 22
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
 cyan-enemy0
   rotate: false
-  xy: 470, 14
+  xy: 177, 55
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 cyan-enemy1
   rotate: false
-  xy: 487, 14
+  xy: 194, 72
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 cyan-enemy2
   rotate: false
-  xy: 504, 14
+  xy: 194, 55
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 cyan-enemy3
   rotate: false
-  xy: 521, 14
+  xy: 143, 38
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 cyan-enemy4
   rotate: false
-  xy: 538, 14
+  xy: 160, 38
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
+green-bar
+  rotate: false
+  xy: 2, 2
+  size: 36, 18
+  orig: 36, 18
+  offset: 0, 0
+  index: -1
 green-enemy0
   rotate: false
-  xy: 555, 14
+  xy: 177, 38
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 green-enemy1
   rotate: false
-  xy: 572, 14
+  xy: 194, 38
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 green-enemy2
   rotate: false
-  xy: 589, 14
+  xy: 94, 3
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 green-enemy3
   rotate: false
-  xy: 606, 14
+  xy: 111, 3
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 green-enemy4
   rotate: false
-  xy: 623, 14
+  xy: 121, 20
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 player0
   rotate: false
-  xy: 2, 2
+  xy: 104, 95
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 player1
   rotate: false
-  xy: 23, 2
+  xy: 104, 66
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 player2
   rotate: false
-  xy: 44, 2
+  xy: 125, 95
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 player3
   rotate: false
-  xy: 65, 2
+  xy: 104, 37
   size: 19, 27
   orig: 19, 27
   offset: 0, 0
   index: -1
 purple-enemy00
   rotate: false
-  xy: 640, 14
+  xy: 138, 21
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy01
   rotate: false
-  xy: 657, 14
+  xy: 155, 21
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy02
   rotate: false
-  xy: 674, 14
+  xy: 172, 21
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy03
   rotate: false
-  xy: 691, 14
+  xy: 189, 21
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy04
   rotate: false
-  xy: 708, 14
+  xy: 128, 3
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy05
   rotate: false
-  xy: 725, 14
+  xy: 145, 4
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy06
   rotate: false
-  xy: 742, 14
+  xy: 162, 4
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy07
   rotate: false
-  xy: 759, 14
+  xy: 179, 4
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy08
   rotate: false
-  xy: 776, 14
+  xy: 196, 4
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy09
   rotate: false
-  xy: 793, 14
+  xy: 206, 21
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy10
   rotate: false
-  xy: 810, 14
+  xy: 213, 4
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy11
   rotate: false
-  xy: 827, 14
+  xy: 214, 89
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy12
   rotate: false
-  xy: 844, 14
+  xy: 211, 72
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy13
   rotate: false
-  xy: 861, 14
+  xy: 211, 55
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy14
   rotate: false
-  xy: 878, 14
+  xy: 211, 38
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy15
   rotate: false
-  xy: 895, 14
+  xy: 231, 90
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy16
   rotate: false
-  xy: 912, 14
+  xy: 223, 21
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy17
   rotate: false
-  xy: 929, 14
+  xy: 230, 4
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 purple-enemy18
   rotate: false
-  xy: 946, 14
+  xy: 228, 72
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 red-enemy0
   rotate: false
-  xy: 86, 13
+  xy: 40, 4
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy1
   rotate: false
-  xy: 104, 13
+  xy: 125, 77
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy2
   rotate: false
-  xy: 122, 13
+  xy: 146, 106
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy3
   rotate: false
-  xy: 140, 13
+  xy: 58, 4
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy4
   rotate: false
-  xy: 158, 13
+  xy: 125, 59
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 red-enemy5
   rotate: false
-  xy: 176, 13
+  xy: 164, 106
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 sparkle-small
   rotate: false
-  xy: 86, 2
+  xy: 245, 79
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
   index: -1
 yellow-enemy0
   rotate: false
-  xy: 194, 13
+  xy: 76, 4
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy1
   rotate: false
-  xy: 212, 13
+  xy: 125, 41
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy2
   rotate: false
-  xy: 230, 13
+  xy: 182, 106
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 yellow-enemy3
   rotate: false
-  xy: 248, 13
+  xy: 200, 106
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

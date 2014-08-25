@@ -1,11 +1,9 @@
 package lando.systems.ld30.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -20,11 +18,15 @@ public class Assets {
     public static ShapeRenderer shapes;
 
     public static BitmapFont font;
+    public static BitmapFont hudFont;
 
     public static Texture badlogic;
     public static Texture beam;
     public static Texture rainbow;
     public static Texture background;
+
+    public static NinePatch ninepatchBrown;
+    public static NinePatch ninepatchGreen;
 
     public static TextureAtlas atlas;
 
@@ -40,6 +42,7 @@ public class Assets {
         shapes = new ShapeRenderer();
 
         font = new BitmapFont(Gdx.files.internal("font/crystalline.fnt"), false);
+        hudFont = new BitmapFont();
 
         badlogic = new Texture("badlogic.jpg");
         badlogic.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -72,9 +75,15 @@ public class Assets {
             System.out.println(shimmerProgram.getLog());
 
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
+
+        ninepatchBrown = new NinePatch(atlas.findRegion("brown-panel"), 10, 10, 10, 10);
+        ninepatchGreen = new NinePatch(atlas.findRegion("green-bar"), 7, 7, 7, 7);
+
+        ninepatchBrown.setColor(new Color(153, 102, 51, 1));
     }
 
     public static void dispose() {
+        hudFont.dispose();
         font.dispose();
         explodeParticleEffect.dispose();
         atlas.dispose();
