@@ -104,7 +104,7 @@ public class Player implements InputProcessor, Collidable {
         //availableColors.add(Globals.COLORS.CYAN);
     }
 
-    private final float MAX_VELOCITY = 30f;
+    private final float MAX_VELOCITY = 15f;
     public void update(float dt) {
         if (respawnTimer > 0 ){
             if (alive) {
@@ -159,18 +159,25 @@ public class Player implements InputProcessor, Collidable {
 
 
         Vector2 vel = body.getLinearVelocity();
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && vel.y < MAX_VELOCITY){
+        if (Gdx.input.isKeyPressed(Input.Keys.W)){
             body.applyForceToCenter(0, speed, true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S) && vel.y > -MAX_VELOCITY){
+        if (Gdx.input.isKeyPressed(Input.Keys.S)){
             body.applyForceToCenter(0, -speed, true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && vel.x > -MAX_VELOCITY){
+        if (Gdx.input.isKeyPressed(Input.Keys.A)){
             body.applyForceToCenter(-speed, 0, true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && vel.x < MAX_VELOCITY){
+        if (Gdx.input.isKeyPressed(Input.Keys.D)){
             body.applyForceToCenter(speed, 0, true);
         }
+
+        vel = body.getLinearVelocity();
+        if (vel.x > MAX_VELOCITY) vel.x = MAX_VELOCITY;
+        if (vel.x < -MAX_VELOCITY) vel.x = -MAX_VELOCITY;
+        if (vel.y > MAX_VELOCITY) vel.y = MAX_VELOCITY;
+        if (vel.y < -MAX_VELOCITY) vel.y = -MAX_VELOCITY;
+        body.setLinearVelocity(vel);
 
         sprite.setCenter(body.getPosition().x, body.getPosition().y);
         sprite.setOriginCenter();
