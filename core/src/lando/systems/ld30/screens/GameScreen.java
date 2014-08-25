@@ -42,12 +42,9 @@ public class GameScreen implements Screen {
     PointLight light, light1;
     Portal[] portals = new Portal[6];
 
-    ArrayList<Body> balls = new ArrayList<Body>();
-
     public Level level;
     public Player player;
-    ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-
+    public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
     public final int num_rays = 512;
@@ -89,35 +86,18 @@ public class GameScreen implements Screen {
 //        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
 //        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
 //        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
+//        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
+//        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
+//        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
+//        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
+//        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
+//        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
+//        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
+//        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
         Gdx.input.setInputProcessor(multiplexer);
-
-        BodyDef bodyDef = new BodyDef();
-        float a = 0f;
-        final float scale = 30;
-        final float radius = 5f;
-        for (int i = 0; i < 10; ++i, a += (2f * Math.PI) / 10f) {
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set(
-                    scale * (float) Math.cos(a) + Globals.world_center_x,
-                    scale * (float) Math.sin(a) + Globals.world_center_y);
-
-            Body ball = Globals.world.createBody(bodyDef);
-
-            CircleShape circleShape = new CircleShape();
-            circleShape.setRadius(radius);
-            FixtureDef fixture = new FixtureDef();
-            fixture.shape = circleShape;
-            fixture.density = 0f;
-            fixture.filter.categoryBits = Box2dContactListener.CATEGORY_WORLD;
-            fixture.filter.maskBits = Box2dContactListener.MASK_WORLD;
-            ball.createFixture(fixture);
-            circleShape.dispose();
-
-            balls.add(ball);
-        }
 
         Globals.world.setContactListener(new Box2dContactListener(this));
 
@@ -345,9 +325,6 @@ public class GameScreen implements Screen {
             portals[i].render(Assets.batch);
         }
 
-        for (Body body : balls) {
-            Assets.batch.draw(player.animation.getKeyFrame(player.animTimer), body.getPosition().x - 5f, body.getPosition().y - 5f, 10, 10);
-        }
         for (int i = 0; i < enemies.size(); i ++){
             enemies.get(i).render(Assets.batch);
         }
