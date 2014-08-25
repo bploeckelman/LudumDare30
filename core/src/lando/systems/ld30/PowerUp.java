@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.*;
 
 /**
@@ -18,13 +19,15 @@ public class PowerUp implements Collidable{
 
     public Body body;
     public Sprite sprite;
+    public SpinnyLights lights;
     protected static final BodyDef bodyDef = new BodyDef();
     public float body_radius = 8f;
 
-    public PowerUp(Vector2 pos){
+    public PowerUp(Vector2 pos, Color tint){
 
-        sprite = new Sprite(Assets.beam);
+        sprite = new Sprite(Assets.atlas.findRegion("player0"));
         sprite.setSize(2*body_radius,2*body_radius);
+        sprite.setColor(tint);
 
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(body_radius);
@@ -35,22 +38,26 @@ public class PowerUp implements Collidable{
         body = Globals.world.createBody(bodyDef);
         FixtureDef playerFixture = new FixtureDef();
         playerFixture.shape = circleShape;
-        playerFixture.density = 10f;
+        playerFixture.density = 0.1f;
         playerFixture.filter.categoryBits = Box2dContactListener.CATEGORY_POWER_UP;
         playerFixture.filter.maskBits = Box2dContactListener.MASK_POWER_UP;
         body.createFixture(playerFixture);
         body.setLinearDamping(10);
-        body.setAngularDamping(2f);
+        body.setAngularDamping(0);
+        body.applyAngularImpulse(10000000, true);
         body.setUserData(this);
 
         circleShape.dispose();
 
-       // TODO add a light?
-
+        lights = new SpinnyLights(tint, pos);
     }
 
     public void render(SpriteBatch batch){
+        lights.update();
+
         sprite.setCenter(body.getPosition().x, body.getPosition().y);
+        sprite.setOriginCenter();
+        sprite.setRotation(body.getAngle());
         sprite.draw(batch);
     }
 

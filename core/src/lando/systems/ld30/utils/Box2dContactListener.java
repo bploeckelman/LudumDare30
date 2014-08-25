@@ -67,7 +67,7 @@ public class Box2dContactListener implements ContactListener {
         final CollidableType typeA = collidableA.getType();
         final CollidableType typeB = collidableB.getType();
 
-        Gdx.app.log("CONTACT", "typeA(" + collidableA + ") = " + typeA.toString() + ", typeB(" + collidableB + ") = " + typeB.toString());
+//        Gdx.app.log("CONTACT", "typeA(" + collidableA + ") = " + typeA.toString() + ", typeB(" + collidableB + ") = " + typeB.toString());
 
 
         // TODO : figure out which fixture is what body and respond appropriately
@@ -81,6 +81,7 @@ public class Box2dContactListener implements ContactListener {
                 break;
             case PLAYER:
                 if (collidableB.getType() == CollidableType.POWER_UP){
+                    Globals.gameScreen.powerUp.lights.disable();
                     Globals.gameScreen.gotPowerUp = true;
                     return;
                 }

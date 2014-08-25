@@ -127,6 +127,6 @@ public class RedBoss extends RedEnemy {
     }
 
     public PowerUp getPowerUP() {
-        return new PowerUp(body.getPosition().cpy());
+        return new PowerUp(body.getPosition().cpy(), Color.RED);
     }
 }

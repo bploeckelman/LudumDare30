@@ -87,7 +87,7 @@ public class GreenBoss extends GreenEnemy{
     }
 
     public PowerUp getPowerUP() {
-        return new PowerUp(body.getPosition().cpy());
+        return new PowerUp(body.getPosition().cpy(), Color.GREEN);
     }
 
     @Override

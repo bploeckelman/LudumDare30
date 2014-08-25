@@ -23,15 +23,12 @@ public class Portal {
     public GameScreen.LEVEL_STATE nextState;
     public float portalRadius = 10;
 
-    private final GameScreen screen;
-
-    public Portal (Color color, Vector2 pos, GameScreen.LEVEL_STATE state, GameScreen screen) {
-        this.screen = screen;
+    public Portal (Color color, Vector2 pos, GameScreen.LEVEL_STATE state) {
         nextState = state;
         this.pos = pos;
         active = false;
 
-        light = new SpinnyLights(color, pos, screen.rayHandler, screen.num_rays, screen);
+        light = new SpinnyLights(color, pos);
         light.disable();
     }
 

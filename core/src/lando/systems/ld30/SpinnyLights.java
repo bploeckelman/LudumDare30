@@ -25,10 +25,7 @@ public class SpinnyLights {
     public Color color;
     public Vector2 position;
 
-    public final GameScreen screen;
-
-    public SpinnyLights(Color color, Vector2 position, RayHandler rayHandler, int numRays, GameScreen screen) {
-        this.screen = screen;
+    public SpinnyLights(Color color, Vector2 position) {
         this.color = color;
         this.color.a = .6f;
         this.position = position;
@@ -39,7 +36,7 @@ public class SpinnyLights {
         float degrees = 0;
         for (int i = 0; i < num_lights; ++i) {
             directions[i] = new MutableFloat(degrees += 360 / num_lights);
-            lights[i] = new ConeLight(rayHandler, numRays,
+            lights[i] = new ConeLight(Globals.gameScreen.rayHandler, Globals.gameScreen.num_rays,
                     color, light_dist, position.x, position.y,
                     directions[i].floatValue(), cone_degrees);
         }
@@ -50,7 +47,7 @@ public class SpinnyLights {
     public void disable() {
         for (int i = 0; i < num_lights; ++i) {
             lights[i].setActive(false);
-            screen.game.tweenManager.killTarget(directions[i]);
+            Globals.game.tweenManager.killTarget(directions[i]);
         }
     }
 
@@ -76,7 +73,7 @@ public class SpinnyLights {
                     .target(directions[i].floatValue() + 360)
                     .ease(Linear.INOUT)
                     .repeat(-1, 0)
-                    .start(screen.game.tweenManager);
+                    .start(Globals.game.tweenManager);
         }
     }
 

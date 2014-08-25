@@ -89,7 +89,7 @@ public class PurpleBoss extends PurpleEnemy {
     }
 
     public PowerUp getPowerUP() {
-        return new PowerUp(body.getPosition().cpy());
+        return new PowerUp(body.getPosition().cpy(), Color.PURPLE);
     }
 
     @Override
