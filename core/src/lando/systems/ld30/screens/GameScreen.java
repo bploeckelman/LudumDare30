@@ -127,6 +127,7 @@ public class GameScreen implements Screen {
         light1.setPosition(100, 100);
         light1.setColor(0, 1, 0, 1);
         light1.setDistance(100);
+        light1.setActive(false);
 
         portals[0] = new Portal(new Color(1,0,0,1), Globals.red_center,    LEVEL_STATE.RED,    this);
         portals[1] = new Portal(new Color(1,1,0,1), Globals.yellow_center, LEVEL_STATE.YELLOW, this);
