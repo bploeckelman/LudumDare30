@@ -113,7 +113,7 @@ public class Level implements Collidable {
     }
 
     @Override
-    public void shotByEnemy(Color color) {
+    public void shotByEnemy(LaserShot laser) {
 
     }
 

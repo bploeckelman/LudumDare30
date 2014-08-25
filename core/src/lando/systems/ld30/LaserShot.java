@@ -28,10 +28,12 @@ public class LaserShot {
     float length;
     Color color;
     float angle;
+    public float damage;
 
     PriorityQueue<RayHit> hits = new PriorityQueue<RayHit>();
 
-    public LaserShot(Body body, Vector2 target, Color color, float TTL){
+    public LaserShot(Body body, Vector2 target, Color color, float TTL, float damage){
+        this.damage = damage;
         timeLeft = TTL;
         alive = true;
         sprite = new Sprite(Assets.beam);
@@ -79,6 +81,7 @@ public class LaserShot {
             }
             if (active){
                 hitSomething(hit.collidable);
+                alive = false;
             }
         }
         sprite.setSize(length * dist,1);

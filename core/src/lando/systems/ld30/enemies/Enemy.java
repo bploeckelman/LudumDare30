@@ -46,6 +46,7 @@ public abstract class Enemy implements Collidable {
     public boolean alive;
 
     public float RELOAD_TIME = 3f;
+    public float LASER_DAMAGE = 10f;
     public float reloadTimer = 0;
 
     // Temporary helper vectors for calculating all the things
@@ -97,7 +98,7 @@ public abstract class Enemy implements Collidable {
 
     protected void shootLaser(Vector2 target, Color color) {
         reloadTimer = RELOAD_TIME;
-        shot = new EnemyLaserShot(body, target, color, RELOAD_TIME);
+        shot = new EnemyLaserShot(body, target, color, RELOAD_TIME, LASER_DAMAGE);
         Timeline.createSequence()
                 .beginParallel()
                 .push(Tween.to(enemyLight, PointLightAccessor.DIST, RELOAD_TIME).target(8))
@@ -123,7 +124,7 @@ public abstract class Enemy implements Collidable {
     }
 
     @Override
-    public void shotByEnemy(Color color) {
+    public void shotByEnemy(LaserShot laser) {
 
     }
 

@@ -44,6 +44,7 @@ public class Player implements InputProcessor, Collidable {
     public PointLight playerLight;
     public float reloadTimer = 0;
     public float bulletSpeed = 800;
+    public float hitPoints = 100;
     public final static float RED_RELOAD_TIME = 2f;
     public final static float YELLOW_RELOAD_TIME = .2f;
 
@@ -140,7 +141,7 @@ public class Player implements InputProcessor, Collidable {
             if (!shot.alive) shot = null;
         }
 
-        fire();
+        fire(dt);
 
 
         Vector2 vel = body.getLinearVelocity();
@@ -165,7 +166,7 @@ public class Player implements InputProcessor, Collidable {
         sprite.setRegion(animation.getKeyFrame(animTimer));
     }
 
-    public void fire(){
+    public void fire(float dt){
         if (availableColors.size() <= 0 ) return;
         if (Gdx.input.isTouched() && alive && reloadTimer <= 0 ){  //TODO: make this not shot if you have no colors
 
@@ -185,6 +186,9 @@ public class Player implements InputProcessor, Collidable {
                     break;
             }
 
+        }
+        if (availableColors.get(currentColor) == Globals.COLORS.GREEN){
+            hitPoints = Math.min(hitPoints += dt, 100);
         }
     }
 
@@ -277,6 +281,11 @@ public class Player implements InputProcessor, Collidable {
         return false;
     }
 
+    public void takeDamage (float amount){
+        hitPoints -= amount;
+        if (hitPoints <= 0) kill();
+    }
+
     public void kill(){
         if (respawnTimer <= 0){
             respawnTimer = 2f;
@@ -293,7 +302,7 @@ public class Player implements InputProcessor, Collidable {
     }
 
     private void shootLaser(Vector2 target, Color color) {
-        shot = new LaserShot(body, target, color, RED_RELOAD_TIME);
+        shot = new LaserShot(body, target, color, RED_RELOAD_TIME, 10);
         Timeline.createSequence()
                 .beginParallel()
                 .push(Tween.to(playerLight, PointLightAccessor.DIST, RED_RELOAD_TIME).target(10))
@@ -319,8 +328,8 @@ public class Player implements InputProcessor, Collidable {
     }
 
     @Override
-    public void shotByEnemy(Color color) {
-        kill();
+    public void shotByEnemy(LaserShot laser) {
+        takeDamage(laser.damage);
     }
 
     @Override

@@ -21,8 +21,8 @@ public class EnemyLaserShot extends LaserShot {
     float yDif;
 
 
-    public EnemyLaserShot(Body body, Vector2 target, Color color, float TTL){
-        super(body, target, color, TTL);
+    public EnemyLaserShot(Body body, Vector2 target, Color color, float TTL, float damage){
+        super(body, target, color, TTL, damage);
         xDif = target.x - body.getPosition().x;
         yDif = target.y - body.getPosition().y;
         float dir = yDif < 0 ? 180 : 0;
@@ -40,7 +40,7 @@ public class EnemyLaserShot extends LaserShot {
     }
 
     protected void hitSomething(Collidable c){
-        c.shotByEnemy(color);
+        c.shotByEnemy(this);
     }
 
 
