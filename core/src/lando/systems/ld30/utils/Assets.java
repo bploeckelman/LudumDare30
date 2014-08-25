@@ -27,6 +27,7 @@ public class Assets {
 
     public static NinePatch ninepatchBrown;
     public static NinePatch ninepatchGreen;
+    public static NinePatch ninepatchGrey;
 
     public static TextureAtlas atlas;
 
@@ -78,6 +79,7 @@ public class Assets {
 
         ninepatchBrown = new NinePatch(atlas.findRegion("brown-panel"), 10, 10, 10, 10);
         ninepatchGreen = new NinePatch(atlas.findRegion("green-bar"), 7, 7, 7, 7);
+        ninepatchGrey  = new NinePatch(atlas.findRegion("white-bar"), 7, 7, 7, 7);
 
         ninepatchBrown.setColor(new Color(153, 102, 51, 1));
     }

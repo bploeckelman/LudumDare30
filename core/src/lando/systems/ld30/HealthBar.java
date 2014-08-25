@@ -34,12 +34,14 @@ public class HealthBar {
     }
 
     public void render(SpriteBatch batch) {
-        if (value.floatValue() <= 0) return;
         final float pad_left   = Assets.ninepatchGreen.getPadLeft();
         final float pad_right  = Assets.ninepatchGreen.getPadRight();
         final float pad_top    = Assets.ninepatchGreen.getPadTop();
         final float pad_bottom = Assets.ninepatchGreen.getPadBottom();
 
+        Assets.ninepatchGrey.draw(batch, bounds.x + pad_left, bounds.y + pad_bottom,
+                (bounds.width - pad_left - pad_right), bounds.height - pad_top - pad_bottom);
+        if (value.floatValue() <= 0) return;
         Assets.ninepatchGreen.draw(batch, bounds.x + pad_left, bounds.y + pad_bottom,
                 (bounds.width - pad_left - pad_right) * value.floatValue(), bounds.height - pad_top - pad_bottom);
     }
