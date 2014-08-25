@@ -28,7 +28,7 @@ public class CyanBoss extends CyanEnemy{
         healthBar.bounds.height = 20;
         healthBar.setBarColor(Color.CYAN.cpy());
         SEEKER_DAMAGE = 10f;
-        SEEKER_TIME = 30f;
+        SEEKER_TIME = 15f;
         isBoss = true;
     }
 

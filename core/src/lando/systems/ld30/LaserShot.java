@@ -41,7 +41,7 @@ public class LaserShot {
         this.body = body;
         scale = .5f;
         length = 0;
-        sprite.setColor(color);
+        sprite.setColor(color.mul(1.5f));
         this.color = color.cpy();
     }
 
@@ -69,22 +69,13 @@ public class LaserShot {
 
         //Vector2 rayTarget = new Vector2(body.getPosition().x + (1000*xDif), body.getPosition().y + (1000*yDif));
         float dist = body.getPosition().dst(vDir);
-        length = 100;
+        length = 1;
         hits.clear();
         Globals.world.rayCast(rayCallback, body.getPosition(), vDir);
 
-        while (hits.peek() != null) {
-            RayHit hit = hits.poll();
-            if (hit.collidable == null || hit.collidable.getType() == CollidableType.WORLD){
-                length = hit.fraction;
-                break;
-            }
-            if (active){
-                hitSomething(hit.collidable);
-                alive = false;
-            }
-        }
-        sprite.setSize(length * dist,1);
+        doDamage();
+
+        sprite.setSize(length * dist,3);
         sprite.setOrigin(0, sprite.getHeight()/2);
 
         sprite.setRotation(angle);
@@ -96,12 +87,26 @@ public class LaserShot {
 
     }
 
+    protected void doDamage(){
+        while (hits.peek() != null) {
+            RayHit hit = hits.poll();
+            if (hit.collidable == null || hit.collidable.getType() == CollidableType.WORLD){
+                length = hit.fraction;
+                break;
+            }
+            if (active){
+                hitSomething(hit.collidable);
+                alive = false;
+            }
+        }
+    }
+
     protected Vector2 getDir() {
         float xDif = target.x - body.getPosition().x;
         float yDif = target.y - body.getPosition().y;
         angle = (float) (180 * Math.atan2(yDif, xDif) / Math.PI);
 
-        return new Vector2(xDif, yDif).nor().scl(100).add(body.getPosition());
+        return new Vector2(xDif, yDif).nor().scl(200).add(body.getPosition());
     }
 
     protected void hitSomething(Collidable c){

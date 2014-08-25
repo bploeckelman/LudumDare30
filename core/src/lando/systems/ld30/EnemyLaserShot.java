@@ -36,7 +36,7 @@ public class EnemyLaserShot extends LaserShot {
 
 
     protected Vector2 getDir() {
-        return new Vector2(xDif, yDif).nor().scl(100).add(body.getPosition());
+        return new Vector2(xDif, yDif).nor().scl(200).add(body.getPosition());
     }
 
     protected void hitSomething(Collidable c){

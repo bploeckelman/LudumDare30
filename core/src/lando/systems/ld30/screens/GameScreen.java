@@ -104,7 +104,7 @@ public class GameScreen implements Screen {
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
 
-        //enemies.add(new BlueBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+        //enemies.add(new PurpleBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);

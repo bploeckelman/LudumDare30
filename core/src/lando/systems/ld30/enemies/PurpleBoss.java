@@ -1,5 +1,8 @@
 package lando.systems.ld30.enemies;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.Linear;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -7,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import lando.systems.ld30.PowerUp;
 import lando.systems.ld30.screens.GameScreen;
+import lando.systems.ld30.tweens.Vector2Accessor;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Box2dContactListener;
 import lando.systems.ld30.utils.Globals;
@@ -18,7 +22,7 @@ public class PurpleBoss extends PurpleEnemy {
     public PurpleBoss(Vector2 position, GameScreen screen) {
         super(position, screen);
 
-        speed = 40f;
+        speed = 10f;
         maxHitPoints = 100;
         hitPoints = 100;
         shieldAmount = 100;
@@ -44,7 +48,14 @@ public class PurpleBoss extends PurpleEnemy {
             int bulletSpread = 4 + Assets.random.nextInt(4);
             float spreadOffset = Assets.random.nextFloat() * 360/bulletSpread;
             for (int i = 0; i < bulletSpread; i++){
-                shootLaser(new Vector2(1, 0).rotate(spreadOffset + (i * (360 / bulletSpread))).add(body.getPosition()), Color.BLUE);
+                Vector2 target = new Vector2(1, 0).rotate(spreadOffset + (i * (360 / bulletSpread)));
+                Vector2 nextTarget = new Vector2(1, 0).rotate(spreadOffset + ((i+1) * (360 / bulletSpread)));
+                LASER_DAMAGE = 1f;
+                shootMovingLaser(target, Color.BLUE);
+                Tween.to(target, Vector2Accessor.XY, RELOAD_TIME)
+                        .target(nextTarget.x, nextTarget.y)
+                        .ease(Linear.INOUT)
+                        .start(Globals.game.tweenManager);
                 reloadTimer = 5f;
             }
         }

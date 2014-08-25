@@ -45,7 +45,7 @@ public abstract class Enemy implements Collidable {
     public float animTimer;
     public float bulletSpeed = 800;
     public float seekerSpeed = 500;
-    public float SEEKER_TIME = 10f;
+    public float SEEKER_TIME = 4f;
 
     public boolean isBoss;
     public boolean alive;
@@ -199,6 +199,26 @@ public abstract class Enemy implements Collidable {
                 .push(Tween.to(enemyLight, PointLightAccessor.DIST, 0.1f).target(0))
                 .start(screen.game.tweenManager);
     }
+
+    protected void shootMovingLaser(Vector2 target, Color color){
+        reloadTimer = RELOAD_TIME;
+        lasers.add(new EnemyMovingLaserShot(body, target, color, RELOAD_TIME, LASER_DAMAGE));
+        enemyLight.setActive(true);
+        Timeline.createSequence()
+                .beginParallel()
+                .push(Tween.to(enemyLight, PointLightAccessor.DIST, RELOAD_TIME).target(8))
+                .push(Tween.to(enemyLight, PointLightAccessor.RGB, RELOAD_TIME).target(color.r, color.g, color.b).setCallback(new TweenCallback() {
+                    @Override
+                    public void onEvent(int type, BaseTween<?> source) {
+                        enemyLight.setColor(0,0,0,1);
+                        enemyLight.setActive(false);
+                    }
+                }))
+                .end()
+                .push(Tween.to(enemyLight, PointLightAccessor.DIST, 0.1f).target(0))
+                .start(screen.game.tweenManager);
+    }
+
 
     @Override
     public CollidableType getType() {
