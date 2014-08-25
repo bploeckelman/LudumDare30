@@ -39,6 +39,8 @@ public class UserInterface {
     public Image[] enemyKillStatsIcons;
     public Label[] enemyKillStatsLabels;
 
+    public Label playTimeLabel;
+
     public Dialog popup;
 
     public final GameScreen screen;
@@ -69,6 +71,13 @@ public class UserInterface {
         updateHealthBars();
         updateColors();
         updateKillCounts();
+
+        final int m = (int) (Stats.playTime / 60f);
+        final float s = Stats.playTime - m * 60;
+        playTimeLabel.setText("Time: " + String.format("%02d", m) + " min  " + String.format("%02.2f", s) + " sec");
+        playTimeLabel.setPosition(
+                stage.getWidth() / 2 - playTimeLabel.getTextBounds().width / 2,
+                stage.getHeight() - playTimeLabel.getTextBounds().height - 3 * margin_y);
     }
 
     public void render() {
@@ -111,7 +120,11 @@ public class UserInterface {
         popup.setBackground(new TextureRegionDrawable(Assets.atlas.findRegion("brown-panel")));
         popup.setCenterPosition(stage.getWidth() / 2, stage.getHeight() / 2);
         popup.setVisible(false);
+        stage.addActor(popup);
 
+        playTimeLabel = new Label("Time: --", skin);
+        playTimeLabel.setPosition(stage.getWidth() / 2 - playTimeLabel.getTextBounds().width / 2, stage.getHeight() - playTimeLabel.getTextBounds().height - margin_y);
+        stage.addActor(playTimeLabel);
 
         final int num_colors = 6;
         finishedColors = new Image[num_colors];
@@ -134,8 +147,6 @@ public class UserInterface {
         enemyKillsLabel.setPosition(pad_left, pad_bottom + 20);
         enemyKillsLabel.setVisible(false);
         stage.addActor(enemyKillsLabel);
-
-        Stats.redEnemiesKilled = 1;
 
         float x = 0;
         enemyKillStatsLabels = new Label[num_colors];
@@ -166,7 +177,6 @@ public class UserInterface {
             x += w + margin_x;
         }
 
-        stage.addActor(popup);
     }
 
     Vector3 p = new Vector3();
