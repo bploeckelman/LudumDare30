@@ -113,7 +113,7 @@ public class Player implements InputProcessor, Collidable {
         shieldBar = new HealthBar(80, 12, Color.LIGHT_GRAY.cpy(), Globals.shieldColor.cpy());
 
         //TODO DEBUG STUFF
-        availableColors.add(Globals.COLORS.BLUE);
+//        availableColors.add(Globals.COLORS.BLUE);
     }
 
     private final float MAX_VELOCITY = 20f;
@@ -268,10 +268,23 @@ public class Player implements InputProcessor, Collidable {
             case BLUE:
                 return Color.BLUE;
             case PURPLE:
-                return Color.MAGENTA;
+                return Color.PURPLE;
 
         }
         return Color.WHITE;
+    }
+
+    public int getColorIndex() {
+        if (availableColors.isEmpty()) return -1;
+        switch (availableColors.get(currentColor)){
+            case RED:     return 0;
+            case YELLOW:  return 1;
+            case GREEN:   return 2;
+            case CYAN:    return 3;
+            case BLUE:    return 4;
+            case PURPLE:  return 5;
+            default:      return -1;
+        }
     }
 
     @Override

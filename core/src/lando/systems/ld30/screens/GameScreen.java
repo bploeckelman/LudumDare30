@@ -151,6 +151,14 @@ public class GameScreen implements Screen {
             Gdx.app.exit();
         }
 
+        // DEBUG
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) colorsBeat[0] = !colorsBeat[0];
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) colorsBeat[1] = !colorsBeat[1];
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) colorsBeat[2] = !colorsBeat[2];
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) colorsBeat[3] = !colorsBeat[3];
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) colorsBeat[4] = !colorsBeat[4];
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_6)) colorsBeat[5] = !colorsBeat[5];
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             ui.showPopup("Read all the things!  (click or esc to dismiss) \n"
                     + "................................................\n"

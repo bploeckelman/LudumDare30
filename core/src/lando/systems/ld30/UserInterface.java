@@ -1,11 +1,13 @@
 package lando.systems.ld30;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -14,6 +16,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import lando.systems.ld30.enemies.Enemy;
 import lando.systems.ld30.screens.GameScreen;
 import lando.systems.ld30.utils.Assets;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Brian Ploeckelman created on 8/24/2014.
@@ -24,6 +30,10 @@ public class UserInterface {
 
     public Skin skin;
     public Stage stage;
+
+    public Image[] finishedColors;
+    public Image colorSelection;
+    public int selectedColor = -1;
 
     public Dialog popup;
 
@@ -53,6 +63,7 @@ public class UserInterface {
 
         popup.setCenterPosition(stage.getWidth() / 2, stage.getHeight() / 2);
         updateHealthBars();
+        updateColors();
     }
 
     public void render() {
@@ -95,6 +106,20 @@ public class UserInterface {
         popup.setBackground(new TextureRegionDrawable(Assets.atlas.findRegion("brown-panel")));
         popup.setCenterPosition(stage.getWidth() / 2, stage.getHeight() / 2);
         popup.setVisible(false);
+
+
+        final int num_colors = 6;
+        finishedColors = new Image[num_colors];
+        for (int i = 0; i < num_colors; ++i) {
+            finishedColors[i] = new Image(Assets.atlas.findRegion("player0"));
+            finishedColors[i].setColor(Color.LIGHT_GRAY.cpy());
+
+            stage.addActor(finishedColors[i]);
+        }
+
+        colorSelection = new Image(Assets.atlas.findRegion("color-icon-select"));
+        colorSelection.setVisible(false);
+        stage.addActor(colorSelection);
 
         stage.addActor(popup);
     }
@@ -146,6 +171,43 @@ public class UserInterface {
             }
         }
         stage.getBatch().end();
+    }
+
+    private static final Map<Integer, Color> color_map;
+    static {
+        HashMap<Integer, Color> map = new HashMap<Integer, Color>();
+        map.put(0, Color.RED.cpy());
+        map.put(1, Color.YELLOW.cpy());
+        map.put(2, Color.GREEN.cpy());
+        map.put(3, Color.CYAN.cpy());
+        map.put(4, Color.BLUE.cpy());
+        map.put(5, Color.PURPLE.cpy());
+        color_map = Collections.unmodifiableMap(map);
+    }
+    private void updateColors() {
+        final float pad_left = 3 * margin_x;
+        final float pad_top = 4 * margin_y;
+        final float w = 12;
+        float x = 0;
+
+        final int index = screen.player.getColorIndex();
+        for (int i = 0; i < finishedColors.length; ++i) {
+            finishedColors[i].setColor( (screen.colorsBeat[i] ? color_map.get(i) : Color.LIGHT_GRAY.cpy()) );
+            finishedColors[i].setCenterPosition(pad_left + x + i * w, stage.getHeight() - pad_top);
+            finishedColors[i].setZIndex(1);
+
+            if (index == i) {
+                colorSelection.setCenterPosition(pad_left + x + i * w, stage.getHeight() - pad_top);
+                colorSelection.setVisible(true);
+                colorSelection.setZIndex(0);
+            }
+
+            x += w + margin_x;
+        }
+
+        if (index == -1) {
+            colorSelection.setVisible(false);
+        }
     }
 
 }
