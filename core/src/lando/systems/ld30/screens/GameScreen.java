@@ -88,10 +88,10 @@ public class GameScreen implements Screen {
 //        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
 //        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
 //        enemies.add(new BlueEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
-        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
-        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
-        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
-        enemies.add(new CyanEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
+        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y + -11), this));
+        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x + -11,Globals.world_center_y +  11), this));
+        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
+        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
