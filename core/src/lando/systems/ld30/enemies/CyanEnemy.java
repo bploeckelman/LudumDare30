@@ -44,6 +44,11 @@ public class CyanEnemy extends Enemy {
 
     }
 
+    public void superUpdate(float dt){
+        super.update(dt);     // Brian gave me this idea
+    }
+
+
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);

@@ -132,6 +132,11 @@ public abstract class Enemy implements Collidable {
         screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.WHITE, false, seekerSpeed, SEEKER_DAMAGE));
     }
 
+    public void shootSeekerDir(Vector2 dir){
+        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.WHITE, false, seekerSpeed, SEEKER_DAMAGE));
+
+    }
+
     protected void shootLaser(Vector2 target, Color color) {
         reloadTimer = RELOAD_TIME;
         shot = new EnemyLaserShot(body, target, color, RELOAD_TIME, LASER_DAMAGE);
