@@ -1,5 +1,6 @@
 package lando.systems.ld30.screens;
 
+import aurelienribon.tweenengine.Tween;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import lando.systems.ld30.*;
 import lando.systems.ld30.enemies.*;
+import lando.systems.ld30.tweens.PointLightAccessor;
 import lando.systems.ld30.utils.*;
 
 import java.util.ArrayList;
@@ -65,10 +67,17 @@ public class GameScreen implements Screen {
 
         box2DDebugRenderer = new Box2DDebugRenderer();
 
+        RayHandler.setGammaCorrection(true);
+        RayHandler.useDiffuseLight(false);
+        RayHandler.useDiffuseLight(RayHandler.BlendFunc.MULTIPLY);
+//        RayHandler.useDiffuseLight(RayHandler.BlendFunc.OVERLAY);
         rayHandler = new RayHandler(Globals.world);
-        setWorldColor();
+        rayHandler.setBlur(true);
+        rayHandler.setBlurNum(1);
         rayHandler.setShadows(true);
         rayHandler.setCulling(true);
+        rayHandler.setAmbientLight(0.9f);
+        setWorldColor();
 
         initializeChamberLights();
 
@@ -101,7 +110,7 @@ public class GameScreen implements Screen {
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y +  11), this));
 //        enemies.add(new PurpleEnemy(new Vector2( Globals.world_center_x +  11,Globals.world_center_y + -11), this));
 
-        //enemies.add(new PurpleBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
+//        enemies.add(new PurpleBoss(new Vector2( Globals.world_center_x +  0, Globals.world_center_y + 5), this));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(player);
@@ -117,8 +126,14 @@ public class GameScreen implements Screen {
 
     private void initializeChamberLights() {
         light = new PointLight(rayHandler, num_rays);
-        light.setColor(1, 0, 0, 1);
-        light.setDistance(200);
+        light.setColor(0.2f, 0.2f, 0.2f, 1);
+        light.setSoft(true);
+        light.setDistance(20);
+        Tween.to(light, PointLightAccessor.DIST, 5)
+                .target(200)
+                .repeatYoyo(-1,0)
+                .start(game.tweenManager);
+
 
         light1 = new PointLight(rayHandler, num_rays);
         light1.setPosition(100, 100);
@@ -126,12 +141,12 @@ public class GameScreen implements Screen {
         light1.setDistance(100);
         light1.setActive(false);
 
-        portals[0] = new Portal(new Color(1,0,0,1), Globals.red_center,    LEVEL_STATE.RED,    this);
-        portals[1] = new Portal(new Color(1,1,0,1), Globals.yellow_center, LEVEL_STATE.YELLOW, this);
-        portals[2] = new Portal(new Color(0,1,0,1), Globals.green_center,  LEVEL_STATE.GREEN,  this);
-        portals[3] = new Portal(new Color(0,1,1,1), Globals.cyan_center,   LEVEL_STATE.CYAN,   this);
-        portals[4] = new Portal(new Color(0,0,1,1), Globals.blue_center,   LEVEL_STATE.BLUE,   this);
-        portals[5] = new Portal(new Color(1,0,1,1), Globals.purple_center, LEVEL_STATE.PURPLE, this);
+        portals[0] = new Portal(new Color(1,0,0,1), Globals.red_center,    LEVEL_STATE.RED);
+        portals[1] = new Portal(new Color(1,1,0,1), Globals.yellow_center, LEVEL_STATE.YELLOW);
+        portals[2] = new Portal(new Color(0,1,0,1), Globals.green_center,  LEVEL_STATE.GREEN);
+        portals[3] = new Portal(new Color(0,1,1,1), Globals.cyan_center,   LEVEL_STATE.CYAN);
+        portals[4] = new Portal(new Color(0,0,1,1), Globals.blue_center,   LEVEL_STATE.BLUE);
+        portals[5] = new Portal(new Color(1,0,1,1), Globals.purple_center, LEVEL_STATE.PURPLE);
     }
 
     float accum = 0;
