@@ -34,7 +34,7 @@ public class HealthBar {
     }
 
     public void render(SpriteBatch batch) {
-        if (value.floatValue() < 0.1f) return;
+        if (value.floatValue() <= 0) return;
         final float pad_left   = Assets.ninepatchGreen.getPadLeft();
         final float pad_right  = Assets.ninepatchGreen.getPadRight();
         final float pad_top    = Assets.ninepatchGreen.getPadTop();
