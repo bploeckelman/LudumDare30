@@ -46,14 +46,14 @@ blue-enemy03
   orig: 15, 15
   offset: 0, 0
   index: -1
-blue-enemy09
+blue-enemy04
   rotate: false
   xy: 154, 42
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
-blue-enemy04
+blue-enemy09
   rotate: false
   xy: 154, 42
   size: 15, 15

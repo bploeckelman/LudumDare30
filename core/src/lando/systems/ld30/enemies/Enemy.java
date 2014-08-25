@@ -50,10 +50,15 @@ public abstract class Enemy implements Collidable {
 
     public float hitPoints = 10f;
     public float maxHitPoints = 10f;
+    public float shieldAmount = 10;
+    public float maxShield = 10;
+    public float timeSinceLastHit =0;
+
     public float RELOAD_TIME = 3f;
     public float LASER_DAMAGE = 10f;
     public float BULLET_DAMAGE = 5f;
     public float SEEKER_DAMAGE = 20;
+    public float SHIELD_DELAY = 10f;
     public float reloadTimer = 0;
     public MutableFloat rotation = new MutableFloat(0);
 
@@ -83,6 +88,7 @@ public abstract class Enemy implements Collidable {
     public void update(float dt) {
         reloadTimer = Math.max(reloadTimer - dt, 0);
         animTimer += dt;
+        timeSinceLastHit += dt;
         sprite.setRegion(animation.getKeyFrame(animTimer));
         sprite.setCenter(body.getPosition().x, body.getPosition().y);
         sprite.setOriginCenter();
@@ -103,8 +109,22 @@ public abstract class Enemy implements Collidable {
     }
 
     public void takeDamage (float amount){
+        timeSinceLastHit = 0;
+        if (isShieldUp()){
+            if (shieldAmount > amount){
+                shieldAmount -= amount;
+                amount = 0;
+            } else {
+                amount -= shieldAmount;
+                shieldAmount = 0;
+            }
+        }
+
         hitPoints -= amount;
-        if (hitPoints <= 0) kill();
+        if (hitPoints <= 0) {
+            kill();
+            //TODO record this?
+        }
     }
 
     public void kill(){
@@ -198,7 +218,7 @@ public abstract class Enemy implements Collidable {
     public float getPercentShield() {
         if (!alive) return 0;
         // return shieldPoints / max_shield_points;
-        return 0.5f;
+        return shieldAmount/maxShield;
     }
 
     public boolean isShieldUp() {

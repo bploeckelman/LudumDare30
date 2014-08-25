@@ -23,7 +23,7 @@ public class BlueEnemy extends Enemy {
         super(position, screen);
         speed = 9f;
         healthBar.setBarColor(Color.BLUE.cpy());
-        shieldBar = new HealthBar(40, 12, Color.LIGHT_GRAY.cpy(), Color.CYAN.cpy());
+        shieldBar = new HealthBar(40, 12, Color.LIGHT_GRAY.cpy(), new Color(0.6f, 0.8f, 1, 1));
     }
 
     @Override
@@ -41,6 +41,10 @@ public class BlueEnemy extends Enemy {
             dir.set(screen.player.body.getPosition());
             dir.sub(body.getPosition()).nor().scl(speed);
             body.applyForceToCenter(dir.x, dir.y, true);
+        }
+
+        if (timeSinceLastHit > SHIELD_DELAY){
+            shieldAmount = Math.min(shieldAmount + (dt * 10), maxShield);
         }
 
 

@@ -48,10 +48,14 @@ public class Player implements InputProcessor, Collidable {
     public float hitPoints = max_hit_points;
     public HealthBar healthBar;
     public HealthBar shieldBar;
+    public float timeSinceLastHit = 0;
+    public float shieldAmount = 50;
+    public float maxShield = 50;
 
     public final static float RED_RELOAD_TIME = 2f;
     public final static float YELLOW_RELOAD_TIME = .2f;
     public final static float CYAN_RELOAD_TIME = .8f;
+    public final static float SHIELD_DELAY = 10f;
 
 
 
@@ -100,10 +104,10 @@ public class Player implements InputProcessor, Collidable {
         playerLight.attachToBody(body, 0, 0);
 
         healthBar = new HealthBar(100, 18);
-        shieldBar = new HealthBar(80, 12, Color.LIGHT_GRAY.cpy(), new Color(0.5f, 0.5f, 1, 1));
+        shieldBar = new HealthBar(80, 12, Color.LIGHT_GRAY.cpy(), new Color(0.6f, 0.8f, 1, 1));
 
         //TODO DEBUG STUFF
-        //availableColors.add(Globals.COLORS.RED);
+        availableColors.add(Globals.COLORS.BLUE);
     }
 
     private final float MAX_VELOCITY = 15f;
@@ -125,6 +129,7 @@ public class Player implements InputProcessor, Collidable {
             respawnTimer -= dt;
             if (respawnTimer <= 0){
                 respawnTimer = 0;
+                shieldAmount = maxShield;
                 hitPoints = max_hit_points;
                 healthBar.setValue(1);
                 body.setTransform(1000, 1000, 0);
@@ -150,6 +155,7 @@ public class Player implements InputProcessor, Collidable {
             Assets.playerDeathParticleEffect.update(dt);
         }
 
+        timeSinceLastHit += dt;
         reloadTimer -= dt;
         reloadTimer = Math.max(reloadTimer, 0);
 
@@ -215,6 +221,9 @@ public class Player implements InputProcessor, Collidable {
         }
         if (availableColors.get(currentColor) == Globals.COLORS.GREEN){
             hitPoints = Math.min(hitPoints + (dt * 5), 100);
+        }
+        if (availableColors.get(currentColor) == Globals.COLORS.BLUE && timeSinceLastHit > SHIELD_DELAY){
+            shieldAmount = Math.min(shieldAmount + (dt * 10), maxShield);
         }
     }
 
@@ -308,11 +317,23 @@ public class Player implements InputProcessor, Collidable {
                 currentColor = colors -1;
             }
         }
+        timeSinceLastHit = Math.min(timeSinceLastHit, SHIELD_DELAY/2f);
         return false;
     }
 
     public void takeDamage (float amount){
+        timeSinceLastHit = 0;
+        if (isShieldUp()){
+            if (shieldAmount > amount){
+                shieldAmount -= amount;
+                amount = 0;
+            } else {
+                amount -= shieldAmount;
+                shieldAmount = 0;
+            }
+        }
         hitPoints -= amount;
+
         if (hitPoints <= 0) {
             hitPoints = 0;
             kill();
@@ -406,11 +427,11 @@ public class Player implements InputProcessor, Collidable {
     public float getPercentShield() {
         if (!alive) return 0;
         // return shieldPoints / max_shield_points;
-        return 0.5f;
+        return shieldAmount/maxShield;
     }
 
     public boolean isShieldUp() {
         // TODO : return shield_up_flag;
-        return true;
+        return availableColors.size() != 0 && availableColors.get(currentColor) == Globals.COLORS.BLUE;
     }
 }
