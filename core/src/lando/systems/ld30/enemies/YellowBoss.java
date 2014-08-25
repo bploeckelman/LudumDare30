@@ -23,6 +23,7 @@ public class YellowBoss extends YellowEnemy {
         maxHitPoints = 100;
         hitPoints = 100;
         healthBar.setWidth(150);
+        setHealthBarVerticalOffset(body_radius * 6);
         isBoss = true;
     }
 

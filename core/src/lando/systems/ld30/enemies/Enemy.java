@@ -90,6 +90,7 @@ public abstract class Enemy implements Collidable {
 
         healthBar = new HealthBar(50, 12, Color.LIGHT_GRAY, Globals.shieldColor.cpy());
         shieldBar = null;
+        setHealthBarVerticalOffset(body_radius * 6);
     }
 
     public void update(float dt) {
@@ -257,5 +258,12 @@ public abstract class Enemy implements Collidable {
 
     public PowerUp getPowerUP() {
         return null;
+    }
+
+    protected void setHealthBarVerticalOffset(float offset){
+        healthBar.verticalOffset = offset;
+        if (shieldBar != null) {
+            shieldBar.verticalOffset = offset;
+        }
     }
 }

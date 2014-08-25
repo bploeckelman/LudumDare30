@@ -25,9 +25,11 @@ public class BlueBoss extends BlueEnemy {
         maxShield = 100;
         healthBar.setWidth(150);
         RELOAD_TIME = 4f;
+        shieldBar.bounds.width = 100;
         healthBar.bounds.width = 200;
         healthBar.bounds.height = 20;
         healthBar.setBarColor(Color.BLUE.cpy());
+        setHealthBarVerticalOffset(body_radius * 6);
         isBoss = true;
     }
 
