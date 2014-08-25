@@ -29,11 +29,13 @@ public class LaserShot {
     Color color;
     float angle;
     public float damage;
+    public boolean alwaysOn;
 
     PriorityQueue<RayHit> hits = new PriorityQueue<RayHit>();
 
     public LaserShot(Body body, Vector2 target, Color color, float TTL, float damage){
         this.damage = damage;
+        alwaysOn = false;
         timeLeft = TTL;
         alive = true;
         sprite = new Sprite(Assets.beam);
@@ -48,17 +50,26 @@ public class LaserShot {
     boolean active = false;
     public void update (float dt){
         timeLeft -= dt;
-
-        if (timeLeft > 1.8f){
-            scale = .1f;
-        } else if (timeLeft > .2f){
-            scale = .1f;
-        } else if (timeLeft > 0 ) {
-            // TODO: Play Laser Sound
-            scale = 2f;
-            active = true;
+        if (alwaysOn){
+            if (timeLeft > 0) {
+                // TODO: Play Laser Sound
+                scale = 2f;
+                active = true;
+            } else {
+                alive = false;
+            }
         } else {
-            alive = false;
+            if (timeLeft > 1.8f) {
+                scale = .1f;
+            } else if (timeLeft > .2f) {
+                scale = .1f;
+            } else if (timeLeft > 0) {
+                // TODO: Play Laser Sound
+                scale = 2f;
+                active = true;
+            } else {
+                alive = false;
+            }
         }
     }
 
@@ -80,7 +91,7 @@ public class LaserShot {
 
         sprite.setRotation(angle);
         sprite.setScale(1, scale);
-        sprite.setPosition(body.getPosition().x, body.getPosition().y);
+        sprite.setPosition(body.getPosition().x, body.getPosition().y - sprite.getHeight()/2);
 
 
         sprite.draw(batch);
@@ -96,7 +107,8 @@ public class LaserShot {
             }
             if (active){
                 hitSomething(hit.collidable);
-                alive = false;
+                if (!alwaysOn)
+                    alive = false;
             }
         }
     }
