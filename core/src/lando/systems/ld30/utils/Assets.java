@@ -37,6 +37,7 @@ public class Assets {
 
 
     public static ParticleEffect explodeParticleEffect;
+    public static ParticleEffect playerDeathParticleEffect;
 
     public static void load() {
         batch = new SpriteBatch();
@@ -61,6 +62,10 @@ public class Assets {
 
         explodeParticleEffect = new ParticleEffect();
         explodeParticleEffect.load(Gdx.files.internal("explode.p"), Gdx.files.internal("images"));
+
+        playerDeathParticleEffect = new ParticleEffect();
+        playerDeathParticleEffect.load(Gdx.files.internal("player-death.p"), Gdx.files.internal("images"));
+        Assets.playerDeathParticleEffect.scaleEffect(0.07f);
 
         final String VERTEX = Gdx.files.internal("prism.vert").readString();
         final String FRAG = Gdx.files.internal("prism.frag").readString();
@@ -87,6 +92,7 @@ public class Assets {
     public static void dispose() {
         hudFont.dispose();
         font.dispose();
+        playerDeathParticleEffect.dispose();
         explodeParticleEffect.dispose();
         atlas.dispose();
         badlogic.dispose();

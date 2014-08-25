@@ -97,7 +97,9 @@ public class UserInterface {
 
     private void renderHealthBars() {
         stage.getBatch().begin();
-        screen.player.healthBar.render((SpriteBatch) stage.getBatch());
+        if (screen.player.alive) {
+            screen.player.healthBar.render((SpriteBatch) stage.getBatch());
+        }
         for (Enemy enemy : screen.enemies) {
             if (!enemy.alive) continue;
             enemy.healthBar.render((SpriteBatch) stage.getBatch());

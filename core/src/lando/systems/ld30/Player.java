@@ -144,6 +144,10 @@ public class Player implements InputProcessor, Collidable {
         }
         healthBar.setValue(getPercentHP());
 
+        if (!Assets.playerDeathParticleEffect.isComplete()) {
+            Assets.playerDeathParticleEffect.update(dt);
+        }
+
         reloadTimer -= dt;
         reloadTimer = Math.max(reloadTimer, 0);
 
@@ -213,8 +217,12 @@ public class Player implements InputProcessor, Collidable {
         } else {
             sprite.setColor(Color.WHITE);
         }
-        if (alive || respawnTimer % .4f > .2f){
+        if (alive) {// || respawnTimer % .4f > .2f){
             sprite.draw(batch);
+        }
+
+        if (!Assets.playerDeathParticleEffect.isComplete()) {
+            Assets.playerDeathParticleEffect.draw(batch);
         }
     }
 
@@ -309,6 +317,10 @@ public class Player implements InputProcessor, Collidable {
             screen.game.tweenManager.killTarget(playerLight);
             playerLight.setColor(0, 0, 0, 1);
             playerLight.setDistance(0);
+            Assets.playerDeathParticleEffect.reset();
+            Assets.playerDeathParticleEffect.setPosition(body.getPosition().x, body.getPosition().y);
+//            Assets.playerDeathParticleEffect.start();
+            // TODO : play shatter sound
         }
     }
 
