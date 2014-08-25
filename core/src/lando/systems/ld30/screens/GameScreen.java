@@ -134,7 +134,7 @@ public class GameScreen implements Screen {
 
         // TODO: this is DEBUG
         if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
-            enterLevel(LEVEL_STATE.OVER_MAP);
+            enterLevel(LEVEL_STATE.OVER_MAP, false);
         }
 
         if (Assets.random.nextFloat() > .9f){
@@ -170,7 +170,7 @@ public class GameScreen implements Screen {
         for (int i = 0; i < portals.length; i ++){
             portals[i].update(dt);
             if (portals[i].playerInside(player.body.getPosition())){
-                enterLevel(portals[i].nextState);
+                enterLevel(portals[i].nextState, false);
             }
         }
 
@@ -222,11 +222,7 @@ public class GameScreen implements Screen {
         rayHandler.setAmbientLight(ambient);
     }
 
-    public void enterLevel(LEVEL_STATE newState){
-        if (newState == currentGameState)   {
-            System.out.println("Don't do this: newState == curState");
-            return;
-        }
+    public void enterLevel(LEVEL_STATE newState, boolean dead){
         LEVEL_STATE prevState = currentGameState;
         currentGameState = newState;
         setWorldColor();
@@ -254,7 +250,7 @@ public class GameScreen implements Screen {
                 enterPurpleLevel();
                 break;
             case OVER_MAP:
-                returnToOverMap(prevState);
+                returnToOverMap(prevState, dead);
                 break;
         }
     }
@@ -290,42 +286,52 @@ public class GameScreen implements Screen {
 
     }
 
-    public void returnToOverMap(LEVEL_STATE prevState){
-        switch (prevState)
-        {
-            case RED:
-                colorsBeat[0] = true;
-                player.availableColors.add(Globals.COLORS.RED);
-                break;
-            case YELLOW:
-                colorsBeat[1] = true;
-                player.availableColors.add(Globals.COLORS.YELLOW);
-                break;
-            case GREEN:
-                colorsBeat[2] = true;
-                player.availableColors.add(Globals.COLORS.GREEN);
-                break;
-            case CYAN:
-                colorsBeat[3] = true;
-                player.availableColors.add(Globals.COLORS.CYAN);
-                break;
-            case BLUE:
-                colorsBeat[4] = true;
-                player.availableColors.add(Globals.COLORS.BLUE);
-                break;
-            case PURPLE:
-                colorsBeat[5] = true;
-                player.availableColors.add(Globals.COLORS.PURPLE);
-                break;
+    public void returnToOverMap(LEVEL_STATE prevState, boolean dead){
+        if (!dead) {
+            switch (prevState) {
+                case RED:
+                    colorsBeat[0] = true;
+                    player.availableColors.add(Globals.COLORS.RED);
+                    break;
+                case YELLOW:
+                    colorsBeat[1] = true;
+                    player.availableColors.add(Globals.COLORS.YELLOW);
+                    break;
+                case GREEN:
+                    colorsBeat[2] = true;
+                    player.availableColors.add(Globals.COLORS.GREEN);
+                    break;
+                case CYAN:
+                    colorsBeat[3] = true;
+                    player.availableColors.add(Globals.COLORS.CYAN);
+                    break;
+                case BLUE:
+                    colorsBeat[4] = true;
+                    player.availableColors.add(Globals.COLORS.BLUE);
+                    break;
+                case PURPLE:
+                    colorsBeat[5] = true;
+                    player.availableColors.add(Globals.COLORS.PURPLE);
+                    break;
 
+            }
         }
-        for (int i = 0; i < colorsBeat.length; i ++){
-            if (!colorsBeat[i]) portals[i].activate();
+        if (!colorsBeat[0]){
+            portals[0].activate();
+        } else {
+            for (int i = 0; i < colorsBeat.length; i++) {
+                if (!colorsBeat[i]) portals[i].activate();
+            }
         }
         for (Enemy enemy : enemies){
             Globals.world.destroyBody(enemy.body);
         }
         enemies.clear();
+        for (Bullet bullet : bullets){
+            Globals.world.destroyBody(bullet.body);
+        }
+        bullets.clear();
+
     }
 
     @Override

@@ -106,6 +106,7 @@ public class Player implements InputProcessor, Collidable {
     public void update(float dt) {
         if (respawnTimer > 0 ){
             if (alive) {
+
                 alive = false;
                 body.destroyFixture(fixture);
                 CircleShape circleShape = new CircleShape();
@@ -122,6 +123,8 @@ public class Player implements InputProcessor, Collidable {
             if (respawnTimer <= 0){
                 respawnTimer = 0;
                 hitPoints = max_hit_points;
+                body.setTransform(1000,1000, 0);
+                screen.enterLevel(GameScreen.LEVEL_STATE.OVER_MAP, true);
                 alive = true;
                 body.destroyFixture(fixture);
                 CircleShape circleShape = new CircleShape();
@@ -295,17 +298,19 @@ public class Player implements InputProcessor, Collidable {
 
     public void takeDamage (float amount){
         hitPoints -= amount;
-        if (hitPoints <= 0) kill();
+        if (hitPoints <= 0) {
+            hitPoints = 0;
+            kill();
+        }
     }
 
     public void kill(){
         if (respawnTimer <= 0){
-            respawnTimer = 2f;
+            respawnTimer = 5f;
             shot = null;
             screen.game.tweenManager.killTarget(playerLight);
             playerLight.setColor(0,0,0,1);
             playerLight.setDistance(0);
-            hitPoints = 0;
         }
     }
 

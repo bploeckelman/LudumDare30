@@ -37,6 +37,7 @@ public class TitleScreen implements Screen {
         camera.setToOrtho(false, Config.window_width, Config.window_height);
         fbo = new FrameBuffer(Pixmap.Format.RGB888, Config.window_width, Config.window_height, false);
         rainbowSprite = new Sprite(Assets.rainbow);
+        rainbowSprite.setSize(200, 100);
         rainbowSprite.setCenter(Config.window_width/2, Config.window_height/2);
     }
 
@@ -81,7 +82,7 @@ public class TitleScreen implements Screen {
         Assets.batch.begin();
         Assets.batch.setShader(Assets.shimmerProgram);
         Assets.shimmerProgram.setUniformf("u_time", shimmerAccum);
-        Assets.shimmerProgram.setUniformf("u_alpha", .3f);
+        Assets.shimmerProgram.setUniformf("u_alpha", .1f);
         rainbowSprite.draw(Assets.batch);
 
         Assets.batch.setShader(Assets.prismProgram);
