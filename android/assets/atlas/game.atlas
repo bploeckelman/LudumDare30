@@ -46,6 +46,13 @@ blue-enemy03
   orig: 15, 15
   offset: 0, 0
   index: -1
+blue-enemy04
+  rotate: false
+  xy: 41, 72
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
 blue-enemy09
   rotate: false
   xy: 41, 72
@@ -54,13 +61,6 @@ blue-enemy09
   offset: 0, 0
   index: -1
 blue-enemy05
-  rotate: false
-  xy: 41, 72
-  size: 15, 15
-  orig: 15, 15
-  offset: 0, 0
-  index: -1
-blue-enemy04
   rotate: false
   xy: 41, 72
   size: 15, 15
@@ -123,37 +123,72 @@ blue-enemy14
   orig: 15, 15
   offset: 0, 0
   index: -1
-green-enemy0
+cyan-enemy0
   rotate: false
   xy: 75, 39
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
-green-enemy1
+cyan-enemy1
   rotate: false
   xy: 92, 56
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
-green-enemy2
+cyan-enemy2
   rotate: false
   xy: 92, 39
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
-green-enemy3
+cyan-enemy3
   rotate: false
   xy: 23, 25
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
-green-enemy4
+cyan-enemy4
   rotate: false
   xy: 20, 8
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+green-enemy0
+  rotate: false
+  xy: 40, 21
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+green-enemy1
+  rotate: false
+  xy: 57, 21
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+green-enemy2
+  rotate: false
+  xy: 37, 4
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+green-enemy3
+  rotate: false
+  xy: 54, 4
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+green-enemy4
+  rotate: false
+  xy: 109, 73
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
