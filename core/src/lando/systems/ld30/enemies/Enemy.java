@@ -118,6 +118,11 @@ public abstract class Enemy implements Collidable {
         screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE, false, bulletSpeed, BULLET_DAMAGE));
     }
 
+    public void shootBulletDir(Vector2 dir){
+        screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE, false, bulletSpeed, BULLET_DAMAGE));
+
+    }
+
     public void shootSeeker(Vector2 target){
         reloadTimer = RELOAD_TIME;
         Vector2 dir = target.cpy().sub(body.getPosition());
@@ -147,8 +152,8 @@ public abstract class Enemy implements Collidable {
     }
 
     @Override
-    public void shotByPlayer(Color color) {
-         kill();
+    public void shotByPlayer(LaserShot laser) {
+         takeDamage(laser.damage);
     }
 
     @Override

@@ -46,6 +46,10 @@ public class YellowEnemy extends Enemy {
         // TODO : do other update things specific to this enemy
     }
 
+    public void superUpdate(float dt){
+        super.update(dt);
+    }
+
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);

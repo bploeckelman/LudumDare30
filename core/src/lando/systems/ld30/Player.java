@@ -101,7 +101,7 @@ public class Player implements InputProcessor, Collidable {
         healthBar = new HealthBar(100, 18);
 
         //TODO DEBUG STUFF
-        //availableColors.add(Globals.COLORS.CYAN);
+        //availableColors.add(Globals.COLORS.RED);
     }
 
     private final float MAX_VELOCITY = 15f;
@@ -362,7 +362,7 @@ public class Player implements InputProcessor, Collidable {
     }
 
     @Override
-    public void shotByPlayer(Color color) {
+    public void shotByPlayer(LaserShot laser) {
 
     }
 

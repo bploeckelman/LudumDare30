@@ -87,7 +87,7 @@ public class Bullet implements Collidable{
     }
 
     @Override
-    public void shotByPlayer(Color color) {
+    public void shotByPlayer(LaserShot laser) {
 
     }
 

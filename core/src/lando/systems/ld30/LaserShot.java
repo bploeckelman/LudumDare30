@@ -105,7 +105,7 @@ public class LaserShot {
     }
 
     protected void hitSomething(Collidable c){
-        c.shotByPlayer(color);
+        c.shotByPlayer(this);
     }
 
     protected RayCastCallback rayCallback = new RayCastCallback(){

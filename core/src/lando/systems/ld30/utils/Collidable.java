@@ -10,7 +10,7 @@ import lando.systems.ld30.LaserShot;
  */
 public interface Collidable {
     public CollidableType getType();
-    public void shotByPlayer(Color color);
+    public void shotByPlayer(LaserShot laser);
     public void shotByEnemy(LaserShot laser);
     public boolean collideWithBullet(Bullet bullet);
     public void collideWithWorld();
