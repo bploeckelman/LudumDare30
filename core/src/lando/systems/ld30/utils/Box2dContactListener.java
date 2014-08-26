@@ -84,6 +84,7 @@ public class Box2dContactListener implements ContactListener {
                 break;
             case PLAYER:
                 if (collidableB.getType() == CollidableType.POWER_UP){
+                    Assets.playerCollectItemSound.play();
                     Globals.gameScreen.powerUp.lights.disable();
                     Globals.gameScreen.gotPowerUp = true;
                     return;

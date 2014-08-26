@@ -114,7 +114,12 @@ public class Player implements InputProcessor, Collidable {
         shieldBar = new HealthBar(80, 12, Color.LIGHT_GRAY.cpy(), Globals.shieldColor.cpy());
 
         //TODO DEBUG STUFF
-        //availableColors.add(Globals.COLORS.YELLOW);
+        availableColors.add(Globals.COLORS.YELLOW);
+        availableColors.add(Globals.COLORS.RED);
+        availableColors.add(Globals.COLORS.GREEN);
+        availableColors.add(Globals.COLORS.BLUE);
+        availableColors.add(Globals.COLORS.CYAN);
+        availableColors.add(Globals.COLORS.PURPLE);
     }
 
     private final float MAX_VELOCITY = 20f;
@@ -212,20 +217,24 @@ public class Player implements InputProcessor, Collidable {
             switch (availableColors.get(currentColor)){
                 case RED:
                     shootLaser(target, Color.RED);
+                    Assets.redLaserSound.play(0.1f);
                     reloadTimer = RED_RELOAD_TIME;
                     break;
                 case YELLOW:
                     reloadTimer = YELLOW_RELOAD_TIME;
                     shootBullet(target);
+                    Assets.yellowBulletSound.play(0.1f);
                     break;
                 case CYAN:
                     reloadTimer = CYAN_RELOAD_TIME;
                     shootSeeker(target);
+                    Assets.homingBulletSound.play(0.1f);
                     break;
                 case PURPLE:
                     reloadTimer = 5f;
                     purpleTarget = target.cpy();
                     shootPurpleLaser();
+                    Assets.purpleLaserSound.play(0.1f);
 
                     break;
             }
@@ -238,6 +247,7 @@ public class Player implements InputProcessor, Collidable {
             }  else {
                if (shot != null){
                    //TODO kill light?
+                   Assets.purpleLaserSound.stop();
                    reloadTimer = (RED_RELOAD_TIME- shot.timeLeft);
                }
                shot = null;
@@ -376,6 +386,7 @@ public class Player implements InputProcessor, Collidable {
             }
         }
         hitPoints -= amount;
+        Assets.playerTakeDamageSound.play(0.1f);
 
         if (hitPoints <= 0) {
             hitPoints = 0;
@@ -393,7 +404,7 @@ public class Player implements InputProcessor, Collidable {
             Assets.playerDeathParticleEffect.reset();
             Assets.playerDeathParticleEffect.setPosition(body.getPosition().x, body.getPosition().y);
             Stats.playerDeaths++;
-            // TODO : play shatter sound
+            Assets.playerDeathSound.play(0.1f);
         }
     }
 

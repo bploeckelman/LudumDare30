@@ -138,6 +138,7 @@ public abstract class Enemy implements Collidable {
                 shieldAmount = 0;
             }
         }
+        Assets.enemyDamageSound.play(0.1f);
 
         hitPoints -= amount;
         if (hitPoints <= 0) {
@@ -158,12 +159,25 @@ public abstract class Enemy implements Collidable {
         if (this instanceof CyanEnemy)   Stats.cyanEnemiesKilled++;
         if (this instanceof BlueEnemy)   Stats.blueEnemiesKilled++;
         if (this instanceof PurpleEnemy) Stats.purpleEnemiesKilled++;
+
+        if (this instanceof RedBoss
+         || this instanceof YellowBoss
+         || this instanceof GreenBoss
+         || this instanceof CyanBoss
+         || this instanceof BlueBoss
+         || this instanceof PurpleBoss
+         || this instanceof FinalBoss) {
+            Assets.playerDeathSound.play(0.2f);
+        } else {
+            Assets.enemyDeathSound.play(0.1f);
+        }
     }
 
     public void shootBullet(Vector2 target){
         reloadTimer = RELOAD_TIME;
         Vector2 dir = target.cpy().sub(body.getPosition());
         screen.bullets.add(new Bullet(body.getPosition().cpy(), dir, Color.WHITE, false, bulletSpeed, BULLET_DAMAGE));
+//        Assets.yellowBulletSound.play(0.05f);
     }
 
     public void shootBulletDir(Vector2 dir){
@@ -175,6 +189,7 @@ public abstract class Enemy implements Collidable {
         reloadTimer = RELOAD_TIME;
         Vector2 dir = target.cpy().sub(body.getPosition());
         screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.WHITE, false, seekerSpeed, SEEKER_DAMAGE, SEEKER_TIME));
+//        Assets.homingBulletSound.play(0.05f);
     }
 
     public void shootSeekerDir(Vector2 dir){
@@ -186,6 +201,7 @@ public abstract class Enemy implements Collidable {
         reloadTimer = RELOAD_TIME;
         lasers.add(new EnemyLaserShot(body, target, color, RELOAD_TIME, LASER_DAMAGE));
         enemyLight.setActive(true);
+//        Assets.redLaserSound.play(0.05f);
         Timeline.createSequence()
                 .beginParallel()
                 .push(Tween.to(enemyLight, PointLightAccessor.DIST, RELOAD_TIME).target(8))
@@ -205,6 +221,7 @@ public abstract class Enemy implements Collidable {
         reloadTimer = RELOAD_TIME;
         lasers.add(new EnemyMovingLaserShot(body, target, color, RELOAD_TIME, LASER_DAMAGE));
         enemyLight.setActive(true);
+//        Assets.purpleLaserSound.play(0.05f);
         Timeline.createSequence()
                 .beginParallel()
                 .push(Tween.to(enemyLight, PointLightAccessor.DIST, RELOAD_TIME).target(8))

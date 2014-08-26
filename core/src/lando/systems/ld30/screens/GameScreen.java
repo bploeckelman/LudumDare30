@@ -406,6 +406,7 @@ public class GameScreen implements Screen {
         {
             portals[i].deactivate();
         }
+        Assets.portalSound.play(0.1f);
         switch(currentGameState){
             case RED:
                 enterRedLevel();

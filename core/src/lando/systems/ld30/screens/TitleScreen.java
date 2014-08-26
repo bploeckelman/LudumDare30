@@ -75,6 +75,7 @@ public class TitleScreen implements Screen {
          && (animTimer >= duration / 2 - 0.05f && animTimer <= duration / 2 + 0.05f)) {
             tweenRunning = true;
             keyframe = Assets.prism.findRegion("prism-colored-v1");
+            Assets.titleSound.play(0.8f);
             Tween.to(prismScale, 0, 2.0f)
                     .target(3)
                     .delay(0)
@@ -127,7 +128,7 @@ public class TitleScreen implements Screen {
 
         Assets.batch.setShader(Assets.prismProgram);
         Assets.prismProgram.setUniformf("u_scale", prismScale.floatValue());
-        accum+=2*delta;
+        accum+=3*delta;
         Assets.prismProgram.setUniformf("u_dir", (float)Math.sin(accum), (float)Math.cos(accum));
 
         Assets.batch.draw(fbo.getColorBufferTexture(), 0, fbo.getHeight(), fbo.getWidth(), -fbo.getHeight());
@@ -148,6 +149,7 @@ public class TitleScreen implements Screen {
         public void onEvent(int type, BaseTween<?> source){
             Assets.titleMusic.stop();
             Assets.gameMusic.play();
+            Assets.prism.dispose();
             game.setScreen(new GameScreen(game));
         }
 
