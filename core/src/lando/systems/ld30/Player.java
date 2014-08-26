@@ -245,7 +245,7 @@ public class Player implements InputProcessor, Collidable {
         }
 
         if (availableColors.get(currentColor) == Globals.COLORS.GREEN){
-            hitPoints = Math.min(hitPoints + (dt * 5), 100);
+            hitPoints = Math.min(hitPoints + (dt * 10), 100);
         }
         if (availableColors.get(currentColor) == Globals.COLORS.BLUE && timeSinceLastHit > SHIELD_DELAY){
             shieldAmount = Math.min(shieldAmount + (dt * 10), maxShield);
