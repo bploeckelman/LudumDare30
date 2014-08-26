@@ -10,10 +10,9 @@ import lando.systems.ld30.utils.Config;
 public class DesktopLauncher {
 
 
-    final static boolean PARSE_SVG = false;
+//    final static boolean PARSE_SVG = false;
 
     public static void main (String[] arg) {
-//
 //        if (PARSE_SVG) {
 //
 //            SVGConverter svgc = new SVGConverter();
