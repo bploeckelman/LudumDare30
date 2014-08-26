@@ -74,8 +74,8 @@ public class UserInterface {
         updateKillCounts();
 
         final int m = (int) (Stats.playTime / 60f);
-        final float s = Stats.playTime - m * 60;
-        playTimeLabel.setText("Time: " + String.format("%02d", m) + " min  " + String.format("%02.2f", s) + " sec");
+        final int s = (int) (Stats.playTime - m * 60f);
+        playTimeLabel.setText("Time: " + m + " min  " + s + " sec");
         playTimeLabel.setPosition(
                 stage.getWidth() / 2 - playTimeLabel.getTextBounds().width / 2,
                 stage.getHeight() - playTimeLabel.getTextBounds().height - 3 * margin_y);

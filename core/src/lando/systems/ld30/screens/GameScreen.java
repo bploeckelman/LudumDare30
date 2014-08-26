@@ -286,8 +286,11 @@ public class GameScreen implements Screen {
             finalBoss.update(dt);
             if (!finalBoss.alive){
                 final int m = (int) (Stats.playTime / 60f);
-                final float s = Stats.playTime - m * 60;
-                final String playTime = "" + String.format("%02d", m) + " min  " + String.format("%02.2f", s) + " sec";
+                final int s = (int) (Stats.playTime - m * 60f);
+                final String playTime = "Time: " + m + " min  " + s + " sec";
+//                final int m = (int) (Stats.playTime / 60f);
+//                final float s = Stats.playTime - m * 60;
+//                final String playTime = "" + String.format("%02d", m) + " min  " + String.format("%02.2f", s) + " sec";
                 ui.showPopup("Congratulations, you've restored the spectrum!"
                     + "\n\nKills: " + Stats.totalKills()
                     + "\nDeaths: " + Stats.playerDeaths
