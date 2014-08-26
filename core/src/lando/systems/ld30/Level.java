@@ -24,6 +24,8 @@ public class Level implements Collidable {
     ParticleEffectPool particleEffectPool;
     public FixtureDef fixtureDef;
 
+    public Vector2[] obsPos;
+
     public Level(GameScreen screen) {
         this.screen = screen;
 
@@ -57,6 +59,37 @@ public class Level implements Collidable {
 
         particleEffectPool = new ParticleEffectPool(Assets.explodeParticleEffect, 0, 20);
         particleEffects = new ArrayList<ParticleEffect>();
+
+        obsPos = new Vector2[6];
+
+
+        for (int i = 0; i < obsPos.length; i ++) {
+            obsPos[i] = new Vector2(80,0).rotate(60*i).add(1000,1000);
+            makeObstable(obsPos[i]);
+        }
+    }
+
+    float obsSize = 10;
+    public void makeObstable(Vector2 pos){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(0,0);
+
+        Body tempBody = Globals.world.createBody(bodyDef);
+        tempBody.setUserData(this);
+
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(obsSize, obsSize, pos, 0);
+        fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1;
+        fixtureDef.filter.categoryBits = Box2dContactListener.CATEGORY_WORLD;
+        fixtureDef.filter.maskBits = Box2dContactListener.MASK_WORLD;
+
+        tempBody.createFixture(fixtureDef);
+
+        shape.dispose();
     }
 
 
@@ -96,6 +129,10 @@ public class Level implements Collidable {
     }
 
     public void render(SpriteBatch batch) {
+        for (Vector2 pos :obsPos){
+            batch.draw(Assets.square, pos.x - obsSize, pos.y- obsSize, obsSize*2, obsSize*2);
+        }
+
         for (ParticleEffect effect : particleEffects) {
             effect.draw(batch);
         }

@@ -26,6 +26,7 @@ public class Assets {
     public static Texture rainbow;
     public static Texture background;
     public static Texture circle;
+    public static Texture square;
 
     public static NinePatch ninepatchBrown;
     public static NinePatch ninepatchGreen;
@@ -63,6 +64,9 @@ public class Assets {
 
         circle = new Texture("circle.png");
         circle.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        square = new Texture("square.png");
+        square.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         background = new Texture("background.png");
         background.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
