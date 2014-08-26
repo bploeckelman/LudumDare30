@@ -147,6 +147,7 @@ public class Assets {
 
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("ld30backgroundmusic.mp3"));
         gameMusic.setLooping(true);
+        gameMusic.setVolume(0.5f);
 
         titleMusic = Gdx.audio.newMusic(Gdx.files.internal("ld30titlemusic.mp3"));
         titleMusic.setLooping(true);

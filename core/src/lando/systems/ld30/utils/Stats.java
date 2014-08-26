@@ -16,6 +16,10 @@ public class Stats {
 
     public static int playerDeaths = 0;
 
+    public static int totalKills() {
+        return redEnemiesKilled + yellowEnemiesKilled + greenEnemiesKilled + cyanEnemiesKilled + blueEnemiesKilled + purpleEnemiesKilled;
+    }
+
     public static boolean haveKilled() {
         return (redEnemiesKilled    > 0
              || yellowEnemiesKilled > 0

@@ -169,7 +169,7 @@ public class GameScreen implements Screen {
         }
 
         if (!firstPop){
-            ui.showPopup("Our perfect white world was living\nin harmony for many eons.\n Until one day the world was \nshattered into 6 pieces by an evil prism \n\nClick to Dismiss" , "Welcome to Prismatic Worlds");
+            ui.showPopup("Our perfect white world was living\nin harmony for many eons.\n Until one day the spectrum was \nshattered into 6 pieces by an evil prism \n\nClick to Dismiss" , "Welcome to Prismatic Worlds");
             firstPop = true;
         } else if (!secondPop){
             ui.showPopup("You should venture to the Red World\nit is over to the right. \n\nClick to Dismiss" , "First Objective");
@@ -279,14 +279,19 @@ public class GameScreen implements Screen {
         }
 
 
-
         if (onFinalBoss()) {
             if (!finalBoss.alive){
                 // TODO change to credits screen
             }
             finalBoss.update(dt);
             if (!finalBoss.alive){
-                ui.showPopup("Congrat", "You Win!");
+                final int m = (int) (Stats.playTime / 60f);
+                final float s = Stats.playTime - m * 60;
+                final String playTime = "" + String.format("%02d", m) + " min  " + String.format("%02.2f", s) + " sec";
+                ui.showPopup("Congratulations, you've restored the spectrum!"
+                    + "\n\nKills: " + Stats.totalKills()
+                    + "\nDeaths: " + Stats.playerDeaths
+                    + "\nTotal Play Time: " + playTime, "You Win!");
             }
         }
 

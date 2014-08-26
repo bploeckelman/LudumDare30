@@ -114,12 +114,12 @@ public class Player implements InputProcessor, Collidable {
         shieldBar = new HealthBar(80, 12, Color.LIGHT_GRAY.cpy(), Globals.shieldColor.cpy());
 
         //TODO DEBUG STUFF
-        availableColors.add(Globals.COLORS.YELLOW);
-        availableColors.add(Globals.COLORS.RED);
-        availableColors.add(Globals.COLORS.GREEN);
-        availableColors.add(Globals.COLORS.BLUE);
-        availableColors.add(Globals.COLORS.CYAN);
-        availableColors.add(Globals.COLORS.PURPLE);
+//        availableColors.add(Globals.COLORS.YELLOW);
+//        availableColors.add(Globals.COLORS.RED);
+//        availableColors.add(Globals.COLORS.GREEN);
+//        availableColors.add(Globals.COLORS.BLUE);
+//        availableColors.add(Globals.COLORS.CYAN);
+//        availableColors.add(Globals.COLORS.PURPLE);
     }
 
     private final float MAX_VELOCITY = 20f;
@@ -415,7 +415,7 @@ public class Player implements InputProcessor, Collidable {
 
     public void shootSeeker(Vector2 target){
         Vector2 dir = target.cpy().sub(body.getPosition());
-        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.CYAN, true, seekerSpeed, 20f, 10f));
+        screen.bullets.add(new SeekingBullet(body.getPosition().cpy(), dir, Color.CYAN, true, seekerSpeed, 8f, 10f));
     }
 
     private void shootLaser(Vector2 target, Color color) {
