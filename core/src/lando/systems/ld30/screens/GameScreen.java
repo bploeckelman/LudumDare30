@@ -58,9 +58,13 @@ public class GameScreen implements Screen {
     public PowerUp powerUp;
     public FinalBoss finalBoss;
 
+    public boolean firstPop = false;
+    public boolean secondPop = false;
+
 
     public GameScreen(LudumDare30 game) {
         this.game = game;
+        firstPop = false;
         Globals.gameScreen = this;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Config.window_width / 10, Config.window_height / 10);
@@ -125,6 +129,7 @@ public class GameScreen implements Screen {
 
         ui = new UserInterface(this);
 
+
     }
 
     private void initializeChamberLights() {
@@ -163,6 +168,15 @@ public class GameScreen implements Screen {
             return;
         }
 
+        if (!firstPop){
+            ui.showPopup("Our perfect white world was living\nin harmony for many eons.\n Until one day the world was \nshattered into 6 pieces by an evil prism \n\nClick to Dismiss" , "Welcome to Prismatic Worlds");
+            firstPop = true;
+        } else if (!secondPop){
+            ui.showPopup("You should venture to the Red World\nit is over to the right. \n\nClick to Dismiss" , "First Objective");
+
+            secondPop = true;
+        }
+
         Stats.playTime += dt;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -177,12 +191,12 @@ public class GameScreen implements Screen {
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) colorsBeat[4] = !colorsBeat[4];
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_6)) colorsBeat[5] = !colorsBeat[5];
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-            ui.showPopup("Read all the things!  (click or esc to dismiss) \n"
-                    + "................................................\n"
-                    + "................................................\n"
-                    + "................................................");
-        }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+//            ui.showPopup("Read all the things!  (click or esc to dismiss) \n"
+//                    + "................................................\n"
+//                    + "................................................\n"
+//                    + "................................................");
+//        }
 
         // TODO: this is DEBUG
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
@@ -418,6 +432,7 @@ public class GameScreen implements Screen {
     }
 
     public void enterRedLevel(){
+        ui.showPopup("You don't have a weapon yet.\n\n  See if you can get them to hurt themselves");
         int enemiesOnSpawn = 8;
         for (int i = 0; i < enemiesOnSpawn; i ++)    {
             enemies.add(new RedEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.red_center)  , this));
@@ -429,6 +444,7 @@ public class GameScreen implements Screen {
     }
 
     public void enterGreenLevel(){
+        ui.showPopup("These are some feisty guys.\n\nWatch out!!");
         int enemiesOnSpawn = 12;
         for (int i = 0; i < enemiesOnSpawn; i ++)    {
             enemies.add(new GreenEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.green_center)  , this));
@@ -438,6 +454,7 @@ public class GameScreen implements Screen {
     }
 
     public void enterYellowLevel(){
+        ui.showPopup("You can get a gun from these guys.");
         int enemiesOnSpawn = 12;
         for (int i = 0; i < enemiesOnSpawn; i ++)    {
             enemies.add(new YellowEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.yellow_center)  , this));
@@ -446,6 +463,7 @@ public class GameScreen implements Screen {
     }
 
     public void enterCyanLevel(){
+        ui.showPopup("Ohhh heat seeking missles?");
         int enemiesOnSpawn = 12;
         for (int i = 0; i < enemiesOnSpawn; i ++)    {
             enemies.add(new CyanEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.cyan_center)  , this));
@@ -454,6 +472,7 @@ public class GameScreen implements Screen {
     }
 
     public void enterBlueLevel(){
+        ui.showPopup("Shield Technology?");
         int enemiesOnSpawn = 16;
         for (int i = 0; i < enemiesOnSpawn; i ++)    {
             enemies.add(new BlueEnemy(new Vector2(30,0).rotate(360/enemiesOnSpawn * i).add(Globals.blue_center)  , this));
@@ -474,6 +493,7 @@ public class GameScreen implements Screen {
             player.hitPoints = player.max_hit_points;
             switch (prevState) {
                 case RED:
+                    ui.showPopup("Now that you have a weapon.\nLets go into the other worlds!");
                     colorsBeat[0] = true;
                     player.availableColors.add(Globals.COLORS.RED);
                     break;
@@ -541,8 +561,14 @@ public class GameScreen implements Screen {
         for (boolean level : colorsBeat){
             if (!level) complete = false;
         }
+        if (complete && !finalPop){
+           finalPop = true;
+           ui.showPopup("Now is the time to reconnect\nour world.  Destroy the evil prism!");
+        }
         return complete;
     }
+
+    boolean finalPop = false;
 
     @Override
     public void render(float delta) {
