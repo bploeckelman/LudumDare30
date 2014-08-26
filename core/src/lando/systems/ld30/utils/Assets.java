@@ -1,6 +1,7 @@
 package lando.systems.ld30.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -33,6 +34,8 @@ public class Assets {
 
     public static TextureAtlas atlas;
     public static TextureAtlas prism;
+    public static Music gameMusic;
+    public static Music titleMusic;
 
     public static Random random;
     public static ShaderProgram prismProgram;
@@ -77,13 +80,13 @@ public class Assets {
         final String FRAG = Gdx.files.internal("prism.frag").readString();
         prismProgram = new ShaderProgram(VERTEX, FRAG);
         //Good idea to log any warnings if they exist
-        if (prismProgram.getLog().length()!=0)
+        if (prismProgram.getLog().length() != 0)
             System.out.println(prismProgram.getLog());
 
         final String RAINFRAG = Gdx.files.internal("rainbow.frag").readString();
         shimmerProgram = new ShaderProgram(VERTEX, RAINFRAG);
         //Good idea to log any warnings if they exist
-        if (shimmerProgram.getLog().length()!=0)
+        if (shimmerProgram.getLog().length() != 0)
             System.out.println(shimmerProgram.getLog());
 
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
@@ -91,10 +94,19 @@ public class Assets {
 
         ninepatchBrown = new NinePatch(atlas.findRegion("brown-panel"), 10, 10, 10, 10);
         ninepatchGreen = new NinePatch(atlas.findRegion("green-bar"), 7, 7, 7, 7);
-        ninepatchGrey  = new NinePatch(atlas.findRegion("white-bar"), 7, 7, 7, 7);
+        ninepatchGrey = new NinePatch(atlas.findRegion("white-bar"), 7, 7, 7, 7);
         ninepatchSmall = new NinePatch(atlas.findRegion("ninepatch-small"), 3, 3, 3, 3);
 
         ninepatchBrown.setColor(new Color(153, 102, 51, 1));
+
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("ld30backgroundmusic.mp3"));
+        gameMusic.setLooping(true);
+
+        titleMusic = Gdx.audio.newMusic(Gdx.files.internal("ld30titlemusic.mp3"));
+        titleMusic.setLooping(true);
+        titleMusic.play();
+
+
     }
 
     public static void dispose() {
@@ -107,6 +119,7 @@ public class Assets {
         badlogic.dispose();
         shapes.dispose();
         batch.dispose();
+        gameMusic.dispose();
     }
 
 }

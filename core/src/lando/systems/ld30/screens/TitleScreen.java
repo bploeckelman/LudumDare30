@@ -12,12 +12,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import lando.systems.ld30.LudumDare30;
 import lando.systems.ld30.utils.Assets;
 import lando.systems.ld30.utils.Config;
+import lando.systems.ld30.utils.Globals;
 
 
 /**
@@ -47,7 +49,7 @@ public class TitleScreen implements Screen {
         camera.setToOrtho(false, Config.window_width, Config.window_height);
         fbo = new FrameBuffer(Pixmap.Format.RGB888, Config.window_width, Config.window_height, false);
         rainbowSprite = new Sprite(Assets.rainbow);
-        rainbowSprite.setSize(200, 100);
+        rainbowSprite.setSize(600, 300);
         rainbowSprite.setCenter(Config.window_width/2, Config.window_height/2);
 
         initializeAnimations();
@@ -131,6 +133,10 @@ public class TitleScreen implements Screen {
         Assets.batch.draw(fbo.getColorBufferTexture(), 0, fbo.getHeight(), fbo.getWidth(), -fbo.getHeight());
         Assets.batch.setShader(null);
 
+        Assets.hudFont.setScale(1.5f);
+        Assets.hudFont.setColor(Color.BLUE);
+        BitmapFont.TextBounds bounds = Assets.hudFont.getBounds("Click to Begin!");
+        Assets.hudFont.draw(Assets.batch, "Click to Begin!", (Gdx.graphics.getWidth() - bounds.width)/2f, (bounds.height + 50));
         // THINGS THAT ARE STATIC GO IN HERE
 
         Assets.batch.end();
@@ -140,6 +146,8 @@ public class TitleScreen implements Screen {
     private TweenCallback callbackEnd = new TweenCallback(){
         @Override
         public void onEvent(int type, BaseTween<?> source){
+            Assets.titleMusic.stop();
+            Assets.gameMusic.play();
             game.setScreen(new GameScreen(game));
         }
 
