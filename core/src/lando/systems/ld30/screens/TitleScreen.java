@@ -109,7 +109,7 @@ public class TitleScreen implements Screen {
 
         Assets.batch.draw(keyframe, w - 250, h - 250, 500, 500);
 
-        Assets.font.setScale(1.5f);
+        Assets.font.setScale(0.5f);
         Assets.font.setColor(Color.WHITE);
         Assets.font.draw(Assets.batch, "Prismatic Worlds", 100, Gdx.graphics.getHeight() - 100 );
 

@@ -1,6 +1,9 @@
 package lando.systems.ld30.screens;
 
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.equations.*;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
@@ -49,7 +52,7 @@ public class GameScreen implements Screen {
     public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
     public UserInterface ui;
-    public final int num_rays = 512;
+    public final int num_rays = 64;
     public boolean allowSpawn = true;
     public int killsToBoss;
     public boolean bossSpawned;
@@ -61,6 +64,8 @@ public class GameScreen implements Screen {
     public boolean firstPop = false;
     public boolean secondPop = false;
 
+    final float initial_zoom = 20;
+    public MutableFloat introZoom = new MutableFloat(initial_zoom);
 
     public GameScreen(LudumDare30 game) {
         this.game = game;
@@ -129,7 +134,7 @@ public class GameScreen implements Screen {
 
         ui = new UserInterface(this);
 
-
+        camera.zoom = introZoom.floatValue();
     }
 
     private void initializeChamberLights() {
@@ -137,6 +142,7 @@ public class GameScreen implements Screen {
         light.setColor(0.2f, 0.2f, 0.2f, 1);
         light.setSoft(true);
         light.setDistance(20);
+        light.setPosition(Globals.world_center_x, Globals.world_center_y);
         Tween.to(light, PointLightAccessor.DIST, 5)
                 .target(200)
                 .repeatYoyo(-1,0)
@@ -176,6 +182,14 @@ public class GameScreen implements Screen {
 
             secondPop = true;
         }
+
+        if (introZoom.floatValue() == initial_zoom && firstPop && secondPop && !ui.popup.isVisible()) {
+            Tween.to(introZoom, 0, 3f)
+                    .target(1.75f)
+                    .ease(Circ.OUT)
+                    .start(game.tweenManager);
+        }
+        camera.zoom = introZoom.floatValue();
 
         Stats.playTime += dt;
 
@@ -637,28 +651,39 @@ public class GameScreen implements Screen {
     private final static int VELOCITY_ITERS = 6;
     private final static int POSITION_ITERS = 2;
     private float physicsTimeLeft;
+    private float physAccum = 0f;
+    private final float step = 1f / 60f;
+    private final float maxAccum = 1f / 20f;
     private boolean fixedStep(float delta) {
         if (ui.popup.isVisible()) {
             return false;
         }
 
-        physicsTimeLeft += delta;
-        if (physicsTimeLeft > MAX_TIME_PER_FRAME)
-            physicsTimeLeft = MAX_TIME_PER_FRAME;
-
+        physAccum += delta;
+        physAccum = Math.min(physAccum, maxAccum);
         boolean stepped = false;
-        while (physicsTimeLeft >= TIME_STEP) {
-            Globals.world.step(TIME_STEP, VELOCITY_ITERS, POSITION_ITERS);
-            physicsTimeLeft -= TIME_STEP;
+        while (physAccum >= step) {
+            Globals.world.step(step, VELOCITY_ITERS, POSITION_ITERS);
+            physAccum -= step;
             stepped = true;
-
-            accum += TIME_STEP;
-            light1.setPosition(
-                    40 * (float) Math.cos(accum) + Globals.world_center_x,
-                    40 * (float) Math.sin(accum) + Globals.world_center_y);
-            light.setPosition(Globals.world_center_x, Globals.world_center_y);
         }
         return stepped;
+//        physicsTimeLeft += delta;
+//        if (physicsTimeLeft > MAX_TIME_PER_FRAME)
+//            physicsTimeLeft = MAX_TIME_PER_FRAME;
+//
+//        boolean stepped = false;
+//        while (physicsTimeLeft >= TIME_STEP) {
+//            Globals.world.step(TIME_STEP, VELOCITY_ITERS, POSITION_ITERS);
+//            physicsTimeLeft -= TIME_STEP;
+//            stepped = true;
+//
+//            accum += TIME_STEP;
+//            light1.setPosition(
+//                    40 * (float) Math.cos(accum) + Globals.world_center_x,
+//                    40 * (float) Math.sin(accum) + Globals.world_center_y);
+//        }
+//        return stepped;
     }
 
 
