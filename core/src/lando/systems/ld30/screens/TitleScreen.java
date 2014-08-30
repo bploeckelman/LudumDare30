@@ -134,11 +134,13 @@ public class TitleScreen implements Screen {
         Assets.batch.draw(fbo.getColorBufferTexture(), 0, fbo.getHeight(), fbo.getWidth(), -fbo.getHeight());
         Assets.batch.setShader(null);
 
-        Assets.hudFont.setScale(1.5f);
-        Assets.hudFont.setColor(Color.BLUE);
-        BitmapFont.TextBounds bounds = Assets.hudFont.getBounds("Click to Begin!");
-        Assets.hudFont.draw(Assets.batch, "Click to Begin!", (Gdx.graphics.getWidth() - bounds.width)/2f, (bounds.height + 50));
-        // THINGS THAT ARE STATIC GO IN HERE
+        if (!launchGame) {
+            Assets.hudFont.setScale(1.5f);
+            Assets.hudFont.setColor(Color.BLUE);
+            BitmapFont.TextBounds bounds = Assets.hudFont.getBounds("Click to Begin!");
+            Assets.hudFont.draw(Assets.batch, "Click to Begin!", (Gdx.graphics.getWidth() - bounds.width) / 2f, (bounds.height + 50));
+            // THINGS THAT ARE STATIC GO IN HERE
+        }
 
         Assets.batch.end();
 

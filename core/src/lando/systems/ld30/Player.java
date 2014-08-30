@@ -30,7 +30,7 @@ public class Player implements InputProcessor, Collidable {
     public static final float max_hit_points = 100;
 
     public Body body;
-    public float speed;
+//    public float speed;
     public Animation animation;
     public Sprite sprite;
     public Sprite shieldSprite;
@@ -66,7 +66,7 @@ public class Player implements InputProcessor, Collidable {
         alive = true;
         availableColors = new ArrayList<Globals.COLORS>();
         this.screen = screen;
-        this.speed = 200f;
+//        this.speed = 2000f;
 
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(2f);
@@ -82,7 +82,7 @@ public class Player implements InputProcessor, Collidable {
         fixture = body.createFixture(playerFixture);
 
 
-        body.setLinearDamping(.5f);
+        body.setLinearDamping(4.0f);
         body.setAngularDamping(2f);
         body.setUserData(this);
         circleShape.dispose();
@@ -122,7 +122,8 @@ public class Player implements InputProcessor, Collidable {
 //        availableColors.add(Globals.COLORS.PURPLE);
     }
 
-    private final float MAX_VELOCITY = 20f;
+    private final float MAX_VELOCITY = 30f;
+    private final float speed = 2000;//30;
     public void update(float dt) {
         if (respawnTimer > 0 ){
             if (alive) {
@@ -180,23 +181,27 @@ public class Player implements InputProcessor, Collidable {
 
 
         Vector2 vel = body.getLinearVelocity();
-        if (Gdx.input.isKeyPressed(Input.Keys.W)){
-            body.applyForceToCenter(0, speed, true);
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && vel.y < MAX_VELOCITY){
+//            body.applyForceToCenter(0, speed, true);
+            body.applyLinearImpulse(0, speed * dt, body.getPosition().x, body.getPosition().y, true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)){
-            body.applyForceToCenter(0, -speed, true);
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && vel.y > -MAX_VELOCITY){
+//            body.applyForceToCenter(0, -speed * dt, true);
+            body.applyLinearImpulse(0, -speed * dt, body.getPosition().x, body.getPosition().y, true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)){
-            body.applyForceToCenter(-speed, 0, true);
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && vel.x > -MAX_VELOCITY){
+//            body.applyForceToCenter(-speed * dt, 0, true);
+            body.applyLinearImpulse(-speed * dt, 0, body.getPosition().x, body.getPosition().y, true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)){
-            body.applyForceToCenter(speed, 0, true);
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && vel.x < MAX_VELOCITY){
+//            body.applyForceToCenter(speed * dt, 0, true);
+            body.applyLinearImpulse(speed * dt, 0, body.getPosition().x, body.getPosition().y, true);
         }
 
         vel = body.getLinearVelocity();
-        if (vel.x > MAX_VELOCITY) vel.x = MAX_VELOCITY;
+        if (vel.x >  MAX_VELOCITY) vel.x =  MAX_VELOCITY;
         if (vel.x < -MAX_VELOCITY) vel.x = -MAX_VELOCITY;
-        if (vel.y > MAX_VELOCITY) vel.y = MAX_VELOCITY;
+        if (vel.y >  MAX_VELOCITY) vel.y =  MAX_VELOCITY;
         if (vel.y < -MAX_VELOCITY) vel.y = -MAX_VELOCITY;
         body.setLinearVelocity(vel);
 
@@ -396,7 +401,7 @@ public class Player implements InputProcessor, Collidable {
 
     public void kill(){
         if (respawnTimer <= 0){
-            respawnTimer = 5f;
+            respawnTimer = 3f;
             shot = null;
             screen.game.tweenManager.killTarget(playerLight);
             playerLight.setColor(0, 0, 0, 1);

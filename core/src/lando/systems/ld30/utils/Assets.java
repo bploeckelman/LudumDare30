@@ -110,7 +110,7 @@ public class Assets {
         square = new Texture("square.png");
         square.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        background = new Texture("background.png");
+        background = new Texture("background1.png");
         background.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         random = new Random();

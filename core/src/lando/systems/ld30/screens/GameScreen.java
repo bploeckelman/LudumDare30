@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
     public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
     public UserInterface ui;
-    public final int num_rays = 64;
+    public final int num_rays = 512;
     public boolean allowSpawn = true;
     public int killsToBoss;
     public boolean bossSpawned;
@@ -78,15 +78,14 @@ public class GameScreen implements Screen {
         box2DDebugRenderer = new Box2DDebugRenderer();
 
         RayHandler.setGammaCorrection(true);
-        RayHandler.useDiffuseLight(false);
-        //.useDiffuseLight(RayHandler.BlendFunc.MULTIPLY);
-        //RayHandler.useDiffuseLight(RayHandler.BlendFunc.OVERLAY);
+//        RayHandler.useDiffuseLight(true);
+        RayHandler.useDiffuseLight(RayHandler.BlendFunc.MULTIPLY);
+//        RayHandler.useDiffuseLight(RayHandler.BlendFunc.OVERLAY);
         rayHandler = new RayHandler(Globals.world);
         rayHandler.setBlur(true);
         rayHandler.setBlurNum(3);
         rayHandler.setShadows(true);
         rayHandler.setCulling(true);
-        rayHandler.setAmbientLight(0.9f);
         setWorldColor();
 
         initializeChamberLights();
@@ -139,7 +138,7 @@ public class GameScreen implements Screen {
 
     private void initializeChamberLights() {
         light = new PointLight(rayHandler, num_rays);
-        light.setColor(0.2f, 0.2f, 0.2f, 1);
+        light.setColor(0.2f, 0.2f, 0.2f, 0.5f);
         light.setSoft(true);
         light.setDistance(20);
         light.setPosition(Globals.world_center_x, Globals.world_center_y);
@@ -413,7 +412,8 @@ public class GameScreen implements Screen {
         }
         borderColor = color;
         Color ambient = color.cpy();
-        ambient.a = .2f;
+        ambient.set(0.2f, 0.2f, 0.2f, 0.1f);
+//        ambient.a = .1f;
         rayHandler.setAmbientLight(ambient);
     }
 
@@ -639,6 +639,19 @@ public class GameScreen implements Screen {
         rayHandler.setCombinedMatrix(camera.combined);
         if (didStep) rayHandler.update();
         rayHandler.render();
+
+        Assets.batch.begin();
+        for (int i = 0; i < enemies.size(); i ++){
+            enemies.get(i).render(Assets.batch);
+        }
+
+        for (int i = 0; i < bullets.size(); i ++){
+            bullets.get(i).render(Assets.batch);
+        }
+
+        player.render(Assets.batch);
+
+        Assets.batch.end();
 
         ui.render();
     }
